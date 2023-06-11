@@ -1,6 +1,6 @@
 import Head from "next/head";
 import Image from "next/image";
-import Header from "../src/components/Header";
+import Header from "../src/components/Header/Header";
 
 export default function Home() {
   return (
@@ -13,7 +13,7 @@ export default function Home() {
 
       <main>
         <Header/>
-        <h1 className="text-red-500">Hello world</h1>
+      <div className="min-h-screen"></div>
       </main>
     </div>
   );

@@ -1,3 +1,47 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.slip-left-to-right:hover::after{
+    width: 100%;
+}
+
+.slip-left-to-right::after{
+    content: "";
+    display: block;
+    position: absolute;
+    height: 1px;
+    background-color: black;
+    width: 0;
+    border-radius: 4px;
+    bottom: 0;
+    transition: width .5s;
+}
+
+.slip-top-to-bottom{
+    animation: slipTopToBottom 0.25s ease;
+    
+}
+
+@keyframes slipTopToBottom{
+    from{
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+    to{
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.menu-navbar:hover .menu-child-navbar{
+    /* max-height: 200px; */
+    display: block;
+}
+
+.menu-child-navbar{
+    /* max-height: 0; */
+    overflow: hidden;
+    display: none;
+    /* transition: max-height .5s ease; */
+}
