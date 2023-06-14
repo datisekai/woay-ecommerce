@@ -5,6 +5,7 @@ export default function CardProduct() {
         <div className=" mb-[30px]">
             <div
                 className="product_img
+                hover:animate-pulse
                 w-full
                 relative   
                 before:content-['-40%']
@@ -32,7 +33,8 @@ export default function CardProduct() {
                 <h3 className="mb-[5px]">
                     <a
                         href="#"
-                        className="text-[#5c5c5c] font-medium text-[14px]"
+                        className="text-[#5c5c5c] font-medium text-[14px] ease-in-out duration-200 transition-all
+                        hover:ease-in-out hover:duration-200 hover:transition-all hover:text-[#000000]"
                     >
                         Name Product
                     </a>
