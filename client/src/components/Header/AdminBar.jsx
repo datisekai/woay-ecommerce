@@ -16,9 +16,9 @@ const AdminBar = () => {
         {adminbars.map((adminbar, index) => {
           const Icon = adminbar.icon;
           return (
-            <Link  href={`/admin${adminbar.url}`}>
+            <Link key={index}  href={`/admin${adminbar.url}`}>
               <li
-                key={index}
+                
                 className={`px-4 py-3 flex items-center gap-4 hover:bg-base-200 font-bold hover:cursor-pointer ${
                   `/admin${adminbar.url}` === router.asPath
                     ? "bg-base-200"

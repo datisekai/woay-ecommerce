@@ -3,9 +3,12 @@ import AdminLayout from "../../src/components/layouts/AdminLayout";
 import { IoMdAdd } from "react-icons/io";
 import { AiOutlineDelete } from "react-icons/ai";
 import { CiEdit } from "react-icons/ci";
+import Meta from "../../src/components/Meta";
 
 const UserAdmin = () => {
   return (
+    <>
+     <Meta title={'Quản lý đơn hàng | MISSOUT'} description=""/>
     <AdminLayout>
       <div className="flex items-center justify-between">
         <h1 className="text-lg text-neutral font-bold">Quản lý đơn hàng</h1>
@@ -74,7 +77,7 @@ const UserAdmin = () => {
           </table>
         </div>
       </div>
-    </AdminLayout>
+    </AdminLayout></>
   );
 };
 

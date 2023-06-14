@@ -3,10 +3,13 @@ import AdminLayout from "../../src/components/layouts/AdminLayout";
 import { IoMdAdd } from "react-icons/io";
 import { AiOutlineDelete } from "react-icons/ai";
 import { CiEdit } from "react-icons/ci";
+import Meta from "../../src/components/Meta";
 
 const PostAdmin = () => {
   return (
-    <AdminLayout>
+   <>
+    <Meta title={'Quản lý post | MISSOUT'} description=""/>
+   <AdminLayout>
       <div className="flex items-center justify-between">
         <h1 className="text-lg text-neutral font-bold">Quản lý post</h1>
         <button className="btn btn-success text-base-100">
@@ -77,7 +80,7 @@ const PostAdmin = () => {
           </table>
         </div>
       </div>
-    </AdminLayout>
+    </AdminLayout></>
   );
 };
 

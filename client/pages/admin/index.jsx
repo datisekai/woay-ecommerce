@@ -1,9 +1,12 @@
 import React from "react";
 import AdminLayout from "../../src/components/layouts/AdminLayout";
+import Meta from "../../src/components/Meta";
 
 const AdminDashBoard = () => {
   return (
-    <AdminLayout>
+   <>
+    <Meta title={'Dashboard | MISSOUT'} description=""/>
+   <AdminLayout>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-2 ">
         <div className="rounded-sm p-4 bg-info font-bold text-center text-base-100">
           <h2 className="text-2xl">26</h2>
@@ -96,7 +99,7 @@ const AdminDashBoard = () => {
           </ul>
         </div>
       </div>
-    </AdminLayout>
+    </AdminLayout></>
   );
 };
 

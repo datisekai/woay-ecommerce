@@ -4,9 +4,12 @@ import { IoMdAdd } from "react-icons/io";
 import { AiOutlineDelete } from "react-icons/ai";
 import { CiEdit } from "react-icons/ci";
 import ModalAddUser from "../../src/components/modals/ModalAddUser";
+import Meta from "../../src/components/Meta";
 
 const UserAdmin = () => {
   return (
+    <>
+    <Meta title={'Quản lý người dùng | MISSOUT'} description=""/>
     <AdminLayout>
       <div className="flex items-center justify-between">
         <h1 className="text-lg text-neutral font-bold">Quản lý người dùng</h1>
@@ -45,7 +48,7 @@ const UserAdmin = () => {
       </div>
       <div className="mt-4 bg-base-200 p-4 rounded">
         <div className="overflow-x-auto h-[550px]">
-          <table className="table table-zebra">
+          <table className="table table-zebra w-full">
             {/* head */}
             <thead>
               <tr>
@@ -88,7 +91,7 @@ const UserAdmin = () => {
           </table>
         </div>
       </div>
-    </AdminLayout>
+    </AdminLayout></>
   );
 };
 

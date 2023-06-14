@@ -57,9 +57,9 @@ const HeaderAdmin = () => {
         </div>
       </div>
       <div className="navbar-center">
-        <a className="btn btn-ghost normal-case text-xl text-neutral">
+        <Link href={'/'} className="btn btn-ghost normal-case text-xl text-neutral">
           MISSOUT
-        </a>
+        </Link>
       </div>
       <div className="navbar-end">
         <div className="dropdown dropdown-end">
@@ -72,7 +72,7 @@ const HeaderAdmin = () => {
           </label>
           <ul
             tabIndex={0}
-            className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
+            className="dropdown-content menu p-2 shadow-md z-50 bg-base-100 rounded-box w-52"
           >
             <li>
               <Link href="/profile">Profile</Link>
