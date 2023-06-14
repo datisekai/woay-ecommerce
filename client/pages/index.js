@@ -1,7 +1,7 @@
 import Head from "next/head";
 import Image from "next/image";
 import Header from "../src/components/Header";
-import CardProduct from "../src/components/CardProduct";
+import CardPosts from "../src/components/CardPosts";
 export default function Home() {
     return (
         <div data-theme="mytheme">
@@ -17,7 +17,7 @@ export default function Home() {
             <main>
                 <Header />
                 <h1 className="text-red-500">Hello world</h1>
-                <CardProduct />
+                <CardPosts />
             </main>
         </div>
     );
