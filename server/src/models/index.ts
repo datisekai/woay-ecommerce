@@ -1,5 +1,6 @@
 import { Sequelize } from "sequelize";
 import config from "../config";
+import pg from 'pg'
 
 const sequelize = new Sequelize(
   config.dbName,
@@ -8,6 +9,7 @@ const sequelize = new Sequelize(
   {
     host: config.dbHost,
     dialect: "postgres",
+    dialectModule:pg,
     port: 5432,
     pool: {
       max: 5,
