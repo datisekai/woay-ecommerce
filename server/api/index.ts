@@ -3,6 +3,8 @@ import dotenv from "dotenv";
 import bodyParser from "body-parser";
 import cors from "cors";
 import UserRoute from '../src/routes/user.route'
+import InfoRoute from '../src/routes/info.route'
+import CategoryRoute from '../src/routes/category.route'
 dotenv.config();
 
 const app = express();
@@ -20,6 +22,9 @@ app.get("/", (req: Request, res: Response) => {
 
 
 app.use('/user', UserRoute)
+app.use('/info', InfoRoute)
+app.use('/category', CategoryRoute)
+
 
 const PORT = process.env.PORT || 6060;
 
