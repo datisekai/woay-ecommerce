@@ -3,7 +3,7 @@ import { CiSearch, CiShoppingCart } from "react-icons/ci";
 import { HiBars3 } from "react-icons/hi2";
 import { BiChevronDown, BiChevronUp } from "react-icons/bi";
 import { IoMdClose } from "react-icons/io";
-import {BsSearch} from 'react-icons/bs'
+import { BsSearch } from "react-icons/bs";
 import navbars from "../data/navbar";
 import Link from "next/link";
 
@@ -28,7 +28,10 @@ const HeaderTool = () => {
             <div className="menu py-8 px-6 w-80 h-full bg-base-100 text-base-content">
               <div className="flex items-center justify-between">
                 <h2 className="font-bold text-lg">TÌM KIẾM</h2>
-                <label htmlFor="my-drawer-5" className="drawer-button cursor-pointer">
+                <label
+                  htmlFor="my-drawer-5"
+                  className="drawer-button cursor-pointer"
+                >
                   <IoMdClose className="text-2xl" />
                 </label>
               </div>
@@ -39,7 +42,7 @@ const HeaderTool = () => {
                   placeholder="Tìm kiếm sản phẩm..."
                   className="w-full outline-none bg-base-200"
                 />
-                <BsSearch className="text-2xl"/>
+                <BsSearch className="text-2xl" />
               </div>
             </div>
           </div>
@@ -48,6 +51,34 @@ const HeaderTool = () => {
       <div className="flex items-center hover:cursor-pointer">
         <CiShoppingCart className="text-2xl md:text-3xl" />
         <span className="text-xs font-bold">(2)</span>
+      </div>
+
+      {/* Chưa đăng nhập */}
+      {/* <div className="flex items-center hover:cursor-pointer">
+        <button className="btn btn-primary btn-sm">Đăng nhập</button>
+      </div> */}
+
+
+      {/* Đã đăng nhập */}
+      <div className="dropdown dropdown-bottom dropdown-end">
+        <label tabIndex={0} className="cursor-pointer">
+          <div className="avatar ">
+            <div className="w-12 rounded-full">
+              <img src="https://fastly.picsum.photos/id/255/200/300.jpg?hmac=8h6Fxv1UswqZlMd2N1RMp5y8kqMk0TpucwH0sj9mlOU" />
+            </div>
+          </div>
+        </label>
+        <ul
+          tabIndex={0}
+          className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
+        >
+          <li>
+            <a>Item 1</a>
+          </li>
+          <li>
+            <a>Item 2</a>
+          </li>
+        </ul>
       </div>
       <div className="hover:cursor-pointer block md:hidden">
         <div className="drawer drawer-end">
@@ -63,7 +94,10 @@ const HeaderTool = () => {
             <ul className="menu p-4 w-64 h-full bg-base-100 text-base-content">
               <div className="flex items-center justify-between">
                 <h2 className="font-bold text-lg">MENU</h2>
-                <label htmlFor="my-drawer-4" className="drawer-button cursor-pointer">
+                <label
+                  htmlFor="my-drawer-4"
+                  className="drawer-button cursor-pointer"
+                >
                   <IoMdClose className="text-2xl" />
                 </label>
               </div>
