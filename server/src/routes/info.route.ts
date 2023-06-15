@@ -4,7 +4,6 @@ import InfoController from "../controllers/Info.controller";
 
 const router = Router()
 
-//Chưa test
 
 //Get all my address info
 router.get('/', isLogin, InfoController.getAll)

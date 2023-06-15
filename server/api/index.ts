@@ -5,6 +5,10 @@ import cors from "cors";
 import UserRoute from '../src/routes/user.route'
 import InfoRoute from '../src/routes/info.route'
 import CategoryRoute from '../src/routes/category.route'
+import ProductRoute from '../src/routes/product.route'
+import SizeRoute from '../src/routes/size.route'
+import ColorRoute from '../src/routes/color.route'
+
 dotenv.config();
 
 const app = express();
@@ -24,6 +28,9 @@ app.get("/", (req: Request, res: Response) => {
 app.use('/user', UserRoute)
 app.use('/info', InfoRoute)
 app.use('/category', CategoryRoute)
+app.use('/product', ProductRoute)
+app.use('/color', ColorRoute)
+app.use('/size', SizeRoute)
 
 
 const PORT = process.env.PORT || 6060;

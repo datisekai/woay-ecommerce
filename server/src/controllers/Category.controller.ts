@@ -8,6 +8,7 @@ import {
 } from "../utils";
 import Category from "../models/Category.model";
 import { RequestHasLogin } from "../types/Request.type";
+import Product from "../models/Product.model";
 
 const categorySchema = Joi.object({
   name: Joi.string().required(),
@@ -93,6 +94,12 @@ const CategoryController = {
   delete: async (req: Request, res: Response) => {
     try {
       const id = req.params.id;
+
+      const foundProduct = await Product.count({where:{categoryId:id}})
+
+      if(foundProduct > 0){
+        return showError(res,`There are ${foundProduct} sku containing this color`)
+      }
 
       await Category.update({ status: false }, { where: { id } });
       return showSuccess(res);

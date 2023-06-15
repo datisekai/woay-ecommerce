@@ -3,6 +3,8 @@ import sequelize from '.'
 import User from "./User.model";
 import Category from "./Category.model";
 import RateImage from "./RateImage.model";
+import ProductImage from "./ProductImage.model";
+import Sku from "./SKU.model";
 
 const Product = sequelize.define('Product', {
   id: {
@@ -27,7 +29,7 @@ const Product = sequelize.define('Product', {
     allowNull: false
   },
   description: {
-    type: DataTypes.STRING,
+    type: DataTypes.TEXT,
     allowNull: false
   },
   status: {
@@ -47,5 +49,10 @@ const Product = sequelize.define('Product', {
 Product.belongsTo(User, { foreignKey: 'userId' });
 Product.belongsTo(Category, { foreignKey: 'categoryId' });
 Product.hasMany(RateImage,{foreignKey:'product_id'})
+Product.hasMany(ProductImage,{foreignKey:'product_id'})
+ProductImage.belongsTo(Product, { foreignKey: "product_id" });
+
+Product.hasMany(Sku, {foreignKey:'product_id'})
+Sku.belongsTo(Product, { foreignKey: 'productId' });
 
 export default Product;

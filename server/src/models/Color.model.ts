@@ -10,10 +10,6 @@ const Color = sequelize.define(
       primaryKey: true,
       autoIncrement: true,
     },
-    productId: {
-      type: DataTypes.INTEGER,
-      field: "product_id",
-    },
     name: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -34,5 +30,4 @@ const Color = sequelize.define(
   }
 );
 
-Color.belongsTo(Product, { foreignKey: "productId" });
 export default Color;
