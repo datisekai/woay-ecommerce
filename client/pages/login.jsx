@@ -31,9 +31,21 @@ export default function login() {
     });
 
     return (
-        <div className="hero min-h-screen bg-base-200">
-            <div className="hero-content flex-col lg:flex-row-reverse">
-                <div className="text-center lg:text-left">
+        <div
+            className="hero min-h-screen bg-base-200 bg-[url('https://file.hstatic.net/200000195489/file/banner_web-01_0b869214f97d45c7a17be4c203be93f7.jpg')] 
+        bg-cover
+        bg-center
+        bg-no-repeat"
+        >
+            <div
+                className="hero-content flex-col lg:flex-row-reverse
+              "
+            >
+                <div
+                    className=" text-center lg:text-left 
+                               
+                "
+                >
                     <h1 className="text-5xl font-bold">Login now!</h1>
                     <p className="py-6">
                         Provident cupiditate voluptatem et in. Quaerat fugiat ut
