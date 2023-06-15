@@ -8,6 +8,8 @@ import CategoryRoute from '../src/routes/category.route'
 import ProductRoute from '../src/routes/product.route'
 import SizeRoute from '../src/routes/size.route'
 import ColorRoute from '../src/routes/color.route'
+import BlogRoute from '../src/routes/blog.route'
+import PostRoute from '../src/routes/post.route'
 
 dotenv.config();
 
@@ -31,6 +33,8 @@ app.use('/category', CategoryRoute)
 app.use('/product', ProductRoute)
 app.use('/color', ColorRoute)
 app.use('/size', SizeRoute)
+app.use('/blog', BlogRoute)
+app.use('/post', PostRoute)
 
 
 const PORT = process.env.PORT || 6060;

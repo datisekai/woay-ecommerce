@@ -64,12 +64,14 @@ const ProductController = {
 
       const order: any = [];
 
+      let category;
+
       const where: any = {
         status: true,
       };
 
       if (req.query.category) {
-        const category = await Category.findOne({
+        category = await Category.findOne({
           where: { slug: req.query.category },
         });
         if (category) {
@@ -109,7 +111,7 @@ const ProductController = {
         distinct: true,
       });
 
-      return showSuccess(res, { ...products, offset, limit, page });
+      return showSuccess(res, { ...products, offset, limit, page, category });
     } catch (error) {
       return showInternal(res, error);
     }

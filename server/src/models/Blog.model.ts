@@ -23,8 +23,8 @@ const Blog = sequelize.define(
       field: "user_id",
     },
     status: {
-      type: DataTypes.STRING,
-      defaultValue: "true",
+      type: DataTypes.BOOLEAN,
+      defaultValue: true,
     },
     createdAt: {
       type: DataTypes.DATE,
