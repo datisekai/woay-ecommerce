@@ -42,7 +42,7 @@ const Rate = sequelize.define(
 );
 
 Rate.belongsTo(User, { foreignKey: "userId" });
-Rate.hasMany(RateImage, { foreignKey: "rateId" });
+Rate.hasMany(RateImage, { foreignKey: "rateId", onDelete:'CASCADE' });
 RateImage.belongsTo(Rate, { foreignKey: "rateId" });
 
 export default Rate;

@@ -5,6 +5,7 @@ import Category from "./Category.model";
 import RateImage from "./RateImage.model";
 import ProductImage from "./ProductImage.model";
 import Variant from "./Variant.model";
+import Rate from "./Rate.model";
 
 const Product = sequelize.define(
   "Product",
@@ -54,7 +55,7 @@ const Product = sequelize.define(
 
 Product.belongsTo(User, { foreignKey: "userId" });
 Product.belongsTo(Category, { foreignKey: "categoryId" });
-Product.hasMany(RateImage, { foreignKey: "productId" });
+Product.hasMany(Rate, { foreignKey: "productId" });
 Product.hasMany(ProductImage, { foreignKey: "productId" });
 ProductImage.belongsTo(Product, { foreignKey: "productId" });
 

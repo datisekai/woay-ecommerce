@@ -17,8 +17,8 @@ const Order = sequelize.define('Order', {
     field: 'employee_id'
   },
   status: {
-    type: DataTypes.STRING,
-    defaultValue: '1'
+    type: DataTypes.ENUM("1","2","3","0"),
+    defaultValue: "1"
   },
   createdAt: {
     type: DataTypes.DATE,

@@ -335,6 +335,7 @@ const ProductController = {
         await ProductImage.bulkCreate(
           value.images.map((item: any) => ({ src: item, productId: id }))
         );
+        delete value['images']
       }
 
       await Product.update(value, { where: { id } });

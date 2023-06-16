@@ -19,6 +19,13 @@ const rateSchema = Joi.object({
   images: Joi.array().items(Joi.string()).min(1).max(3).required(),
 });
 
+const updateSchema = Joi.object({
+  star: Joi.number().integer().min(1).max(5),
+  title: Joi.string(),
+  description: Joi.string(),
+  images: Joi.array().items(Joi.string()).min(1).max(3),
+});
+
 const RateController = {
   getAllByProductId: async (req: Request, res: Response) => {
     try {
@@ -52,15 +59,71 @@ const RateController = {
       });
 
       await RateImage.bulkCreate(
-        value.images.map((item:any) => ({ rateId: newRate.id, src: item }))
+        value.images.map((item: any) => ({ rateId: newRate.id, src: item }))
       );
 
       const result = await Rate.findOne({
         where: { id: newRate.id },
-        include: [{ model: RateImage },{model:User, attributes:["email","name"]}],
+        include: [
+          { model: RateImage },
+          { model: User, attributes: ["email", "name"] },
+        ],
       });
 
-      return showSuccess(res, result)
+      return showSuccess(res, result);
+    } catch (error) {
+      return showInternal(res, error);
+    }
+  },
+  update: async (req: RequestHasLogin, res: Response) => {
+    try {
+      const id = req.params.id;
+
+      const { error, value } = updateSchema.validate(req.body);
+
+      if (error) {
+        return showError(res, convertJoiToString(error));
+      }
+
+      const currentRate = await Rate.findByPk(id);
+      if (!currentRate) {
+        return showError(res, "rateId is invalid");
+      }
+
+      if (currentRate.userId !== req.userId) {
+        return showError(res, "you do not have access");
+      }
+
+      if (value.images) {
+        await RateImage.destroy({ where: { rateId: id } });
+        await RateImage.bulkCreate(
+          value.images.map((item:string) => ({ rateId: id, src: item }))
+        );
+        delete value["images"];
+      }
+
+      await Rate.update(value, { where: { id } });
+      return showSuccess(res);
+    } catch (error) {
+      return showInternal(res, error);
+    }
+  },
+  delete: async (req: RequestHasLogin, res:Response) => {
+    try {
+      const id = req.params.id;
+
+      const currentRate = await Rate.findByPk(id);
+      if (!currentRate) {
+        return showError(res, "rateId is invalid");
+      }
+
+      if (currentRate.userId !== req.userId) {
+        return showError(res, "you do not have access");
+      }
+
+      await Rate.destroy({ where: { id } });
+
+      return showSuccess(res);
 
     } catch (error) {
       return showInternal(res, error);

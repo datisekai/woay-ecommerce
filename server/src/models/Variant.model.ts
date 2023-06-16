@@ -30,9 +30,6 @@ const Variant = sequelize.define('variant', {
   price: {
     type: DataTypes.DOUBLE
   },
-  discount: {
-    type: DataTypes.INTEGER
-  },
   isDeleted: {
     type: DataTypes.BOOLEAN,
     defaultValue: false,
