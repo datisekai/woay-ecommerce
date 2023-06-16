@@ -14,7 +14,7 @@ router.post('/', isLogin, isAdmin, ProductController.add)
 router.get('/search',ProductController.getAll)
 
 //get all sju
-router.get('/sku',isLogin, isAdmin, ProductController.getAllSku);
+router.get('/variant',isLogin, isAdmin, ProductController.getAllSku);
 
 //get product by slug
 router.get('/detail/:slug', ProductController.getProductBySlug)
@@ -23,10 +23,10 @@ router.get('/detail/:slug', ProductController.getProductBySlug)
 router.put('/:id',isLogin, isAdmin, ProductController.update)
 
 //update sku
-router.put('/sku/:id', isLogin, isAdmin, ProductController.updateSKU)
+router.put('/variant/:id', isLogin, isAdmin, ProductController.updateSKU)
 
 //delete sku
-router.delete('/sku/:id', isLogin, isAdmin, ProductController.deleteSKU)
+router.delete('/variant/:id', isLogin, isAdmin, ProductController.deleteSKU)
 
 //confirm cart
 router.post('/cart',isLogin, ProductController.cart)

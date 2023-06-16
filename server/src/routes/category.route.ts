@@ -13,7 +13,7 @@ router.get('/', CategoryController.getAll)
 router.post('/', isLogin, isAdmin, CategoryController.add)
 
 //update category
-router.put('/:id', isLogin, isAdmin, CategoryController.update)
+router.put('/:id', isLogin, isAdmin, CategoryController.update) 
 
 //delete category
 router.delete('/:id', isLogin, isAdmin, CategoryController.delete)

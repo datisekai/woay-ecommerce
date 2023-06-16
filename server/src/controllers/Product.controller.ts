@@ -32,7 +32,6 @@ const productSchema = Joi.object({
       sizeId: Joi.number().integer().required(),
       price: Joi.number().min(0).required(),
       quantity: Joi.number().integer().required(),
-      discount: Joi.number().integer().default(0).min(0).max(100),
       thumbnail: Joi.string().required(),
     })
   ),
@@ -43,7 +42,6 @@ const updateSkuSchema = Joi.object({
   sizeId: Joi.number().integer(),
   price: Joi.number().min(0),
   quantity: Joi.number().integer(),
-  discount: Joi.number().integer().default(0).min(0).max(100),
   thumbnail: Joi.string(),
 });
 
