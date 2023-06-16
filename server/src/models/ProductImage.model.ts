@@ -5,8 +5,9 @@ import Product from "./Product.model";
 const ProductImage = sequelize.define(
   "ProductImage",
   {
-    product_id: {
+    productId: {
       type: DataTypes.INTEGER,
+      field:'product_id'
     },
     src: {
       type: DataTypes.STRING,

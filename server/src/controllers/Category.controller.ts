@@ -15,13 +15,13 @@ const categorySchema = Joi.object({
   slug: Joi.string()
     .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/)
     .required(),
-  status: Joi.boolean().default(true),
+  isDeleted: Joi.boolean().default(false),
 });
 
 const updateSchema = Joi.object({
   name: Joi.string(),
   slug: Joi.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
-  status: Joi.boolean(),
+  isDeleted: Joi.boolean(),
 });
 
 const CategoryController = {
@@ -29,7 +29,7 @@ const CategoryController = {
     try {
       const categories = await Category.findAll({
         where: {
-          status: true,
+          isDeleted: false,
         },
       });
       return showSuccess(res, categories);
@@ -101,7 +101,7 @@ const CategoryController = {
         return showError(res,`There are ${foundProduct} sku containing this color`)
       }
 
-      await Category.update({ status: false }, { where: { id } });
+      await Category.update({ isDeleted: true }, { where: { id } });
       return showSuccess(res);
     } catch (error) {
       return showInternal(res, error);

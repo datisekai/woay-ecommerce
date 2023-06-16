@@ -7,7 +7,7 @@ import {
 } from "../utils";
 import Joi from "joi";
 import Size from "../models/Size.model";
-import Sku from "../models/SKU.model";
+import Variant from "../models/Variant.model";
 
 const sizeSchema = Joi.object({
   name: Joi.string().required(),
@@ -49,7 +49,7 @@ const SizeController = {
     try {
       const id = req.params.id;
 
-      const skuOfSize = await Sku.findAll({ where: { sizeId: id } });
+      const skuOfSize = await Variant.findAll({ where: { sizeId: id } });
 
       if (skuOfSize.length > 0) {
         return showError(
@@ -66,7 +66,7 @@ const SizeController = {
   },
   getAll:async(req:Request, res:Response) => {
     try {
-        const sizes = await Size.findAll(); 
+        const sizes = await Size.findAll({where:{isDeleted:false}}); 
 
         return showSuccess(res, sizes)
     } catch (error) {

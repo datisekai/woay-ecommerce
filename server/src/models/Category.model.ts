@@ -22,9 +22,10 @@ const Category = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    status: {
+    isDeleted: {
       type: DataTypes.BOOLEAN,
-      defaultValue: true,
+      defaultValue: false,
+      field:"is_deleted"
     },
     createdAt: {
       type: DataTypes.DATE,

@@ -13,14 +13,14 @@ const infoSchema = Joi.object({
   name: Joi.string().required(),
   address: Joi.string().required(),
   phone: Joi.string().regex(/^\d{10,11}$/),
-  default: Joi.boolean().default(false),
+  isDefault: Joi.boolean().default(false),
 });
 
 const updateSchema = Joi.object({
   name: Joi.string(),
   address: Joi.string(),
   phone: Joi.string().regex(/^\d{10,11}$/),
-  default: Joi.boolean(),
+  isDefault: Joi.boolean(),
 });
 
 const InfoController = {

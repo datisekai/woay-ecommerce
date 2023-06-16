@@ -21,7 +21,7 @@ const userSchema = Joi.object({
   name: Joi.string().default("Chưa có"),
   date: Joi.date(),
   phone: Joi.string().regex(/^\d{10,11}$/),
-  active: Joi.boolean().default(true),
+  isActive: Joi.boolean().default(true),
 });
 
 const loginSchema = Joi.object({
@@ -35,7 +35,7 @@ const updateSchema = Joi.object({
   name: Joi.string(),
   date: Joi.date(),
   phone: Joi.string().regex(/^\d{10,11}$/),
-  active: Joi.boolean(),
+  isActive: Joi.boolean(),
 });
 
 const UserController = {
@@ -45,7 +45,7 @@ const UserController = {
     const offset = (+page - 1) * +limit;
 
     const where: any = {
-      active: true,
+      isActive: true,
     };
 
     const users = await User.findAndCountAll({
@@ -99,6 +99,11 @@ const UserController = {
       });
 
       if (isFoundUser) {
+
+        if(!isFoundUser.isActive){
+          return showError(res, "User blocked")
+        }
+
         const verify = await argon2.verify(
           isFoundUser.password,
           value.password
@@ -170,7 +175,7 @@ const UserController = {
       if (decode) {
         const isFoundUser: any = await User.findByPk(decode.id, {
           where: {
-            active: true,
+            isActive: true,
           },
           attributes: {
             exclude: ["password"],
@@ -265,7 +270,7 @@ const UserController = {
 
       const foundUser = await User.findByPk(id);
       if (foundUser) {
-        await User.update({ active: false }, { where: { id } });
+        await User.update({ isActive: false }, { where: { id } });
         return showSuccess(res);
       }
 

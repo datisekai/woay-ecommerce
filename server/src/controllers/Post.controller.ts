@@ -16,7 +16,7 @@ const postSchema = Joi.object({
   slug: Joi.string()
     .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/)
     .required(),
-  status: Joi.boolean().default(true),
+  isDeleted: Joi.boolean().default(false),
   description: Joi.string().max(255).required(),
   image: Joi.string().required(),
   blogId: Joi.number().integer().required(),
@@ -26,7 +26,7 @@ const postSchema = Joi.object({
 const updateSchema = Joi.object({
   title: Joi.string().max(255),
   slug: Joi.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
-  status: Joi.boolean(),
+  isDeleted: Joi.boolean(),
   description: Joi.string().max(255),
   image: Joi.string(),
   blogId: Joi.number().integer(),
@@ -41,7 +41,7 @@ const PostController = {
       const offset = (+page - 1) * +limit;
 
       const where: any = {
-        status:true
+        isDeleted:false
       };
 
       let blog;

@@ -28,9 +28,10 @@ const User = sequelize.define('User', {
   phone: {
     type: DataTypes.STRING
   },
-  active: {
+  isActive: {
     type: DataTypes.BOOLEAN,
-    defaultValue: true
+    defaultValue: true,
+    field:'is_active'
   },
   createdAt: {
     type: DataTypes.DATE,
@@ -38,7 +39,7 @@ const User = sequelize.define('User', {
     defaultValue: DataTypes.NOW
   }
 }, {
-  tableName: 'users',
+  tableName: 'user',
   timestamps: false
 });
 

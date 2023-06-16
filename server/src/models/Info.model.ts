@@ -20,9 +20,10 @@ const Info = sequelize.define('Info', {
     type: DataTypes.STRING,
     allowNull: false
   },
-  default: {
+  isDefault: {
     type: DataTypes.BOOLEAN,
-    defaultValue: false
+    defaultValue: false,
+    field:"is_default"
   },
   address: {
     type: DataTypes.STRING,
@@ -34,7 +35,7 @@ const Info = sequelize.define('Info', {
     defaultValue: DataTypes.NOW
   }
 }, {
-  tableName: 'info',
+  tableName: 'user_info',
   timestamps: false
 });
 

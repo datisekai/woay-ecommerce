@@ -16,13 +16,13 @@ const blogSchema = Joi.object({
   slug: Joi.string()
     .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/)
     .required(),
-  status: Joi.boolean().default(true),
+  isDeleted: Joi.boolean().default(false),
 });
 
 const updateSchema = Joi.object({
   title: Joi.string(),
   slug: Joi.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
-  status: Joi.boolean(),
+  isDeleted: Joi.boolean(),
 });
 
 const BlogController = {
@@ -30,7 +30,7 @@ const BlogController = {
     try {
       const blogs = await Blog.findAll({
         where: {
-          status: true,
+          isDeleted: false,
         },
       });
       return showSuccess(res, blogs);
@@ -107,7 +107,7 @@ const BlogController = {
         );
       }
 
-      await Blog.update({ status: false }, { where: { id } });
+      await Blog.update({ isDeleted: true }, { where: { id } });
       return showSuccess(res);
     } catch (error) {
       return showInternal(res, error);

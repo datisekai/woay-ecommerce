@@ -4,10 +4,10 @@ import { Op, Sequelize } from "sequelize";
 import Category from "../models/Category.model";
 import Product from "../models/Product.model";
 import ProductImage from "../models/ProductImage.model";
-import Sku from "../models/SKU.model";
 import { RequestHasLogin } from "../types/Request.type";
 import {
   convertJoiToString,
+  removeAccents,
   showError,
   showInternal,
   showSuccess,
@@ -15,6 +15,7 @@ import {
 import Size from "../models/Size.model";
 import Color from "../models/Color.model";
 import OrderDetail from "../models/OrderDetail.model";
+import Variant from "../models/Variant.model";
 
 const productSchema = Joi.object({
   slug: Joi.string()
@@ -23,9 +24,9 @@ const productSchema = Joi.object({
   name: Joi.string().required(),
   description: Joi.string().required(),
   images: Joi.array().items(Joi.string()),
-  category: Joi.number().required(),
-  status: Joi.boolean().default(true),
-  skus: Joi.array().items(
+  categoryId: Joi.number().required(),
+  isDeleted: Joi.boolean().default(false),
+  variants: Joi.array().items(
     Joi.object({
       colorId: Joi.number().integer().required(),
       sizeId: Joi.number().integer().required(),
@@ -51,7 +52,7 @@ const updateProductSchema = Joi.object({
   name: Joi.string(),
   description: Joi.string(),
   category: Joi.number(),
-  status: Joi.boolean(),
+  isDeleted: Joi.boolean(),
   images: Joi.array().items(Joi.string()),
 });
 
@@ -67,7 +68,7 @@ const ProductController = {
       let category;
 
       const where: any = {
-        status: true,
+        isDeleted: false,
       };
 
       if (req.query.category) {
@@ -80,7 +81,7 @@ const ProductController = {
       }
 
       if (req.query.name) {
-        where.name = {
+        where.searchInfo = {
           [Op.iLike]: `%${req.query.name}%`,
         };
       }
@@ -107,7 +108,8 @@ const ProductController = {
         order,
         offset,
         limit,
-        include: [{ model: ProductImage }, { model: Sku }],
+        attributes:{exclude:["searchInfo"]},
+        include: [{ model: ProductImage }, { model: Variant }],
         distinct: true,
       });
 
@@ -123,8 +125,7 @@ const ProductController = {
         return showError(res, convertJoiToString(error));
       }
 
-      const { slug, name, description, categoryId, images, status, skus } =
-        value;
+      const { slug, name, description, categoryId, images, variants } = value;
 
       const foundSlug = await Product.findOne({
         where: {
@@ -138,19 +139,19 @@ const ProductController = {
           slug,
           description,
           categoryId,
-          status,
           userId: req.userId,
+          searchInfo: removeAccents(`${name} ${description}`).toLowerCase(),
         });
 
         await ProductImage.bulkCreate(
           images.map((image: string) => ({
-            product_id: product.id,
+            productId: product.id,
             src: image,
           }))
         );
 
-        await Sku.bulkCreate(
-          skus.map((item: any) => ({ ...item, productId: product.id }))
+        await Variant.bulkCreate(
+          variants.map((item: any) => ({ ...item, productId: product.id }))
         );
 
         const result = await Product.findOne({
@@ -220,7 +221,7 @@ const ProductController = {
         order,
         offset,
         limit,
-        include: [{ model: ProductImage }, { model: Sku }],
+        include: [{ model: ProductImage }, { model: Variant }],
         distinct: true,
       });
 
@@ -237,9 +238,9 @@ const ProductController = {
 
       const order: any = [];
 
-      const skus = await Sku.findAndCountAll({
+      const skus = await Variant.findAndCountAll({
         include: [
-          { model: Product, where: { status: true } },
+          { model: Product, where: { isDeleted: false } },
           { model: Size },
           { model: Color },
         ],
@@ -277,10 +278,10 @@ const ProductController = {
       const product = await Product.findOne({
         where: {
           slug,
-          status: true,
+          isDeleted: false,
         },
         include: [
-          { model: Sku, include: [{ model: Color }, { model: Size }] },
+          { model: Variant, include: [{ model: Color }, { model: Size }] },
           { model: ProductImage },
         ],
       });
@@ -304,15 +305,35 @@ const ProductController = {
         return showError(res, convertJoiToString(error));
       }
 
+      if (value.name || value.description) {
+        if (value.name && value.description) {
+          value.searchInfo = removeAccents(
+            `${value.name} ${value.description}`
+          ).toLowerCase();
+        }
+
+        if (value.name && !value.description) {
+          const currentProduct = await Product.findOne({ where: { id } });
+          value.searchInfo = removeAccents(
+            `${value.name} ${currentProduct.description}`
+          ).toLowerCase();
+        } else if (!value.name && value.description) {
+          const currentProduct = await Product.findOne({ where: { id } });
+          value.searchInfo = removeAccents(
+            `${currentProduct.name} ${value.description}`
+          ).toLowerCase();
+        }
+      }
+
       if (value.images && value.images.length > 0) {
         await ProductImage.destroy({
           where: {
-            product_id: id,
+            productId: id,
           },
         });
 
         await ProductImage.bulkCreate(
-          value.images.map((item: any) => ({ src: item, product_id: id }))
+          value.images.map((item: any) => ({ src: item, productId: id }))
         );
       }
 
@@ -332,7 +353,7 @@ const ProductController = {
         return showError(res, convertJoiToString(error));
       }
 
-      await Sku.update(value, { where: { id } });
+      await Variant.update(value, { where: { id } });
 
       return showSuccess(res);
     } catch (error) {
@@ -350,7 +371,7 @@ const ProductController = {
       });
 
       if (!foundOrder) {
-        await Sku.destroy({ where: { id } });
+        await Variant.destroy({ where: { id } });
         return showSuccess(res);
       }
 

@@ -8,9 +8,9 @@ const OrderDetail = sequelize.define('OrderDetail', {
     type: DataTypes.INTEGER,
     field: 'order_id'
   },
-  skuId: {
+  variantId: {
     type: DataTypes.INTEGER,
-    field: 'sku_id'
+    field: 'variant_id'
   },
   createdAt: {
     type: DataTypes.DATE,

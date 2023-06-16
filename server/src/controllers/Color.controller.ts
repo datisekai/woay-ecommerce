@@ -6,8 +6,8 @@ import {
   showSuccess,
 } from "../utils";
 import Joi from "joi";
-import Sku from "../models/SKU.model";
 import Color from "../models/Color.model";
+import Variant from "../models/Variant.model";
 
 const colorSchema = Joi.object({
   name: Joi.string().required(),
@@ -49,7 +49,7 @@ const ColorController = {
     try {
       const id = req.params.id;
 
-      const skuOfColor = await Sku.count({ where: { colorId: id } });
+      const skuOfColor = await Variant.count({ where: { colorId: id } });
 
       if (skuOfColor.length > 0) {
         return showError(
@@ -64,15 +64,15 @@ const ColorController = {
       return showInternal(res, error);
     }
   },
-  getAll:async(req:Request, res:Response) => {
+  getAll: async (req: Request, res: Response) => {
     try {
-        const colors = await Color.findAll(); 
+      const colors = await Color.findAll({ where: { isDeleted: false } });
 
-        return showSuccess(res, colors)
+      return showSuccess(res, colors);
     } catch (error) {
-        return showInternal(res, error)
+      return showInternal(res, error);
     }
-  }
+  },
 };
 
 export default ColorController;
