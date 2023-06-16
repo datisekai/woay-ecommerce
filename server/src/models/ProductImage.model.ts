@@ -23,5 +23,4 @@ const ProductImage = sequelize.define(
   }
 );
 
-ProductImage.belongsTo(Product, { foreignKey: "product_id" });
 export default ProductImage;

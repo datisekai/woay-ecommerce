@@ -48,7 +48,6 @@ const Sku = sequelize.define('Sku', {
   timestamps: false
 });
 
-Sku.belongsTo(Product, { foreignKey: 'productId' });
 Sku.belongsTo(Color, { foreignKey: 'colorId' });
 Sku.belongsTo(Size, { foreignKey: 'sizeId' });
 
