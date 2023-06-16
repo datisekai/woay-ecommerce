@@ -1,15 +1,14 @@
 import Head from "next/head";
-import Image from "next/image";
 import Header from "../src/components/Header/Header";
 import Footer from "../src/components/Footer";
 import CardPosts from "../src/components/cards/CardPosts";
 import CardProduct from "../src/components/cards/CardProduct";
 import { useSelector } from "react-redux";
-import testApi from "../src/services/TestApi";
+import CarouselHomePages from "../src/components/Carousel/CarouselHomePages";
+import productApi from "../src/services/ProductApi";
 
-export default function Home({ todos }) {
-    const user = useSelector((state) => state.user);
-    console.log(todos);
+export default function Home({ arrProduct }) {
+    console.log({ arrProduct });
     return (
         <div data-theme="mytheme">
             <Head>
@@ -27,26 +26,26 @@ export default function Home({ todos }) {
 
             <main>
                 <Header />
-                <div className="min-h-screen">
-                    <div>
-                        <CardPosts />
-                        <div className="max-w-[1200px] mx-auto grid grid-cols-3 gap-2">
-                            <CardProduct />
-                            <CardProduct />
-                            <CardProduct />
-                            <CardProduct />
-                            <CardProduct />
-                        </div>
+                {/* carousel */}
+                <CarouselHomePages />.
+                <>
+                    <h2 className="uppercase text-center font-bold p-4 text-2xl">
+                        New Items
+                    </h2>
+                    <div className=" mb-6 px-4 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
+                        {arrProduct.map((item, index) => {
+                            return <CardProduct key={index} item={item} />;
+                        })}
                     </div>
-                    <Footer />
-                </div>
+                </>
+                <Footer />
             </main>
         </div>
     );
 }
 
 export const getServerSideProps = async () => {
-    const todos = await testApi.todo();
-
-    return { props: { todos } };
+    const arrProduct = await productApi.allProduct();
+    // call api lấy về mảng item prroduct
+    return { props: { arrProduct } };
 };
