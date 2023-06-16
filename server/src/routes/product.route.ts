@@ -28,4 +28,7 @@ router.put('/sku/:id', isLogin, isAdmin, ProductController.updateSKU)
 //delete sku
 router.delete('/sku/:id', isLogin, isAdmin, ProductController.deleteSKU)
 
+//confirm cart
+router.post('/cart',isLogin, ProductController.cart)
+
 export default router;

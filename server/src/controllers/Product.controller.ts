@@ -56,6 +56,10 @@ const updateProductSchema = Joi.object({
   images: Joi.array().items(Joi.string()),
 });
 
+const cartSchema = Joi.object({
+  variants: Joi.array().items(Joi.number().integer()).min(0).required(),
+});
+
 const ProductController = {
   getAll: async (req: RequestHasLogin, res: Response) => {
     try {
@@ -108,7 +112,7 @@ const ProductController = {
         order,
         offset,
         limit,
-        attributes:{exclude:["searchInfo"]},
+        attributes: { exclude: ["searchInfo"] },
         include: [{ model: ProductImage }, { model: Variant }],
         distinct: true,
       });
@@ -335,7 +339,7 @@ const ProductController = {
         await ProductImage.bulkCreate(
           value.images.map((item: any) => ({ src: item, productId: id }))
         );
-        delete value['images']
+        delete value["images"];
       }
 
       await Product.update(value, { where: { id } });
@@ -380,6 +384,24 @@ const ProductController = {
         res,
         `There are ${foundOrder} sku containing this color`
       );
+    } catch (error) {
+      return showInternal(res, error);
+    }
+  },
+  cart: async (req: Request, res: Response) => {
+    try {
+      const { error, value } = cartSchema.validate(req.body);
+
+      if(error){
+        return showError(res, convertJoiToString(error))
+      }
+
+      const variants = await Variant.findAll({
+        where: { id: value.variants },
+        include: [{ model: Product }],
+      });
+
+      return showSuccess(res, variants);
     } catch (error) {
       return showInternal(res, error);
     }
