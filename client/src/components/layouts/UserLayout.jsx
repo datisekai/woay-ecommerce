@@ -9,7 +9,6 @@ export default function UserLayout({ children }) {
     const dispatch = useDispatch();
     const getUser = async () => {
         let res = await AuthApi.getMyInfo();
-
         dispatch(setUser(res));
         setCookie("role", res.role);
     };

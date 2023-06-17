@@ -6,7 +6,6 @@ export default function CardProduct({ item }) {
     const handleMouseEnter = () => {
         setCurrentImg(item.ProductImages[1].src);
     };
-    console.log({ item });
 
     const handleMouseLeave = () => {
         setCurrentImg(item.ProductImages[0].src);

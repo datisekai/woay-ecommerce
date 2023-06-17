@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { CiSearch, CiShoppingCart } from "react-icons/ci";
 import { HiBars3 } from "react-icons/hi2";
 import { BiChevronDown, BiChevronUp } from "react-icons/bi";
@@ -6,22 +7,19 @@ import { IoMdClose } from "react-icons/io";
 import { BsSearch } from "react-icons/bs";
 import navbars from "../data/navbar";
 import Link from "next/link";
-import { getCookie } from "cookies-next";
+import { deleteCookie, getCookie } from "cookies-next";
 import Router from "next/router";
+import AuthApi from "../../services/AuthApi";
+import { clearUser, setUser } from "../../redux/slices/UserSlice";
 
 const HeaderTool = () => {
     const heightLiChild = 28;
     const [showChild, setShowChild] = useState(false);
-    const [avatar, setAvatar] = useState(true);
-    useEffect(() => {
-        if (getCookie("token")) {
-            setAvatar(false);
-        }
-    });
+    const { user } = useSelector((state) => state.user);
+    const dispatch = useDispatch();
     const navigate = () => {
         Router.push("/login");
     };
-
     return (
         <div className="flex items-center gap-2 flex-1 justify-end">
             <div className="hover:cursor-pointer">
@@ -70,7 +68,45 @@ const HeaderTool = () => {
                 <span className="text-xs font-bold">(2)</span>
             </div>
 
-            {avatar ? (
+            {user !== undefined ? (
+                <div className="dropdown dropdown-bottom dropdown-end">
+                    <label tabIndex={0} className="cursor-pointer">
+                        <div className="avatar ">
+                            <div className="w-12 rounded-full">
+                                <img
+                                    src={`https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=${
+                                        user?.name ? user?.name : user?.email
+                                    }`}
+                                />
+                            </div>
+                        </div>
+                    </label>
+                    <ul
+                        tabIndex={0}
+                        className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 z-10"
+                    >
+                        <li className={user?.role === "user" ? "hidden" : null}>
+                            <Link href={"/admin"}>Dashboard</Link>
+                        </li>
+                        <li>
+                            <Link href={"/profile"}>Thông tin cá nhân</Link>
+                        </li>
+                        <li>
+                            <Link href={"/orderhistory"}>Lịch sử đơn hàng</Link>
+                        </li>
+                        <li>
+                            <a
+                                onClick={() => {
+                                    dispatch(clearUser());
+                                    // Router.push("/");
+                                }}
+                            >
+                                Đăng xuất
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            ) : (
                 <div className="flex items-center hover:cursor-pointer">
                     <button
                         className="btn btn-primary btn-sm"
@@ -78,27 +114,6 @@ const HeaderTool = () => {
                     >
                         Đăng nhập
                     </button>
-                </div>
-            ) : (
-                <div className="dropdown dropdown-bottom dropdown-end">
-                    <label tabIndex={0} className="cursor-pointer">
-                        <div className="avatar ">
-                            <div className="w-12 rounded-full">
-                                <img src="https://fastly.picsum.photos/id/255/200/300.jpg?hmac=8h6Fxv1UswqZlMd2N1RMp5y8kqMk0TpucwH0sj9mlOU" />
-                            </div>
-                        </div>
-                    </label>
-                    <ul
-                        tabIndex={0}
-                        className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
-                    >
-                        <li>
-                            <a>Item 1</a>
-                        </li>
-                        <li>
-                            <a>Item 2</a>
-                        </li>
-                    </ul>
                 </div>
             )}
 

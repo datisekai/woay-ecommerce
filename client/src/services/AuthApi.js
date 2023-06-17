@@ -1,5 +1,5 @@
 import axios from "axios";
-import { setCookie } from "cookies-next";
+import { deleteCookie, setCookie } from "cookies-next";
 import Router from "next/router";
 import axiosClient from "../config";
 
@@ -42,6 +42,17 @@ const AuthApi = {
         } catch (e) {
             console.log(e);
         }
+    },
+    getAvatar: async (name) => {
+        let res = await axios.get(
+            `https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=${name}`
+        );
+        return res;
+    },
+    clearUser: async () => {
+        const user = undefined;
+        deleteCookie("token");
+        return user;
     },
 };
 
