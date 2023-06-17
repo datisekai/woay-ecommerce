@@ -1,65 +1,60 @@
-import React from "react";
 import { useFormik } from "formik";
+import React from "react";
 import * as Yup from "yup";
 import AuthApi from "../src/services/AuthApi";
 
-export default function login() {
+export default function register() {
     const formik = useFormik({
         initialValues: {
             email: "",
             password: "",
+            re_password: "",
         },
         validationSchema: Yup.object({
             password: Yup.string().min(8).required(),
             email: Yup.string().email().required(),
+            re_password: Yup.string().oneOf([Yup.ref("password"), null]),
         }),
         onSubmit: (values) => {
             // chỉ goi hàm bên services tự xử lý
-            AuthApi.login(values);
+            console.log(values);
+            AuthApi.register(values);
         },
     });
 
     return (
-        <div
-            className="hero min-h-screen bg-base-200 bg-[url('https://file.hstatic.net/200000195489/file/banner_web-01_0b869214f97d45c7a17be4c203be93f7.jpg')] 
-        bg-cover
-        bg-center
-        bg-no-repeat"
-        >
-            <div
-                className="hero-content flex-col lg:flex-row-reverse
-              "
-            >
-                <div
-                    className=" text-center lg:text-left 
-                               
-                "
-                >
-                    <h1 className="text-5xl font-bold">Login now!</h1>
+        <div className="hero min-h-screen bg-[url('https://file.hstatic.net/200000195489/file/banner_web-01_0b869214f97d45c7a17be4c203be93f7.jpg')]">
+            <div className="hero-content flex-col lg:flex-row-reverse">
+                <div className="text-center lg:text-left">
+                    <h1 className="text-5xl font-bold">Register now!</h1>
                     <p className="py-6">
                         Provident cupiditate voluptatem et in. Quaerat fugiat ut
                         assumenda excepturi exercitationem quasi. In deleniti
                         eaque aut repudiandae et a id nisi.
                     </p>
                 </div>
-                <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
-                    <form className="card-body" onSubmit={formik.handleSubmit}>
+                <form
+                    onSubmit={formik.handleSubmit}
+                    className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100"
+                >
+                    <div className="card-body">
                         <div className="form-control">
                             <label className="label">
                                 <span className="label-text">Email</span>
                             </label>
                             <input
                                 name="email"
-                                type="text"
-                                placeholder="email"
+                                type="email"
+                                placeholder="Email"
+                                onChange={formik.handleChange}
                                 className={
                                     formik.errors.email
                                         ? "input input-bordered input-error  w-full max-w-xs"
-                                        : "input input-bordered "
+                                        : "input input-bordered"
                                 }
-                                onChange={formik.handleChange}
                             />
                         </div>
+
                         <div className="form-control">
                             <label className="label">
                                 <span className="label-text">Password</span>
@@ -67,11 +62,29 @@ export default function login() {
                             <input
                                 name="password"
                                 type="password"
-                                placeholder="password"
+                                placeholder="Password"
                                 className={
                                     formik.errors.password
                                         ? "input input-bordered input-error  w-full max-w-xs"
-                                        : "input input-bordered "
+                                        : "input input-bordered"
+                                }
+                                onChange={formik.handleChange}
+                            />
+                        </div>
+                        <div className="form-control">
+                            <label className="label">
+                                <span className="label-text">
+                                    Re-enter password
+                                </span>
+                            </label>
+                            <input
+                                name="re_password"
+                                type="password"
+                                placeholder="Re-enter password"
+                                className={
+                                    formik.errors.re_password
+                                        ? "input input-bordered input-error  w-full max-w-xs"
+                                        : "input input-bordered"
                                 }
                                 onChange={formik.handleChange}
                             />
@@ -84,19 +97,14 @@ export default function login() {
                                 </a>
                             </label>
                         </div>
-                        {(formik.touched.email && formik.errors.email) ||
-                        (formik.touched.password && formik.errors.password) ? (
-                            <p>
-                                {formik.errors.email || formik.errors.password}
-                            </p>
-                        ) : null}
+
                         <div className="form-control mt-6">
                             <button type="submit" className="btn btn-primary">
-                                Login
+                                Register
                             </button>
                         </div>
-                    </form>
-                </div>
+                    </div>
+                </form>
             </div>
         </div>
     );
