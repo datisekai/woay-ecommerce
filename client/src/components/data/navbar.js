@@ -44,18 +44,4 @@ let navbars = [
     },
 ];
 
-// const getDataSanPham = async () => {
-//     let result = await axiosClient.get("/category");
-//     return result.data.data;
-// };
-// const newSanPham = getDataSanPham();
-// newSanPham.then((data) => {
-//     data.map(({ slug, name }) => {
-//         navbars[0].children = {
-//             url: slug,
-//             title: name,
-//         };
-//     });
-// });
-// console.log({ navbars });
 export default navbars;

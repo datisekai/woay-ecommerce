@@ -19,7 +19,6 @@ export default function CardProduct({ item }) {
                 className="product_img
                 hover:animate-pulse
                 w-full"
-                //before làm discount => call api về bỏ thuộc tính discount vào casii className before:content để hiển thị phần dis count
             >
                 <img
                     src={currentImg}
@@ -41,8 +40,17 @@ export default function CardProduct({ item }) {
                 </h3>
                 <div className="giá flex justify-center">
                     <p className="text-[#ff0000] font-bold text-[14px]">
-                        {item.variants[0].price} -
-                        {item.variants[item.variants.length - 1].price}
+                        {item.variants[0].price ===
+                        item.variants[item.variants.length - 1].price
+                            ? `${item.variants[0].price.toLocaleString(
+                                  "en-US"
+                              )}đ`
+                            : `${item.variants[0].price.toLocaleString(
+                                  "en-US"
+                              )}đ -
+                              ${item.variants[
+                                  item.variants.length - 1
+                              ]?.price.toLocaleString("en-US")}đ`}
                     </p>
                 </div>
             </div>

@@ -8,6 +8,7 @@ import SanPhamDropdown from "../src/components/dropdown/SanPhamDropdown";
 import UserLayout from "../src/components/layouts/UserLayout";
 
 export default function Home({ arrProduct }) {
+    console.log({ arrProduct });
     return (
         <UserLayout>
             <div data-theme="mytheme">
@@ -30,7 +31,7 @@ export default function Home({ arrProduct }) {
                     <CarouselHomePages />.
                     <>
                         <h2 className="uppercase text-center font-bold p-4 text-2xl">
-                            New Items
+                            Sản phẩm mới
                         </h2>
                         <div className=" mb-6 px-4 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
                             {arrProduct.map((item, index) => {
@@ -38,10 +39,6 @@ export default function Home({ arrProduct }) {
                             })}
                         </div>
                     </>
-                    {/* <>
-                    <h3>test dropdown</h3>
-                    <SanPhamDropdown />
-                </> */}
                     <Footer />
                 </main>
             </div>
