@@ -14,6 +14,8 @@ import ModalUpdateUser from "../../src/components/modals/ModalUpdateUser";
 import { BiLockAlt } from "react-icons/bi";
 import swal from "sweetalert";
 import { toast } from "react-hot-toast";
+import { formatDate } from "../../src/utils/formatDate";
+import dayjs from 'dayjs'
 
 const UserAdmin = () => {
   const queryClient = useQueryClient();
@@ -35,10 +37,11 @@ const UserAdmin = () => {
   );
 
   const { mutate } = useMutation(UserApi.lockUser, {
-    onSuccess: (id) => {
+    onSuccess: (id, variables) => {
       const newRows = data.rows.map((item) =>
-        item.id === id ? { ...item, isActive: false } : item
+        item.id === variables ? { ...item, isActive: false } : item
       );
+      console.log('newrows',newRows)
       queryClient.setQueryData(["users", query], { ...data, rows: newRows });
       toast.success("Khóa tài khoản thành công");
     },
@@ -141,7 +144,7 @@ const UserAdmin = () => {
                         <div className="flex gap-2 ">
                           <button
                             onClick={() =>
-                              setCurrentUpdate({ isDisplay: true, data: item })
+                              setCurrentUpdate({ isDisplay: true, data: {...item, date: item.date ? dayjs(item.date).format('YYYY-MM-DD') : item.date} })
                             }
                             className="btn btn-circle btn-warning"
                           >
@@ -149,6 +152,7 @@ const UserAdmin = () => {
                           </button>
 
                           <button
+                            disabled={!item.isActive}
                             onClick={() => handleLockUser(item.id)}
                             className="btn btn-circle btn-error"
                           >

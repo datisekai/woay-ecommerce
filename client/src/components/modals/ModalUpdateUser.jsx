@@ -54,17 +54,14 @@ const ModalUpdateUser = ({ query, data, handleHidden }) => {
   });
 
   const handleSubmit = (values, { setSubmitting }) => {
+    console.log("values", values);
     const payload = { ...values };
     delete payload["id"];
     delete payload["email"];
     delete payload["createdAt"];
 
-    payload.isActive = Boolean(payload.isActive)
-
-    console.log(payload);
-
     for (const key in values) {
-      if (!payload[key]) {
+      if (key !== 'isActive' && !payload[key]) {
         delete payload[key];
       }
     }
@@ -198,17 +195,17 @@ const ModalUpdateUser = ({ query, data, handleHidden }) => {
                     </div>
 
                     <div>
-                      <label htmlFor="" className="block">
-                        Trạng thái
-                      </label>
-                      <Field
-                        as="select"
-                        name="isActive"
-                        className="select mt-1 select-bordered w-full"
-                      >
-                        <option value={true}>Hoạt động</option>
-                        <option value={false}>Khóa</option>
-                      </Field>
+                      <div className="form-control">
+                        <label className="label cursor-pointer">
+                          <span>Hoạt động</span>
+                          <Field
+                            type="checkbox"
+                            name="isActive"
+                            className="checkbox"
+                          />{" "}
+                        </label>
+                      </div>
+
                       <ErrorMessage
                         name="isActive"
                         component="div"

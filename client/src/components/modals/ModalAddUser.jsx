@@ -130,23 +130,23 @@ const ModalAddUser = ({ elementClick, query }) => {
                   </div>
 
                   <div>
-                    <label htmlFor="" className="block">
-                      Trạng thái
-                    </label>
-                    <Field
-                      as="select"
-                      name="isActive"
-                      className="select mt-1 select-bordered w-full"
-                    >
-                      <option value={true}>Hoạt động</option>
-                      <option value={false}>Khóa</option>
-                    </Field>
-                    <ErrorMessage
-                      name="isActive"
-                      component="div"
-                      className="text-error"
-                    />
-                  </div>
+                      <div className="form-control">
+                        <label className="label cursor-pointer">
+                          <span>Hoạt động</span>
+                          <Field
+                            type="checkbox"
+                            name="isActive"
+                            className="checkbox"
+                          />{" "}
+                        </label>
+                      </div>
+
+                      <ErrorMessage
+                        name="isActive"
+                        component="div"
+                        className="text-error"
+                      />
+                    </div>
                 </div>
                 <div className="modal-action">
                   {/* if there is a button in form, it will close the modal */}

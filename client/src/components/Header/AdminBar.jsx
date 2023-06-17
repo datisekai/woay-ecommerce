@@ -6,7 +6,6 @@ import Link from "next/link";
 const AdminBar = () => {
   const router = useRouter();
 
-console.log(router)
 
   return (
     <div className="py-4 border-r w-[250px] h-full">
