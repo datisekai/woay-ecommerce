@@ -4,8 +4,14 @@ import Header from "../src/components/Header/Header";
 import Footer from "../src/components/Footer";
 import CardPosts from "../src/components/cards/CardPosts";
 import CardProduct from "../src/components/cards/CardProduct";
+import { useSelector } from "react-redux";
+import testApi from "../src/services/TestApi";
 
-export default function Home() {
+export default function Home({todos}) {
+  const user = useSelector(state => state.user);
+
+  console.log(todos)
+  
   return (
     <div data-theme="mytheme">
       <Head>
@@ -33,7 +39,16 @@ export default function Home() {
           </div>
           <Footer />
         </div>
+
+        
       </main>
     </div>
   );
+}
+
+
+export const getServerSideProps = async () => {
+  const todos = await testApi.todo()
+
+  return { props: { todos } }
 }
