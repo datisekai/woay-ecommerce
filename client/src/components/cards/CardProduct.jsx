@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 
 export default function CardProduct({ item }) {
-    console.log({ item });
     const [currentImg, setCurrentImg] = useState(item.ProductImages[0].src);
 
     const handleMouseEnter = () => {
         setCurrentImg(item.ProductImages[1].src);
     };
+    console.log({ item });
 
     const handleMouseLeave = () => {
         setCurrentImg(item.ProductImages[0].src);
@@ -14,8 +14,6 @@ export default function CardProduct({ item }) {
     // trong có item này thì có arr variants
     // sort arr variants
     item.variants.sort((item) => item.price);
-    console.log("item Sorted: ", item);
-
     return (
         <div className=" mb-[30px]">
             <div

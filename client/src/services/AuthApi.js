@@ -35,6 +35,14 @@ const AuthApi = {
             console.log(e);
         }
     },
+    getMyInfo: async () => {
+        try {
+            let result = await axiosClient.get("/user/me");
+            return result.data.data;
+        } catch (e) {
+            console.log(e);
+        }
+    },
 };
 
 export default AuthApi;
