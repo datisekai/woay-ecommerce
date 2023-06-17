@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@tanstack/react-query": "^4.29.14",
     "daisyui": "^3.0.20",
     "eslint": "8.42.0",
     "eslint-config-next": "13.4.4",
