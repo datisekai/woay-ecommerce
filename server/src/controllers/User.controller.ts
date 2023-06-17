@@ -13,6 +13,7 @@ import * as argon2 from "argon2";
 import jwt from "jsonwebtoken";
 import config from "../config";
 import { RequestHasLogin } from "../types/Request.type";
+import { Op } from "sequelize";
 
 const userSchema = Joi.object({
   role: Joi.string().valid("user", "admin").required(),
@@ -47,6 +48,30 @@ const UserController = {
     const where: any = {
       isActive: true,
     };
+
+    if (req.query.name) {
+      where.name = {
+        [Op.iLike]: `%${req.query.name}%`,
+      };
+    }
+
+    if (req.query.email) {
+      where.email = {
+        [Op.iLike]: `%${req.query.email}%`,
+      };
+    }
+
+    if (req.query.role) {
+      where.role = {
+        [Op.iLike]: `%${req.query.role}%`,
+      };
+    }
+
+    if (req.query.phone) {
+      where.role = {
+        [Op.iLike]: `%${req.query.phone}%`,
+      };
+    }
 
     const users = await User.findAndCountAll({
       where,
@@ -99,9 +124,8 @@ const UserController = {
       });
 
       if (isFoundUser) {
-
-        if(!isFoundUser.isActive){
-          return showError(res, "User blocked")
+        if (!isFoundUser.isActive) {
+          return showError(res, "User blocked");
         }
 
         const verify = await argon2.verify(
@@ -213,6 +237,7 @@ const UserController = {
   update: async (req: Request, res: Response) => {
     try {
       const id = req.params.id;
+      console.log(id);
       const { error, value } = updateSchema.validate(req.body);
 
       if (error) {
@@ -229,7 +254,9 @@ const UserController = {
       }
 
       await User.update(value, {
-        where: id,
+        where: {
+          id,
+        },
       });
 
       return showSuccess(res);

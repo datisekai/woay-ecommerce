@@ -20,7 +20,6 @@ const User = sequelize.define('User', {
   },
   name: {
     type: DataTypes.STRING,
-    defaultValue: 'Chưa có'
   },
   date: {
     type: DataTypes.DATE
