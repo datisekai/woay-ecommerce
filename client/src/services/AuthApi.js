@@ -14,7 +14,7 @@ const AuthApi = {
                 },
             });
             console.log(reuslt.data);
-            setCookie("tokenUser", reuslt.data.data.token);
+            setCookie("token", reuslt.data.data.token);
             Router.push("/");
 
             //trả về cái token
