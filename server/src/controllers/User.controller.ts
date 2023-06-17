@@ -46,7 +46,6 @@ const UserController = {
     const offset = (+page - 1) * +limit;
 
     const where: any = {
-      isActive: true,
     };
 
     if (req.query.name) {
@@ -68,7 +67,7 @@ const UserController = {
     }
 
     if (req.query.phone) {
-      where.role = {
+      where.phone = {
         [Op.iLike]: `%${req.query.phone}%`,
       };
     }
@@ -237,7 +236,6 @@ const UserController = {
   update: async (req: Request, res: Response) => {
     try {
       const id = req.params.id;
-      console.log(id);
       const { error, value } = updateSchema.validate(req.body);
 
       if (error) {

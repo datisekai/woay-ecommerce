@@ -12,12 +12,15 @@ const ModalUpdateUser = ({ query, data, handleHidden }) => {
 
   const formikRef = useRef(null);
 
-  const { mutate, isLoading } = useMutation(UserApi.addUser, {
-    onSuccess: (data, variables) => {
+  const { mutate, isLoading } = useMutation(UserApi.updateUser, {
+    onSuccess: (response, variables) => {
       const oldUsers = queryClient.getQueryData(["users", query]);
-      const newUsers = oldUsers.rows.map((item) =>
-        item.id === data.data.id ? variables : item
-      );
+      console.log(oldUsers);
+      const newUsers = oldUsers.rows.map((item) => {
+        return item.id === data.data.id
+          ? { ...data.data, ...variables.payload }
+          : item;
+      });
       queryClient.setQueryData(["users", query], {
         ...oldUsers,
         rows: newUsers,
@@ -42,19 +45,30 @@ const ModalUpdateUser = ({ query, data, handleHidden }) => {
     role: Yup.string().oneOf(["user", "admin"]),
     isActive: Yup.boolean(),
     phone: Yup.string()
-      .nullable()
       .matches(
         /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/,
         "Phone invalid format"
-      ),
+      )
+      .nullable(),
     name: Yup.string(),
   });
 
   const handleSubmit = (values, { setSubmitting }) => {
-    const payload = {...values};
-    delete payload['id']
-    delete payload['email']
-    mutate({id:values.id, payload});
+    const payload = { ...values };
+    delete payload["id"];
+    delete payload["email"];
+    delete payload["createdAt"];
+
+    payload.isActive = Boolean(payload.isActive)
+
+    console.log(payload);
+
+    for (const key in values) {
+      if (!payload[key]) {
+        delete payload[key];
+      }
+    }
+    mutate({ id: values.id, payload });
   };
 
   return (
@@ -63,7 +77,13 @@ const ModalUpdateUser = ({ query, data, handleHidden }) => {
         <div className="modal opacity-100 visible pointer-events-auto">
           <div className="modal-box">
             <Formik
-              initialValues={data.data}
+              initialValues={{
+                ...data.data,
+                email: data.data.email,
+                phone: data.data.phone || "",
+                name: data.data.name || "",
+                date: data.data.date || "",
+              }}
               validationSchema={validationSchema}
               onSubmit={handleSubmit}
               innerRef={formikRef}

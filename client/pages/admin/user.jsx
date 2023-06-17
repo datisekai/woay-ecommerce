@@ -5,14 +5,18 @@ import { AiOutlineDelete } from "react-icons/ai";
 import { CiEdit } from "react-icons/ci";
 import ModalAddUser from "../../src/components/modals/ModalAddUser";
 import Meta from "../../src/components/Meta";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import UserApi from "../../src/services/UserApi";
 import PaginationAdmin from "../../src/components/paginations/PaginationAdmin";
 import { useRouter } from "next/router";
 import SpinnerCenter from "../../src/components/loadings/SpinnerCenter";
 import ModalUpdateUser from "../../src/components/modals/ModalUpdateUser";
+import { BiLockAlt } from "react-icons/bi";
+import swal from "sweetalert";
+import { toast } from "react-hot-toast";
 
 const UserAdmin = () => {
+  const queryClient = useQueryClient();
   const router = useRouter();
   const query = router.query;
 
@@ -26,12 +30,40 @@ const UserAdmin = () => {
 
   const limit = 6;
 
-  const { data, isLoading } = useQuery(["users", query], () =>
+  const { data, isLoading, refetch } = useQuery(["users", query], () =>
     UserApi.getAll({ ...query, limit })
   );
 
+  const { mutate } = useMutation(UserApi.lockUser, {
+    onSuccess: (id) => {
+      const newRows = data.rows.map((item) =>
+        item.id === id ? { ...item, isActive: false } : item
+      );
+      queryClient.setQueryData(["users", query], { ...data, rows: newRows });
+      toast.success("Khóa tài khoản thành công");
+    },
+    onError: (error) => {
+      console.log(error);
+      error && error.message && toast.error(error.message);
+    },
+  });
+
   const handleSearch = () => {
     router.push({ query: { [typeSearch]: search } });
+  };
+
+  const handleLockUser = (id) => {
+    swal({
+      title: "Are you sure?",
+      text: "Once deleted, you will not be able to recover this imaginary file!",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then((willDelete) => {
+      if (willDelete) {
+        mutate(id);
+      }
+    });
   };
 
   return (
@@ -116,8 +148,11 @@ const UserAdmin = () => {
                             <CiEdit className="text-2xl" />
                           </button>
 
-                          <button className="btn btn-circle btn-error">
-                            <AiOutlineDelete className="text-xl" />
+                          <button
+                            onClick={() => handleLockUser(item.id)}
+                            className="btn btn-circle btn-error"
+                          >
+                            <BiLockAlt className="text-xl" />
                           </button>
                         </div>
                       </td>
@@ -142,7 +177,7 @@ const UserAdmin = () => {
           {data && (
             <div className="mt-2">
               <PaginationAdmin
-                to={data.offset + 1}
+                to={data.rows.length > 0 ? data.offset + 1 : 0}
                 from={data.offset + data.rows.length}
                 count={data.count}
                 pre={data.page > 1 && data.page - 1}
@@ -151,7 +186,11 @@ const UserAdmin = () => {
             </div>
           )}
         </div>
-        <ModalUpdateUser data={currentUpdate} handleHidden={() => setCurrentUpdate({isDisplay:false, data:{}})} />
+        <ModalUpdateUser
+          query={query}
+          data={currentUpdate}
+          handleHidden={() => setCurrentUpdate({ isDisplay: false, data: {} })}
+        />
       </AdminLayout>
     </>
   );

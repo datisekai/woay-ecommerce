@@ -12,7 +12,11 @@ const UserApi = {
     return result.data
   },
   updateUser:async({id, payload}) => {
-    const result = await axiosClient.put(`/user/${id}`,payload)
+    const result = await axiosClient.put(`/user/${id}`,{...payload})
+    return result.data
+  },
+  lockUser:async(id) => {
+    const result = await axiosClient.delete(`/user/${id}`);
     return result.data
   }
 };

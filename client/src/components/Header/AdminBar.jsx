@@ -6,8 +6,10 @@ import Link from "next/link";
 const AdminBar = () => {
   const router = useRouter();
 
+console.log(router)
+
   return (
-    <div className="py-4 border-r w-[250px]">
+    <div className="py-4 border-r w-[250px] h-full">
       <h1 className="text-center font-bold text-2xl md:text-3xl text-neutral">
         ADMIN
       </h1>
@@ -20,7 +22,7 @@ const AdminBar = () => {
               <li
                 
                 className={`px-4 py-3 flex items-center gap-4 hover:bg-base-200 font-bold hover:cursor-pointer ${
-                  `/admin${adminbar.url}` === router.asPath
+                  `/admin${adminbar.url}` === router.route
                     ? "bg-base-200"
                     : "bg-base-100"
                 }`}
