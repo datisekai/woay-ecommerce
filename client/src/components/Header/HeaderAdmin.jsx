@@ -1,8 +1,21 @@
 import Link from "next/link";
 import React from "react";
 import AdminBar from "./AdminBar";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../../redux/slices/UserSlice";
+import { useRouter } from "next/router";
 
 const HeaderAdmin = () => {
+  const { user } = useSelector((state) => state.user);
+
+  const router = useRouter()
+  const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    dispatch(logout());
+    router.push('/login')
+  };
+
   return (
     <div className="navbar bg-base-100">
       <div className="navbar-start">
@@ -57,7 +70,10 @@ const HeaderAdmin = () => {
         </div>
       </div>
       <div className="navbar-center">
-        <Link href={'/'} className="btn btn-ghost normal-case text-xl text-neutral">
+        <Link
+          href={"/"}
+          className="btn btn-ghost normal-case text-xl text-neutral"
+        >
           MISSOUT
         </Link>
       </div>
@@ -65,8 +81,12 @@ const HeaderAdmin = () => {
         <div className="dropdown dropdown-end">
           <label tabIndex={0} className=" ">
             <div className="avatar cursor-pointer">
-              <div className="w-12 mask mask-squircle">
-                <img src="https://ui-avatars.com/api/?name=John+Doe" />
+              <div className="w-12 mask mask-circle">
+                <img
+                  src={`https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=${
+                    user?.name ? user?.name : user?.email?.split("@")[0]
+                  }`}
+                />
               </div>
             </div>
           </label>
@@ -75,10 +95,10 @@ const HeaderAdmin = () => {
             className="dropdown-content menu p-2 shadow-md z-50 bg-base-100 rounded-box w-52"
           >
             <li>
-              <Link href="/profile">Profile</Link>
+              <Link href="/profile">Thông tin cá nhân</Link>
             </li>
-            <li>
-              <Link href="/logout">Logout</Link>
+            <li onClick={handleLogout}>
+              <a >Đăng xuất</a>
             </li>
           </ul>
         </div>
