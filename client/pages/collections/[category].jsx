@@ -15,21 +15,7 @@ export default function collection({ arrProduct }) {
     };
     return (
         <MainLayout>
-            <div
-                className="
-            relative before:content-['']
-            before:absolute
-            before:bottom-0
-            before:left-0
-            before:w-full
-            before:h-[1px]
-            before:bg-[#e5e7eb]
-            mb-[20px]"
-            >
-                <div className="container mx-auto">
-                    <Breadcrumbs nameCategory={arrProduct.category.name} />
-                </div>
-            </div>
+            <Breadcrumbs nameCategory={arrProduct.category.name} />
             <div className="container mx-auto mb-[60px]">
                 <div className="wrap grid grid-cols-3">
                     <div className="wrap-left">
@@ -118,7 +104,6 @@ export default function collection({ arrProduct }) {
 }
 
 export const getServerSideProps = async ({ query }) => {
-    console.log({ query });
     const arrProduct = await productApi.queryProduct({ query });
     // call api lấy về mảng item prroduct
     return { props: { arrProduct } };

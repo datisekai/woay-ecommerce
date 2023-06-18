@@ -8,7 +8,7 @@ export default function Home({ arrProduct }) {
         <MainLayout>
             <CarouselHomePages />
             {/* render các cardProduct */}
-            <>
+            <div className="container mx-auto mt-[30px]">
                 <h2 className="uppercase text-center font-bold p-4 text-2xl">
                     Sản phẩm mới
                 </h2>
@@ -17,7 +17,7 @@ export default function Home({ arrProduct }) {
                         return <CardProduct key={index} item={item} />;
                     })}
                 </div>
-            </>
+            </div>
         </MainLayout>
     );
 }

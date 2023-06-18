@@ -45,7 +45,7 @@ const HeaderTool = () => {
                     <div className="drawer-content">
                         {/* Page content here */}
                         <label htmlFor="my-drawer-5" className="drawer-button ">
-                            <CiSearch className="text-2xl md:text-3xl" />
+                            <CiSearch className="text-2xl md:text-3xl cursor-pointer" />
                         </label>
                     </div>
                     <div className="drawer-side z-50">
