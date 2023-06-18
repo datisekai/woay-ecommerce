@@ -8,14 +8,12 @@ import UserApi from "../../services/UserApi";
 
 const ModalUpdateUser = ({ query, data, handleHidden }) => {
   const queryClient = useQueryClient();
-  const router = useRouter();
 
   const formikRef = useRef(null);
 
   const { mutate, isLoading } = useMutation(UserApi.updateUser, {
     onSuccess: (response, variables) => {
       const oldUsers = queryClient.getQueryData(["users", query]);
-      console.log(oldUsers);
       const newUsers = oldUsers.rows.map((item) => {
         return item.id === data.data.id
           ? { ...data.data, ...variables.payload }
@@ -54,7 +52,6 @@ const ModalUpdateUser = ({ query, data, handleHidden }) => {
   });
 
   const handleSubmit = (values, { setSubmitting }) => {
-    console.log("values", values);
     const payload = { ...values };
     delete payload["id"];
     delete payload["email"];

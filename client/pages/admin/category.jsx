@@ -1,17 +1,51 @@
-import React from "react";
+import React, { useState } from "react";
 import AdminLayout from "../../src/components/layouts/AdminLayout";
 import { IoMdAdd } from "react-icons/io";
 import { AiOutlineDelete } from "react-icons/ai";
 import { CiEdit } from "react-icons/ci";
 import Meta from "../../src/components/Meta";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import CategoryApi from "../../src/services/CategoryApi";
 import SpinnerCenter from "../../src/components/loadings/SpinnerCenter";
+import ModalAddCategory from "../../src/components/modals/ModalAddCategory";
+import ModalUpdateCategory from "../../src/components/modals/ModalUpdateCategory";
+import swal from "sweetalert";
+import { toast } from "react-hot-toast";
 
 const CategoryAdmin = () => {
+  const queryClient = useQueryClient()
   const { data, isLoading } = useQuery(["categories"], CategoryApi.getAll);
 
-  console.log(data);
+  const [currentUpdate, setCurrentUpdate] = useState({
+    isDisplay: false,
+    data: {},
+  });
+
+  const { mutate } = useMutation(CategoryApi.delete, {
+    onSuccess: (res, variables) => {
+     
+      queryClient.setQueryData(['categories'], data.filter(item => item.id !== variables));
+      toast.success("Xóa danh mục thành công");
+    },
+    onError: (error) => {
+      console.log(error);
+      error && error.message && toast.error(error.message);
+    },
+  });
+
+  const handleDelete = (id) => {
+    swal({
+      title: "Are you sure?",
+      text: "Once deleted, you will not be able to recover this imaginary file!",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then((willDelete) => {
+      if (willDelete) {
+        mutate(id);
+      }
+    });
+  }
 
   return (
     <>
@@ -19,14 +53,18 @@ const CategoryAdmin = () => {
       <AdminLayout>
         <div className="flex items-center justify-between">
           <h1 className="text-lg text-neutral font-bold">Quản lý danh mục</h1>
-          <button className="btn btn-success text-base-100">
-            <IoMdAdd className="text-xl" />
-            Tạo mới
-          </button>
+          <ModalAddCategory
+            elementClick={
+              <div className="btn btn-success text-base-100">
+                <IoMdAdd className="text-xl" />
+                Tạo mới
+              </div>
+            }
+          />
         </div>
 
         <div className="mt-4 bg-base-200 p-4 rounded">
-          <div className="overflow-x-auto min-h-[100px] relative">
+          <div className="overflow-x-auto min-h-[100px] max-h-[500px] relative">
             {!isLoading ? (
               <table className="table table-zebra">
                 {/* head */}
@@ -46,10 +84,10 @@ const CategoryAdmin = () => {
                       <td>{item.name}</td>
                       <td>
                         <div className="flex gap-2 ">
-                          <button className="btn btn-circle btn-warning">
+                          <button onClick={() => setCurrentUpdate({isDisplay:true, data:item})} className="btn btn-circle btn-warning">
                             <CiEdit className="text-2xl" />
                           </button>
-                          <button className="btn btn-circle btn-error">
+                          <button onClick={() => handleDelete(item.id)} className="btn btn-circle btn-error">
                             <AiOutlineDelete className="text-xl" />
                           </button>
                         </div>
@@ -71,6 +109,10 @@ const CategoryAdmin = () => {
             )}
           </div>
         </div>
+        <ModalUpdateCategory
+          data={currentUpdate}
+          handleHidden={() => setCurrentUpdate({ isDisplay: false, data: {} })}
+        />
       </AdminLayout>
     </>
   );

@@ -15,7 +15,7 @@ import { BiLockAlt } from "react-icons/bi";
 import swal from "sweetalert";
 import { toast } from "react-hot-toast";
 import { formatDate } from "../../src/utils/formatDate";
-import dayjs from 'dayjs'
+import dayjs from "dayjs";
 
 const UserAdmin = () => {
   const queryClient = useQueryClient();
@@ -41,7 +41,7 @@ const UserAdmin = () => {
       const newRows = data.rows.map((item) =>
         item.id === variables ? { ...item, isActive: false } : item
       );
-      console.log('newrows',newRows)
+      console.log("newrows", newRows);
       queryClient.setQueryData(["users", query], { ...data, rows: newRows });
       toast.success("Khóa tài khoản thành công");
     },
@@ -77,6 +77,7 @@ const UserAdmin = () => {
           <h1 className="text-lg text-neutral font-bold">Quản lý người dùng</h1>
           <div>
             <ModalAddUser
+              limit={limit}
               query={query}
               elementClick={
                 <div className="btn btn-success text-base-100">
@@ -144,7 +145,15 @@ const UserAdmin = () => {
                         <div className="flex gap-2 ">
                           <button
                             onClick={() =>
-                              setCurrentUpdate({ isDisplay: true, data: {...item, date: item.date ? dayjs(item.date).format('YYYY-MM-DD') : item.date} })
+                              setCurrentUpdate({
+                                isDisplay: true,
+                                data: {
+                                  ...item,
+                                  date: item.date
+                                    ? dayjs(item.date).format("YYYY-MM-DD")
+                                    : item.date,
+                                },
+                              })
                             }
                             className="btn btn-circle btn-warning"
                           >

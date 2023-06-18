@@ -31,6 +31,7 @@ const CategoryController = {
         where: {
           isDeleted: false,
         },
+        order: [["createdAt", "DESC"]],
       });
       return showSuccess(res, categories);
     } catch (error) {
@@ -71,22 +72,24 @@ const CategoryController = {
         return showError(res, convertJoiToString(error));
       }
 
-      const isFoundSlug = await Category.findOne({
-        where: {
-          slug: value.slug,
-        },
-      });
-
-      if (!isFoundSlug) {
-        await Category.update(value, {
+      if (value.slug) {
+        const isFoundSlug = await Category.findOne({
           where: {
-            id,
+            slug: value.slug,
           },
         });
-        return showSuccess(res);
+
+        if (isFoundSlug) {
+          return showError(res, "slug already exist");
+        }
       }
 
-      return showError(res, "slug already exist");
+      await Category.update(value, {
+        where: {
+          id,
+        },
+      });
+      return showSuccess(res);
     } catch (error) {
       return showInternal(res, error);
     }
@@ -95,10 +98,13 @@ const CategoryController = {
     try {
       const id = req.params.id;
 
-      const foundProduct = await Product.count({where:{categoryId:id}})
+      const foundProduct = await Product.count({ where: { categoryId: id } });
 
-      if(foundProduct > 0){
-        return showError(res,`There are ${foundProduct} sku containing this color`)
+      if (foundProduct > 0) {
+        return showError(
+          res,
+          `There are ${foundProduct} sku containing this color`
+        );
       }
 
       await Category.update({ isDeleted: true }, { where: { id } });
@@ -109,4 +115,4 @@ const CategoryController = {
   },
 };
 
-export default CategoryController
+export default CategoryController;
