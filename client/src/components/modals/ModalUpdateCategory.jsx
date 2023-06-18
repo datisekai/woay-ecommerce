@@ -76,7 +76,6 @@ const ModalUpdateCategory = ({ data, handleHidden }) => {
                         Slug
                       </label>
                       <Field
-                        readOnly
                         name="slug"
                         type="text"
                         placeholder="Nhập slug..."

@@ -6,7 +6,7 @@ import {BsFillFilePostFill,BsCartCheck} from 'react-icons/bs'
 
 const adminbars = [
   {
-    url: "",
+    url: "/",
     title: "Dashboard",
     icon:AiOutlineDashboard
   },

@@ -13,6 +13,10 @@ const productApi = {
     getAllAdmin:async(query) => {
         const result = await axiosClient.get('/product',{params:query});
         return result.data.data
+    },
+    add:async(data) => {
+        const result = await axiosClient.post('/product',data)
+        return result.data;
     }
 };
 
