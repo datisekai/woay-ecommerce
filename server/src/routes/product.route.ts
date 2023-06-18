@@ -28,6 +28,9 @@ router.put('/variant/:id', isLogin, isAdmin, ProductController.updateSKU)
 //delete sku
 router.delete('/variant/:id', isLogin, isAdmin, ProductController.deleteSKU)
 
+//get all by admin
+router.get('/', isLogin, isAdmin, ProductController.getAllByAdmin)
+
 //confirm cart
 router.post('/cart',isLogin, ProductController.cart)
 

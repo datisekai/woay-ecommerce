@@ -10,6 +10,10 @@ const productApi = {
             return e;
         }
     },
+    getAllAdmin:async(query) => {
+        const result = await axiosClient.get('/product',{params:query});
+        return result.data.data
+    }
 };
 
 export default productApi;

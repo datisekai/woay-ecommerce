@@ -32,7 +32,6 @@ const productSchema = Joi.object({
       sizeId: Joi.number().integer().required(),
       price: Joi.number().min(0).required(),
       quantity: Joi.number().integer().required(),
-      thumbnail: Joi.string().required(),
     })
   ),
 });
@@ -223,7 +222,7 @@ const ProductController = {
         order,
         offset,
         limit,
-        include: [{ model: ProductImage }, { model: Variant }],
+        include: [{ model: ProductImage }, { model: Variant },{model:Category}],
         distinct: true,
       });
 

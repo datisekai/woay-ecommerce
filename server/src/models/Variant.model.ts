@@ -13,9 +13,6 @@ const Variant = sequelize.define('variant', {
     type: DataTypes.INTEGER,
     field: 'color_id'
   },
-  thumbnail:{
-    type:DataTypes.STRING,
-  },
   sizeId: {
     type: DataTypes.INTEGER,
     field: 'size_id'
