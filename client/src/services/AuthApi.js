@@ -43,12 +43,7 @@ const AuthApi = {
             console.log(e);
         }
     },
-    getAvatar: async (name) => {
-        let res = await axios.get(
-            `https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=${name}`
-        );
-        return res;
-    },
+
     clearUser: async () => {
         const user = undefined;
         deleteCookie("token");

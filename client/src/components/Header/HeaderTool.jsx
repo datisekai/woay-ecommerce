@@ -7,18 +7,31 @@ import { IoMdClose } from "react-icons/io";
 import { BsSearch } from "react-icons/bs";
 import navbars from "../data/navbar";
 import Link from "next/link";
-import { deleteCookie, getCookie } from "cookies-next";
-import Router from "next/router";
-import AuthApi from "../../services/AuthApi";
+import { useRouter } from "next/router";
 import { clearUser, setUser } from "../../redux/slices/UserSlice";
+import AuthApi from "../../services/AuthApi";
 
 const HeaderTool = () => {
     const heightLiChild = 28;
     const [showChild, setShowChild] = useState(false);
+    const [query, setQuery] = useState("");
     const { user } = useSelector((state) => state.user);
     const dispatch = useDispatch();
-    const navigate = () => {
-        Router.push("/login");
+    const router = useRouter();
+    const getUser = async () => {
+        let res = await AuthApi.getMyInfo();
+        console.log({ res });
+        dispatch(setUser(res));
+    };
+    useEffect(() => {
+        getUser;
+    }, []);
+    const handleChangeQuery = (event) => {
+        setQuery(event.target.value);
+    };
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        router.push(`/search?name=${query}`);
     };
     return (
         <div className="flex items-center gap-2 flex-1 justify-end">
@@ -51,14 +64,23 @@ const HeaderTool = () => {
                                 </label>
                             </div>
 
-                            <div className="flex items-center w-full mt-5 px-4 py-4 bg-base-200">
+                            <form
+                                onSubmit={handleSubmit}
+                                name="search"
+                                className="flex items-center w-full mt-5 px-4 py-4 bg-base-200"
+                            >
                                 <input
+                                    value={query}
+                                    onChange={handleChangeQuery}
                                     type="text"
                                     placeholder="Tìm kiếm sản phẩm..."
                                     className="w-full outline-none bg-base-200"
                                 />
-                                <BsSearch className="text-2xl" />
-                            </div>
+                                <BsSearch
+                                    onClick={handleSubmit}
+                                    className="text-2xl"
+                                />
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -98,7 +120,7 @@ const HeaderTool = () => {
                             <a
                                 onClick={() => {
                                     dispatch(clearUser());
-                                    // Router.push("/");
+                                    router.push("/");
                                 }}
                             >
                                 Đăng xuất
@@ -110,7 +132,9 @@ const HeaderTool = () => {
                 <div className="flex items-center hover:cursor-pointer">
                     <button
                         className="btn btn-primary btn-sm"
-                        onClick={navigate}
+                        onClick={() => {
+                            router.push("/login");
+                        }}
                     >
                         Đăng nhập
                     </button>

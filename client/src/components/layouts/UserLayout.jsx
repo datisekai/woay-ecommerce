@@ -1,9 +1,10 @@
 import { getCookie, setCookie } from "cookies-next";
 import React, { useEffect } from "react";
-import axiosClient from "../../config";
 import AuthApi from "../../services/AuthApi";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../redux/slices/UserSlice";
+import Header from "../Header/Header";
+import Footer from "../Footer";
 
 export default function UserLayout({ children }) {
     const dispatch = useDispatch();
@@ -16,5 +17,10 @@ export default function UserLayout({ children }) {
     useEffect(() => {
         if (getCookie("token")) getUser();
     }, []);
-    return <div>{children}</div>;
+    return (
+        <>
+            <main>{children}</main>
+        </>
+    );
 }
+// de xax thuc nguoi dung
