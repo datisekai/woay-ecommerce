@@ -10,16 +10,13 @@ const Size = sequelize.define(
       primaryKey: true,
       autoIncrement: true,
     },
-    productId: {
-      type: DataTypes.INTEGER,
-      field: "product_id",
-    },
-    size: {
+    name: {
       type: DataTypes.STRING,
     },
-    status: {
+    isDeleted: {
       type: DataTypes.BOOLEAN,
-      defaultValue: true,
+      defaultValue: false,
+      field:'is_deleted'
     },
     createdAt: {
       type: DataTypes.DATE,
@@ -33,6 +30,5 @@ const Size = sequelize.define(
   }
 );
 
-Size.belongsTo(Product, { foreignKey: "productId" });
 
 export default Size;

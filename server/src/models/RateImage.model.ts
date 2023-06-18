@@ -3,22 +3,24 @@ import sequelize from '.'
 import Rate from "./Rate.model";
 
 const RateImage = sequelize.define('RateImage', {
-  rate_id: {
-    type: DataTypes.INTEGER
+  rateId: {
+    type: DataTypes.INTEGER,
+    field:'rate_id'
   },
   src: {
     type: DataTypes.STRING,
     allowNull: false
   },
-  created_at: {
+  createdAt: {
     type: DataTypes.DATE,
-    defaultValue: DataTypes.NOW
+    defaultValue: DataTypes.NOW,
+    field:'created_at'
   }
 }, {
   tableName: 'rate_image',
   timestamps: false
 });
 
-RateImage.belongsTo(Rate, { foreignKey: 'rate_id' });
+
 
 export default RateImage

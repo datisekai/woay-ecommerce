@@ -1,8 +1,10 @@
+import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 
 export default function CardProduct({ item }) {
+    console.log({ item });
     const [currentImg, setCurrentImg] = useState(item.ProductImages[0].src);
-
+    const router = useRouter();
     const handleMouseEnter = () => {
         setCurrentImg(item.ProductImages[1].src);
     };
@@ -14,7 +16,10 @@ export default function CardProduct({ item }) {
     // sort arr variants
     item.variants.sort((item) => item.price);
     return (
-        <div className=" mb-[30px]">
+        <div
+            className=" mb-[30px] cursor-pointer"
+            onClick={() => router.push(`/product/detail/${item.slug}`)}
+        >
             <div
                 className="product_img
                 hover:animate-pulse

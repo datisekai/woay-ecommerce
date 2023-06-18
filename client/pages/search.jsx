@@ -3,6 +3,7 @@ import MainLayout from "../src/components/layouts/MainLayout";
 import productApi from "../src/services/ProductApi";
 import CardProduct from "../src/components/cards/CardProduct";
 import { useRouter } from "next/router";
+import PaginationAdmin from "../src/components/paginations/PaginationAdmin";
 
 export default function search({ arrProduct }) {
     const router = useRouter();
@@ -58,7 +59,7 @@ export default function search({ arrProduct }) {
                     </div>
                     {/* list item product load ra o day */}
                     {/* Pagination */}
-                    <div className=" flex justify-center">
+                    {/* <div className=" flex justify-center">
                         {arrPage.map((item, index) => {
                             return (
                                 <button
@@ -75,7 +76,27 @@ export default function search({ arrProduct }) {
                                 </button>
                             );
                         })}
-                    </div>
+                    </div> */}
+                    {arrProduct && (
+                        <div className="mt-2">
+                            <PaginationAdmin
+                                to={
+                                    arrProduct.rows.length > 0
+                                        ? arrProduct.offset + 1
+                                        : 0
+                                }
+                                from={
+                                    arrProduct.offset + arrProduct.rows.length
+                                }
+                                count={arrProduct.count}
+                                pre={arrProduct.page > 1 && arrProduct.page - 1}
+                                next={
+                                    arrProduct.page * arrProduct.limit <
+                                        arrProduct.count && +arrProduct.page + 1
+                                }
+                            />
+                        </div>
+                    )}
                     {/* End Pagination */}
                 </div>
             </div>

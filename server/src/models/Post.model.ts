@@ -35,9 +35,10 @@ const Post = sequelize.define(
       type: DataTypes.INTEGER,
       field: "blog_id",
     },
-    status: {
+    isDeleted: {
       type: DataTypes.BOOLEAN,
-      defaultValue: true,
+      defaultValue: false,
+      field:'is_deleted'
     },
     image: {
       type: DataTypes.STRING,

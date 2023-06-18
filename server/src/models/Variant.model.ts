@@ -1,10 +1,9 @@
 import { DataTypes } from "sequelize";
-import sequelize from '.'
-import Product from "./Product.model";
+import sequelize from '.';
 import Color from "./Color.model";
 import Size from "./Size.model";
 
-const Sku = sequelize.define('Sku', {
+const Variant = sequelize.define('variant', {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -13,9 +12,6 @@ const Sku = sequelize.define('Sku', {
   colorId: {
     type: DataTypes.INTEGER,
     field: 'color_id'
-  },
-  thumbnail:{
-    type:DataTypes.STRING,
   },
   sizeId: {
     type: DataTypes.INTEGER,
@@ -31,12 +27,10 @@ const Sku = sequelize.define('Sku', {
   price: {
     type: DataTypes.DOUBLE
   },
-  discount: {
-    type: DataTypes.INTEGER
-  },
-  status: {
+  isDeleted: {
     type: DataTypes.BOOLEAN,
-    defaultValue: true
+    defaultValue: false,
+    field:'is_deleted'
   },
   createdAt: {
     type: DataTypes.DATE,
@@ -44,13 +38,11 @@ const Sku = sequelize.define('Sku', {
     defaultValue: DataTypes.NOW
   }
 }, {
-  tableName: 'sku',
+  tableName: 'variant',
   timestamps: false
 });
 
-Sku.belongsTo(Product, { foreignKey: 'productId' });
-Sku.belongsTo(Color, { foreignKey: 'colorId' });
-Sku.belongsTo(Size, { foreignKey: 'sizeId' });
+Variant.belongsTo(Color, { foreignKey: 'colorId' });
+Variant.belongsTo(Size, { foreignKey: 'sizeId' });
 
-
-export default Sku
+export default Variant

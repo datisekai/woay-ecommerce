@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { deleteCookie } from "cookies-next";
 
 const initialState = {
     user: undefined,
@@ -11,12 +12,15 @@ export const UserSlice = createSlice({
         setUser: (state, action) => {
             state.user = action.payload;
         },
-        clearUser: (state, action) => {
+        logout: (state, action) => {
             state.user = undefined;
+
+            deleteCookie("token");
+            deleteCookie("role");
         },
     },
 });
 
-export const { setUser, clearUser } = UserSlice.actions;
+export const { setUser, logout } = UserSlice.actions;
 
 export default UserSlice.reducer;

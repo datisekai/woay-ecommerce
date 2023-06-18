@@ -12,6 +12,8 @@ import { Request, Response } from "express";
 import * as argon2 from "argon2";
 import jwt from "jsonwebtoken";
 import config from "../config";
+import { RequestHasLogin } from "../types/Request.type";
+import { Op } from "sequelize";
 
 const userSchema = Joi.object({
   role: Joi.string().valid("user", "admin").required(),
@@ -19,13 +21,22 @@ const userSchema = Joi.object({
   password: Joi.string().required(),
   name: Joi.string().default("Chưa có"),
   date: Joi.date(),
-  phone: Joi.string().allow(null, ""),
-  active: Joi.boolean().default(true),
+  phone: Joi.string().regex(/^\d{10,11}$/),
+  isActive: Joi.boolean().default(true),
 });
 
 const loginSchema = Joi.object({
   email: Joi.string().email().required(),
   password: Joi.string().required(),
+});
+
+const updateSchema = Joi.object({
+  role: Joi.string().valid("user", "admin"),
+  password: Joi.string(),
+  name: Joi.string(),
+  date: Joi.date(),
+  phone: Joi.string().regex(/^\d{10,11}$/),
+  isActive: Joi.boolean(),
 });
 
 const UserController = {
@@ -35,21 +46,43 @@ const UserController = {
     const offset = (+page - 1) * +limit;
 
     const where: any = {
-      active: true,
     };
+
+    if (req.query.name) {
+      where.name = {
+        [Op.iLike]: `%${req.query.name}%`,
+      };
+    }
+
+    if (req.query.email) {
+      where.email = {
+        [Op.iLike]: `%${req.query.email}%`,
+      };
+    }
+
+    if (req.query.role) {
+      where.role = {
+        [Op.iLike]: `%${req.query.role}%`,
+      };
+    }
+
+    if (req.query.phone) {
+      where.phone = {
+        [Op.iLike]: `%${req.query.phone}%`,
+      };
+    }
 
     const users = await User.findAndCountAll({
       where,
       offset,
       limit,
-      order:[['createdAt','DESC']],
-      attributes:{
-        exclude:['password']
-      }
+      order: [["createdAt", "DESC"]],
+      attributes: {
+        exclude: ["password"],
+      },
     });
 
-
-   return showSuccess(res, {...users, page, limit, offset})
+    return showSuccess(res, { ...users, page, limit, offset });
   },
   add: async (req: Request, res: Response) => {
     try {
@@ -90,6 +123,10 @@ const UserController = {
       });
 
       if (isFoundUser) {
+        if (!isFoundUser.isActive) {
+          return showError(res, "User blocked");
+        }
+
         const verify = await argon2.verify(
           isFoundUser.password,
           value.password
@@ -161,7 +198,7 @@ const UserController = {
       if (decode) {
         const isFoundUser: any = await User.findByPk(decode.id, {
           where: {
-            active: true,
+            isActive: true,
           },
           attributes: {
             exclude: ["password"],
@@ -192,7 +229,80 @@ const UserController = {
       }
 
       return showNotFound(res);
-    } catch (error) {}
+    } catch (error) {
+      return showInternal(res, error);
+    }
+  },
+  update: async (req: Request, res: Response) => {
+    try {
+      const id = req.params.id;
+      const { error, value } = updateSchema.validate(req.body);
+
+      if (error) {
+        return showError(res, convertJoiToString(error));
+      }
+
+      if (value?.email) {
+        delete value["email"];
+      }
+
+      if (value.password) {
+        const hashPassword = await argon2.hash(value.password);
+        value.password = hashPassword;
+      }
+
+      await User.update(value, {
+        where: {
+          id,
+        },
+      });
+
+      return showSuccess(res);
+    } catch (error) {
+      return showInternal(res, error);
+    }
+  },
+  updateMyInfo: async (req: RequestHasLogin, res: Response) => {
+    try {
+      const id = req.userId;
+      const { error, value } = updateSchema.validate(req.body);
+
+      if (error) {
+        return showError(res, convertJoiToString(error));
+      }
+
+      if (value?.email) {
+        delete value["email"];
+      }
+
+      if (value.password) {
+        const hashPassword = await argon2.hash(value.password);
+        value.password = hashPassword;
+      }
+
+      await User.update(value, {
+        where: id,
+      });
+
+      return showSuccess(res);
+    } catch (error) {
+      return showInternal(res, error);
+    }
+  },
+  delete: async (req: Request, res: Response) => {
+    try {
+      const id = req.params.id;
+
+      const foundUser = await User.findByPk(id);
+      if (foundUser) {
+        await User.update({ isActive: false }, { where: { id } });
+        return showSuccess(res);
+      }
+
+      return showError(res, "id is invalid");
+    } catch (error) {
+      return showInternal(res, error);
+    }
   },
 };
 

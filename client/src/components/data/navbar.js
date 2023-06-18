@@ -3,32 +3,7 @@ let navbars = [
     {
         url: "/",
         title: "Sản phẩm",
-        children: [
-            {
-                url: "/",
-                title: "T-Shirt",
-            },
-            {
-                url: "/",
-                title: "T-Shirt",
-            },
-            {
-                url: "/",
-                title: "T-Shirt",
-            },
-            {
-                url: "/",
-                title: "T-Shirt",
-            },
-            {
-                url: "/",
-                title: "T-Shirt",
-            },
-            {
-                url: "/",
-                title: "T-Shirt",
-            },
-        ],
+        children: [],
     },
     {
         url: "/about-us",

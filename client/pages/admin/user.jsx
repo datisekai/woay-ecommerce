@@ -1,97 +1,211 @@
-import React from "react";
+import React, { useState } from "react";
 import AdminLayout from "../../src/components/layouts/AdminLayout";
 import { IoMdAdd } from "react-icons/io";
 import { AiOutlineDelete } from "react-icons/ai";
 import { CiEdit } from "react-icons/ci";
 import ModalAddUser from "../../src/components/modals/ModalAddUser";
 import Meta from "../../src/components/Meta";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import UserApi from "../../src/services/UserApi";
+import PaginationAdmin from "../../src/components/paginations/PaginationAdmin";
+import { useRouter } from "next/router";
+import SpinnerCenter from "../../src/components/loadings/SpinnerCenter";
+import ModalUpdateUser from "../../src/components/modals/ModalUpdateUser";
+import { BiLockAlt } from "react-icons/bi";
+import swal from "sweetalert";
+import { toast } from "react-hot-toast";
+import { formatDate } from "../../src/utils/formatDate";
+import dayjs from "dayjs";
 
 const UserAdmin = () => {
+  const queryClient = useQueryClient();
+  const router = useRouter();
+  const query = router.query;
+
+  const [typeSearch, setTypeSearch] = useState("name");
+  const [search, setSearch] = useState("");
+
+  const [currentUpdate, setCurrentUpdate] = useState({
+    isDisplay: false,
+    data: {},
+  });
+
+  const limit = 6;
+
+  const { data, isLoading, refetch } = useQuery(["users", query], () =>
+    UserApi.getAll({ ...query, limit })
+  );
+
+  const { mutate } = useMutation(UserApi.lockUser, {
+    onSuccess: (id, variables) => {
+      const newRows = data.rows.map((item) =>
+        item.id === variables ? { ...item, isActive: false } : item
+      );
+      console.log("newrows", newRows);
+      queryClient.setQueryData(["users", query], { ...data, rows: newRows });
+      toast.success("Khóa tài khoản thành công");
+    },
+    onError: (error) => {
+      console.log(error);
+      error && error.message && toast.error(error.message);
+    },
+  });
+
+  const handleSearch = () => {
+    router.push({ query: { [typeSearch]: search } });
+  };
+
+  const handleLockUser = (id) => {
+    swal({
+      title: "Are you sure?",
+      text: "Once deleted, you will not be able to recover this imaginary file!",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then((willDelete) => {
+      if (willDelete) {
+        mutate(id);
+      }
+    });
+  };
+
   return (
     <>
-    <Meta title={'Quản lý người dùng | MISSOUT'} description=""/>
-    <AdminLayout>
-      <div className="flex items-center justify-between">
-        <h1 className="text-lg text-neutral font-bold">Quản lý người dùng</h1>
-        <div>
-          {/* Open the modal using ID.showModal() method */}
-          <button
-            className="btn btn-success text-base-100"
-            onClick={() => window.my_modal_1.showModal()}
-          >
-            {" "}
-            <IoMdAdd className="text-xl" />
-            Tạo mới
-          </button>
-          <dialog id="my_modal_1" className="modal">
-            <ModalAddUser />
-          </dialog>
-        </div>
-      </div>
-
-      <div className="join mt-2">
-        <div>
+      <Meta title={"Quản lý người dùng | MISSOUT"} description="" />
+      <AdminLayout>
+        <div className="flex items-center justify-between">
+          <h1 className="text-lg text-neutral font-bold">Quản lý người dùng</h1>
           <div>
-            <input
-              className="input input-bordered join-item"
-              placeholder="Tìm kiếm người dùng..."
+            <ModalAddUser
+              limit={limit}
+              query={query}
+              elementClick={
+                <div className="btn btn-success text-base-100">
+                  {" "}
+                  <IoMdAdd className="text-xl" />
+                  Tạo mới
+                </div>
+              }
             />
           </div>
         </div>
-        <select className="select select-bordered join-item">
-          <option>Tên</option>
-          <option>Email</option>
-        </select>
-        <div className="indicator">
-          <button className="btn join-item">Tìm kiếm</button>
+
+        <div className="join mt-2">
+          <div>
+            <div>
+              <input
+                className="input input-bordered join-item"
+                placeholder="Tìm kiếm người dùng..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              />
+            </div>
+          </div>
+          <select
+            value={typeSearch}
+            onChange={(e) => setTypeSearch(e.target.value)}
+            className="select select-bordered join-item"
+          >
+            <option value="name">Tên</option>
+            <option value="email">Email</option>
+            <option value="phone">SDT</option>
+          </select>
+          <div className="indicator">
+            <button className="btn join-item" onClick={handleSearch}>
+              Tìm kiếm
+            </button>
+          </div>
         </div>
-      </div>
-      <div className="mt-4 bg-base-200 p-4 rounded">
-        <div className="overflow-x-auto h-[550px]">
-          <table className="table table-zebra w-full">
-            {/* head */}
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Name</th>
-                <th>Job</th>
-                <th>Favorite Color</th>
-                <th>Hành động</th>
-              </tr>
-            </thead>
-            <tbody>
-              {[0, 1, 2, 3, 4, 5, 6, 7].map((item) => (
-                <tr key={item}>
-                  <th>1</th>
-                  <td>Cy Ganderton</td>
-                  <td>Quality Control Specialist</td>
-                  <td>Blue</td>
-                  <td>
-                    <div className="flex gap-2 ">
-                      <button className="btn btn-circle btn-warning">
-                        <CiEdit className="text-2xl" />
-                      </button>
-                      <button className="btn btn-circle btn-error">
-                        <AiOutlineDelete className="text-xl" />
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-            <tfoot>
-              <tr>
-                <th>#</th>
-                <th>Name</th>
-                <th>Job</th>
-                <th>Favorite Color</th>
-                <th>Hành động</th>
-              </tr>
-            </tfoot>
-          </table>
+        <div className="mt-4 bg-base-200 p-4 rounded">
+          <div className="overflow-x-auto relative min-h-[100px]">
+            {!isLoading ? (
+              <table className="table table-zebra w-full ">
+                {/* head */}
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Email</th>
+                    <th>Tên</th>
+                    <th>Quyền</th>
+                    <th>Số điện thoại</th>
+                    <th>Trạng thái</th>
+                    <th>Hành động</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {data?.rows?.map((item) => (
+                    <tr key={item.id}>
+                      <th>{item.id}</th>
+                      <td>{item.email}</td>
+                      <td>{item.name || "Chưa có"}</td>
+                      <td className="capitalize">{item.role}</td>
+                      <td>{item.phone || "Chưa có"}</td>
+                      <td>{item.isActive ? "Hoạt động" : "Khóa"}</td>
+                      <td>
+                        <div className="flex gap-2 ">
+                          <button
+                            onClick={() =>
+                              setCurrentUpdate({
+                                isDisplay: true,
+                                data: {
+                                  ...item,
+                                  date: item.date
+                                    ? dayjs(item.date).format("YYYY-MM-DD")
+                                    : item.date,
+                                },
+                              })
+                            }
+                            className="btn btn-circle btn-warning"
+                          >
+                            <CiEdit className="text-2xl" />
+                          </button>
+
+                          <button
+                            disabled={!item.isActive}
+                            onClick={() => handleLockUser(item.id)}
+                            className="btn btn-circle btn-error"
+                          >
+                            <BiLockAlt className="text-xl" />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <th>#</th>
+                    <th>Email</th>
+                    <th>Tên</th>
+                    <th>Số điện thoại</th>
+                    <th>Trạng thái</th>
+                    <th>Hành động</th>
+                  </tr>
+                </tfoot>
+              </table>
+            ) : (
+              <SpinnerCenter />
+            )}
+          </div>
+          {data && (
+            <div className="mt-2">
+              <PaginationAdmin
+                to={data.rows.length > 0 ? data.offset + 1 : 0}
+                from={data.offset + data.rows.length}
+                count={data.count}
+                pre={data.page > 1 && data.page - 1}
+                next={data.page * data.limit < data.count && +data.page + 1}
+              />
+            </div>
+          )}
         </div>
-      </div>
-    </AdminLayout></>
+        <ModalUpdateUser
+          query={query}
+          data={currentUpdate}
+          handleHidden={() => setCurrentUpdate({ isDisplay: false, data: {} })}
+        />
+      </AdminLayout>
+    </>
   );
 };
 

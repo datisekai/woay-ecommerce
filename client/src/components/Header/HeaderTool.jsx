@@ -8,7 +8,7 @@ import { BsSearch } from "react-icons/bs";
 import navbars from "../data/navbar";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { clearUser, setUser } from "../../redux/slices/UserSlice";
+import { logout, setUser } from "../../redux/slices/UserSlice";
 import AuthApi from "../../services/AuthApi";
 
 const HeaderTool = () => {
@@ -119,7 +119,7 @@ const HeaderTool = () => {
                         <li>
                             <a
                                 onClick={() => {
-                                    dispatch(clearUser());
+                                    dispatch(logout());
                                     router.push("/");
                                 }}
                             >

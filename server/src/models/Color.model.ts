@@ -10,17 +10,14 @@ const Color = sequelize.define(
       primaryKey: true,
       autoIncrement: true,
     },
-    productId: {
-      type: DataTypes.INTEGER,
-      field: "product_id",
-    },
     name: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    status: {
+    isDeleted: {
       type: DataTypes.BOOLEAN,
-      defaultValue: true,
+      defaultValue: false,
+      field:'is_deleted'
     },
     createdAt: {
       type: DataTypes.DATE,
@@ -34,5 +31,4 @@ const Color = sequelize.define(
   }
 );
 
-Color.belongsTo(Product, { foreignKey: "productId" });
 export default Color;

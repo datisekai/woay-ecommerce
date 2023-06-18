@@ -4,7 +4,6 @@ import MainLayout from "../src/components/layouts/MainLayout";
 import productApi from "../src/services/ProductApi";
 
 export default function Home({ arrProduct }) {
-    console.log({ arrProduct });
     return (
         <MainLayout>
             <CarouselHomePages />

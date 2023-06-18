@@ -22,9 +22,10 @@ const Blog = sequelize.define(
       type: DataTypes.INTEGER,
       field: "user_id",
     },
-    status: {
-      type: DataTypes.STRING,
-      defaultValue: "true",
+    isDeleted: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+      field:"is_deleted"
     },
     createdAt: {
       type: DataTypes.DATE,
