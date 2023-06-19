@@ -10,6 +10,7 @@ import { Op } from "sequelize";
 import Post from "../models/Post.model";
 import Joi from "joi";
 import { RequestHasLogin } from "../types/Request.type";
+import Category from "../models/Category.model";
 
 const postSchema = Joi.object({
   title: Joi.string().max(255).required(),
@@ -20,7 +21,7 @@ const postSchema = Joi.object({
   description: Joi.string().max(255).required(),
   image: Joi.string().required(),
   blogId: Joi.number().integer().required(),
-  body:Joi.string().required(),
+  body: Joi.string().required(),
 });
 
 const updateSchema = Joi.object({
@@ -30,7 +31,7 @@ const updateSchema = Joi.object({
   description: Joi.string().max(255),
   image: Joi.string(),
   blogId: Joi.number().integer(),
-  body:Joi.string(),
+  body: Joi.string(),
 });
 
 const PostController = {
@@ -41,7 +42,7 @@ const PostController = {
       const offset = (+page - 1) * +limit;
 
       const where: any = {
-        isDeleted:false
+        isDeleted: false,
       };
 
       let blog;
@@ -77,7 +78,13 @@ const PostController = {
         }
       }
 
-      const posts = await Post.findAndCountAll({ where, offset, limit, order });
+      const posts = await Post.findAndCountAll({
+        where,
+        offset,
+        limit,
+        order,
+        include: [{ model: Blog }],
+      });
 
       return showSuccess(res, { ...posts, offset, limit, order, blog });
     } catch (error) {
@@ -94,7 +101,7 @@ const PostController = {
       const foundSlug = await Post.findOne({ where: { slug: value.slug } });
 
       if (!foundSlug) {
-        const newPost = await Post.create({...value, userId:req.userId});
+        const newPost = await Post.create({ ...value, userId: req.userId });
         return showSuccess(res, newPost);
       }
 
@@ -135,8 +142,7 @@ const PostController = {
       const page = req.query.page || 1;
       const offset = (+page - 1) * +limit;
 
-      const where: any = {
-      };
+      const where: any = {};
 
       let blog;
 
@@ -171,9 +177,26 @@ const PostController = {
         }
       }
 
-      const posts = await Post.findAndCountAll({ where, offset, limit, order });
+      const posts = await Post.findAndCountAll({ where, offset, limit, order, include:[{model:Blog}] });
 
       return showSuccess(res, { ...posts, offset, limit, order, blog });
+    } catch (error) {
+      return showInternal(res, error);
+    }
+  },
+  getPostBySlug: async (req: Request, res: Response) => {
+    try {
+      const slug = req.params.slug;
+      const post = await Post.findOne({
+        where: { slug },
+        include: [{ model: Blog }],
+      });
+
+      if (post) {
+        return showSuccess(res, post);
+      }
+
+      return showError(res, "slug is invalid");
     } catch (error) {
       return showInternal(res, error);
     }

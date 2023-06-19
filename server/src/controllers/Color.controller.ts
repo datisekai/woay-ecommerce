@@ -51,7 +51,7 @@ const ColorController = {
 
       const skuOfColor = await Variant.count({ where: { colorId: id } });
 
-      if (skuOfColor.length > 0) {
+      if (skuOfColor > 0) {
         return showError(
           res,
           `There are ${skuOfColor} variant containing this color`

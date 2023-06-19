@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import React, { useState } from "react";
 import { AiOutlineDelete } from "react-icons/ai";
 import { CiEdit } from "react-icons/ci";
@@ -8,9 +8,12 @@ import SpinnerCenter from "../loadings/SpinnerCenter";
 import ModalAddSize from "../modals/ModalAddSize";
 import ModalUpdateSize from "../modals/ModalUpdateSize";
 import swal from "sweetalert";
+import { toast } from "react-hot-toast";
 
 const SizePage = () => {
   const { data, isLoading } = useQuery(["sizes"], SizeApi.getAll);
+
+  const queryClient = useQueryClient()
 
   const [currentUpdate, setCurrentUpdate] = useState({
     isDisplay: false,

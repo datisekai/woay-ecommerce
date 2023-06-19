@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import React, { useState } from "react";
 import { AiOutlineDelete } from "react-icons/ai";
 import { CiEdit } from "react-icons/ci";
@@ -8,9 +8,12 @@ import ColorApi from "../../services/ColorApi";
 import SpinnerCenter from "../loadings/SpinnerCenter";
 import ModalAddColor from "../modals/ModalAddColor";
 import ModalUpdateColor from "../modals/ModalUpdateColor";
+import { toast } from "react-hot-toast";
 
 const ColorPage = () => {
   const { data, isLoading } = useQuery(["colors"], ColorApi.getAll);
+
+  const queryClient = useQueryClient()
 
   const [currentUpdate, setCurrentUpdate] = useState({
     isDisplay: false,

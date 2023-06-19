@@ -49,7 +49,7 @@ const SizeController = {
     try {
       const id = req.params.id;
 
-      const skuOfSize = await Variant.findAll({ where: { sizeId: id } });
+      const skuOfSize = await Variant.count({ where: { sizeId: id } });
 
       if (skuOfSize.length > 0) {
         return showError(

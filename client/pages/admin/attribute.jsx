@@ -31,6 +31,7 @@ const AttributeAdmin = () => {
         <div className="tabs text-neutral">
           {tabs.map((item) => (
             <a
+            key={item.tab}
               onClick={() =>
                 router.push({
                   query: {

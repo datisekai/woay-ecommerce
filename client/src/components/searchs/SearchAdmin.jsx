@@ -1,14 +1,16 @@
 import { useRouter } from 'next/router';
 import React, { useState } from 'react'
 
-const SearchAdmin = ({data}) => {
-    const [typeSearch, setTypeSearch] = useState("name");
+const SearchAdmin = ({data, defaultValue = 'name'}) => {
+    const [typeSearch, setTypeSearch] = useState(defaultValue);
     const [search, setSearch] = useState("");
 
 
     const router = useRouter()
 
+
     const handleSearch = () => {
+      console.log(typeSearch)
         router.push({ query: { [typeSearch]: search } });
       };
   return (
