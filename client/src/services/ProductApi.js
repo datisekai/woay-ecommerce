@@ -17,6 +17,14 @@ const productApi = {
     add:async(data) => {
         const result = await axiosClient.post('/product',data)
         return result.data;
+    },
+    getProductBySlug:async(slug) => {
+        const result = await axiosClient.get(`/product/detail/${slug}`);
+        return result.data.data
+    },
+    update:async({id, data}) => {
+        const result = await axiosClient.put(`/product/${id}`,data);
+        return result.data;
     }
 };
 

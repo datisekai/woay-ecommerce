@@ -16,14 +16,12 @@ import swal from "sweetalert";
 import { toast } from "react-hot-toast";
 import { formatDate } from "../../src/utils/formatDate";
 import dayjs from "dayjs";
+import SearchAdmin from "../../src/components/searchs/SearchAdmin";
 
 const UserAdmin = () => {
   const queryClient = useQueryClient();
   const router = useRouter();
   const query = router.query;
-
-  const [typeSearch, setTypeSearch] = useState("name");
-  const [search, setSearch] = useState("");
 
   const [currentUpdate, setCurrentUpdate] = useState({
     isDisplay: false,
@@ -51,10 +49,6 @@ const UserAdmin = () => {
     },
   });
 
-  const handleSearch = () => {
-    router.push({ query: { [typeSearch]: search } });
-  };
-
   const handleLockUser = (id) => {
     swal({
       title: "Are you sure?",
@@ -68,6 +62,8 @@ const UserAdmin = () => {
       }
     });
   };
+
+  const dataSearch = [{ value: "name", name: "Tên" },{ value: "email", name: "Email" },{ value: "phone", name: "SDT" }];
 
   return (
     <>
@@ -90,32 +86,7 @@ const UserAdmin = () => {
           </div>
         </div>
 
-        <div className="join mt-2">
-          <div>
-            <div>
-              <input
-                className="input input-bordered join-item"
-                placeholder="Tìm kiếm người dùng..."
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-              />
-            </div>
-          </div>
-          <select
-            value={typeSearch}
-            onChange={(e) => setTypeSearch(e.target.value)}
-            className="select select-bordered join-item"
-          >
-            <option value="name">Tên</option>
-            <option value="email">Email</option>
-            <option value="phone">SDT</option>
-          </select>
-          <div className="indicator">
-            <button className="btn join-item" onClick={handleSearch}>
-              Tìm kiếm
-            </button>
-          </div>
-        </div>
+        <SearchAdmin data={dataSearch} />
         <div className="mt-4 bg-base-200 p-4 rounded">
           <div className="overflow-x-auto relative min-h-[100px]">
             {!isLoading ? (

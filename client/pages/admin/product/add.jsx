@@ -14,6 +14,8 @@ import SpinnerCenter from "../../../src/components/loadings/SpinnerCenter";
 import productApi from "../../../src/services/ProductApi";
 import toast from "react-hot-toast";
 import { useRouter } from "next/router";
+import ModalAddSize from "../../../src/components/modals/ModalAddSize";
+import ModalAddColor from "../../../src/components/modals/ModalAddColor";
 
 const AddProduct = () => {
   const { data: categories } = useQuery(["categories"], CategoryApi.getAll);
@@ -73,8 +75,8 @@ const AddProduct = () => {
       .max(255)
       .required(),
     name: Yup.string().max(255).required(),
-    description: Yup.string().max(255).required(),
-    categoryId: Yup.number().required().min(1),
+    description: Yup.string().required(),
+    categoryId: Yup.number().required().min(1, "Category is required"),
     variants: Yup.array()
       .of(
         Yup.object()
@@ -114,6 +116,7 @@ const AddProduct = () => {
     );
     const payload = {
       ...values,
+      description:values.description.replace('\n','<br/>'),
       images: cloudImages,
       variants: values.variants.map((item) => ({
         colorId: item.colorId,
@@ -185,7 +188,7 @@ const AddProduct = () => {
                                     <Field
                                       type="text"
                                       name="slug"
-                                      placeholder="Nhập vào tên sản phẩm...."
+                                      placeholder="Nhập vào slug sản phẩm...."
                                       className="input input-bordered w-full"
                                     />
                                     <ErrorMessage
@@ -203,7 +206,7 @@ const AddProduct = () => {
                                       )
                                     }
                                   >
-                                    Generate
+                                    AUTO
                                   </button>
                                 </div>
                               </div>
@@ -214,7 +217,6 @@ const AddProduct = () => {
                                     <Field
                                       as="select"
                                       name="categoryId"
-                                      placeholder="Nhập vào tên sản phẩm...."
                                       className="input input-bordered w-full mt-1"
                                       onChange={(e) =>
                                         setFieldValue(
@@ -223,6 +225,9 @@ const AddProduct = () => {
                                         )
                                       }
                                     >
+                                      <option value="0" disabled>
+                                        Chọn
+                                      </option>
                                       {categories?.map((item) => (
                                         <option key={item.id} value={item.id}>
                                           {item.name}
@@ -230,6 +235,11 @@ const AddProduct = () => {
                                       ))}
                                     </Field>
                                   )}
+                                  <ErrorMessage
+                                    name="categoryId"
+                                    component="div"
+                                    className="text-error"
+                                  />
                                 </label>
                               </div>
                             </div>
@@ -254,9 +264,23 @@ const AddProduct = () => {
                         </div>
                       </div>
                       <div className="rounded bg-base-200 py-4 px-6 md:px-8">
-                        <h1 className="text-md text-neutral font-bold border-b-2 pb-2">
-                          Biến thể
-                        </h1>
+                        <div className="flex justify-between items-center">
+                          <h1 className="text-md text-neutral font-bold border-b-2 pb-2">
+                            Biến thể
+                          </h1>
+                          <div className="flex gap-1">
+                            <ModalAddSize
+                              elementClick={
+                                <div className="btn">Thêm Size</div>
+                              }
+                            />
+                            <ModalAddColor
+                              elementClick={
+                                <div className="btn">Thêm Color</div>
+                              }
+                            />
+                          </div>
+                        </div>
                         <div className="mt-4">
                           <div className="flex gap-4">
                             <h2 className="w-[100px]">Kích thước</h2>
@@ -324,7 +348,7 @@ const AddProduct = () => {
                             </div>
                           </div>
                           <div className="flex gap-4 mt-4">
-                            <h2 className="w-[100px]">Kích thước</h2>
+                            <h2 className="w-[100px]">Màu sắc</h2>
                             <div className="flex-1">
                               <div className="input flex items-center gap-[2px] input-bordered">
                                 {chooseColor.length > 0 ? (

@@ -14,11 +14,6 @@ const Color = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    isDeleted: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false,
-      field:'is_deleted'
-    },
     createdAt: {
       type: DataTypes.DATE,
       field: "created_at",

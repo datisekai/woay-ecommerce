@@ -13,11 +13,6 @@ const Size = sequelize.define(
     name: {
       type: DataTypes.STRING,
     },
-    isDeleted: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false,
-      field:'is_deleted'
-    },
     createdAt: {
       type: DataTypes.DATE,
       field: "created_at",

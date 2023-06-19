@@ -1,15 +1,14 @@
 import { Request, Response } from "express";
 import Joi from "joi";
+import Blog from "../models/Blog.model";
+import Post from "../models/Post.model";
+import { RequestHasLogin } from "../types/Request.type";
 import {
   convertJoiToString,
   showError,
   showInternal,
   showSuccess,
 } from "../utils";
-import { RequestHasLogin } from "../types/Request.type";
-import Product from "../models/Product.model";
-import Blog from "../models/Blog.model";
-import Post from "../models/Post.model";
 
 const blogSchema = Joi.object({
   title: Joi.string().required(),
@@ -32,6 +31,7 @@ const BlogController = {
         where: {
           isDeleted: false,
         },
+        order:[['createdAt','DESC']]
       });
       return showSuccess(res, blogs);
     } catch (error) {
