@@ -66,7 +66,7 @@ const Navbar = () => {
                             arrCollectionBlogs?.map((item, index) => (
                                 <div
                                     onClick={() =>
-                                        router.push(`/blog/${item.slug}`)
+                                        router.push(`/blogs/${item.slug}`)
                                     }
                                     key={index}
                                 >

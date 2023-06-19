@@ -15,7 +15,7 @@ export default function collection({ arrProduct }) {
     };
     return (
         <MainLayout>
-            <Breadcrumbs nameCategory={arrProduct.category.name} />
+            <Breadcrumbs nameCategory={arrProduct.category?.name} />
             <div className="container mx-auto mb-[60px]">
                 <div className="wrap grid grid-cols-3">
                     <div className="wrap-left">
