@@ -3,14 +3,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { getArrCategory } from "../../redux/slices/CategorySlice";
 
 export default function SanPhamDropdown({ title }) {
-    const { arrCatetgory } = useSelector((state) => state.category);
+    // const { arrCatetgory } = useSelector((state) => state.category);
     const dispatch = useDispatch();
-    console.log({ arrCatetgory });
     // call api lấy arrCategory
     // lấy data
-    useEffect(async () => {
-        async function getData() {}
-    }, []);
+
     return (
         <details className="dropdown ">
             <summary className=" bg-white border-none menu-navbar  uppercase hover:cursor-pointer slip-left-to-right  uppercase font-bold flex justify-center justify-items-center h-[32px]">

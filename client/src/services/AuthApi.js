@@ -1,5 +1,5 @@
 import axios from "axios";
-import { setCookie } from "cookies-next";
+import { deleteCookie, setCookie } from "cookies-next";
 import Router from "next/router";
 import axiosClient from "../config";
 
@@ -42,6 +42,12 @@ const AuthApi = {
         } catch (e) {
             console.log(e);
         }
+    },
+
+    clearUser: async () => {
+        const user = undefined;
+        deleteCookie("token");
+        return user;
     },
 };
 

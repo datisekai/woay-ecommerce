@@ -1,4 +1,3 @@
-import axios from "axios";
 import axiosClient from "../config";
 
 const productApi = {
@@ -25,7 +24,17 @@ const productApi = {
     update:async({id, data}) => {
         const result = await axiosClient.put(`/product/${id}`,data);
         return result.data;
-    }
+    },
+    queryProduct: async ({ query }) => {
+        const res = await axiosClient.get(`/product/search?`, {
+            params: query,
+        });
+        return res.data.data;
+    },
+    getProductByslug: async ({ query }) => {
+        const res = await axiosClient.get(`/product/detail/${query.slug}`);
+        return res.data.data;
+    },
 };
 
 export default productApi;

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { CiSearch, CiShoppingCart } from "react-icons/ci";
 import { HiBars3 } from "react-icons/hi2";
 import { BiChevronDown, BiChevronUp } from "react-icons/bi";
@@ -6,22 +7,32 @@ import { IoMdClose } from "react-icons/io";
 import { BsSearch } from "react-icons/bs";
 import navbars from "../data/navbar";
 import Link from "next/link";
-import { getCookie } from "cookies-next";
-import Router from "next/router";
+import { useRouter } from "next/router";
+import { logout, setUser } from "../../redux/slices/UserSlice";
+import AuthApi from "../../services/AuthApi";
 
 const HeaderTool = () => {
     const heightLiChild = 28;
     const [showChild, setShowChild] = useState(false);
-    const [avatar, setAvatar] = useState(true);
-    useEffect(() => {
-        if (getCookie("token")) {
-            setAvatar(false);
-        }
-    });
-    const navigate = () => {
-        Router.push("/login");
+    const [query, setQuery] = useState("");
+    const { user } = useSelector((state) => state.user);
+    const dispatch = useDispatch();
+    const router = useRouter();
+    const getUser = async () => {
+        let res = await AuthApi.getMyInfo();
+        console.log({ res });
+        dispatch(setUser(res));
     };
-
+    useEffect(() => {
+        getUser;
+    }, []);
+    const handleChangeQuery = (event) => {
+        setQuery(event.target.value);
+    };
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        router.push(`/search?name=${query}`);
+    };
     return (
         <div className="flex items-center gap-2 flex-1 justify-end">
             <div className="hover:cursor-pointer">
@@ -34,7 +45,7 @@ const HeaderTool = () => {
                     <div className="drawer-content">
                         {/* Page content here */}
                         <label htmlFor="my-drawer-5" className="drawer-button ">
-                            <CiSearch className="text-2xl md:text-3xl" />
+                            <CiSearch className="text-2xl md:text-3xl cursor-pointer" />
                         </label>
                     </div>
                     <div className="drawer-side z-50">
@@ -53,14 +64,23 @@ const HeaderTool = () => {
                                 </label>
                             </div>
 
-                            <div className="flex items-center w-full mt-5 px-4 py-4 bg-base-200">
+                            <form
+                                onSubmit={handleSubmit}
+                                name="search"
+                                className="flex items-center w-full mt-5 px-4 py-4 bg-base-200"
+                            >
                                 <input
+                                    value={query}
+                                    onChange={handleChangeQuery}
                                     type="text"
                                     placeholder="Tìm kiếm sản phẩm..."
                                     className="w-full outline-none bg-base-200"
                                 />
-                                <BsSearch className="text-2xl" />
-                            </div>
+                                <BsSearch
+                                    onClick={handleSubmit}
+                                    className="text-2xl"
+                                />
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -70,35 +90,55 @@ const HeaderTool = () => {
                 <span className="text-xs font-bold">(2)</span>
             </div>
 
-            {avatar ? (
-                <div className="flex items-center hover:cursor-pointer">
-                    <button
-                        className="btn btn-primary btn-sm"
-                        onClick={navigate}
-                    >
-                        Đăng nhập
-                    </button>
-                </div>
-            ) : (
+            {user !== undefined ? (
                 <div className="dropdown dropdown-bottom dropdown-end">
                     <label tabIndex={0} className="cursor-pointer">
                         <div className="avatar ">
                             <div className="w-12 rounded-full">
-                                <img src="https://fastly.picsum.photos/id/255/200/300.jpg?hmac=8h6Fxv1UswqZlMd2N1RMp5y8kqMk0TpucwH0sj9mlOU" />
+                                <img
+                                    className="w-12 rounded-full"
+                                    src={`https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=${
+                                        user?.name ? user?.name : user?.email
+                                    }`}
+                                />
                             </div>
                         </div>
                     </label>
                     <ul
                         tabIndex={0}
-                        className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
+                        className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 z-10"
                     >
-                        <li>
-                            <a>Item 1</a>
+                        <li className={user?.role === "user" ? "hidden" : null}>
+                            <Link href={"/admin"}>Dashboard</Link>
                         </li>
                         <li>
-                            <a>Item 2</a>
+                            <Link href={"/profile"}>Thông tin cá nhân</Link>
+                        </li>
+                        <li>
+                            <Link href={"/orderhistory"}>Lịch sử đơn hàng</Link>
+                        </li>
+                        <li>
+                            <a
+                                onClick={() => {
+                                    dispatch(logout());
+                                    router.push("/");
+                                }}
+                            >
+                                Đăng xuất
+                            </a>
                         </li>
                     </ul>
+                </div>
+            ) : (
+                <div className="flex items-center hover:cursor-pointer">
+                    <button
+                        className="btn btn-primary btn-sm"
+                        onClick={() => {
+                            router.push("/login");
+                        }}
+                    >
+                        Đăng nhập
+                    </button>
                 </div>
             )}
 
