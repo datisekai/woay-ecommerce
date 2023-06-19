@@ -36,7 +36,7 @@ export default function product({ itemProduct }) {
       setCart(
         cart.map((item) =>
           item.variantId === variant.id
-            ? { ...item, quantity: item.quantity + variant.quantity }
+            ? { ...item, quantity: item.quantity + quantity }
             : item
         )
       );
@@ -53,7 +53,7 @@ export default function product({ itemProduct }) {
       setCart(
         cart.map((item) =>
           item.variantId === variant.id
-            ? { ...item, quantity: item.quantity + variant.quantity }
+            ? { ...item, quantity: item.quantity + quantity }
             : item
         )
       );
