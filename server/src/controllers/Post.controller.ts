@@ -84,6 +84,9 @@ const PostController = {
         limit,
         order,
         include: [{ model: Blog }],
+        attributes:{
+          exclude:['body']
+        }
       });
 
       return showSuccess(res, { ...posts, offset, limit, order, blog });

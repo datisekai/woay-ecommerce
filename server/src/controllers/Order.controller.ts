@@ -13,6 +13,8 @@ import Joi from "joi";
 import Variant from "../models/Variant.model";
 import Info from "../models/Info.model";
 import Product from "../models/Product.model";
+import Color from "../models/Color.model";
+import Size from "../models/Size.model";
 
 const orderSchema = Joi.object({
   variants: Joi.array()
@@ -41,7 +43,7 @@ const OrderController = {
 
       const orders = await Order.findAndCountAll({
         where: { userId: req.userId },
-        include: [{ model: OrderDetail, include:[{model:Variant, include:[{model:Product}]}] }, { model: Info }],
+        include: [{ model: OrderDetail, include:[{model:Variant, include:[{model:Product},{model:Color},{model:Size}]}] }, { model: Info }],
         offset,
       });
 
@@ -78,7 +80,7 @@ const OrderController = {
         where,
         order: [["createdAt", "DESC"]],
         offset,
-        include: [{ model: OrderDetail, include:[{model:Variant, include:[{model:Product}]}] }, { model: Info }],
+        include: [{ model: OrderDetail, include:[{model:Variant, include:[{model:Product},{model:Color},{model:Size}]}] }, { model: Info }],
       });
 
       return showSuccess(res, { ...orders, limit, page, offset });
@@ -103,7 +105,6 @@ const OrderController = {
 
       if (variants.length > 0) {
         const listVariants = variants.map((item:any, index:number) => ({...item.dataValues, quantity:value.variants[index].quantity}))
-        console.log(listVariants)
         const total = listVariants.reduce((pre:any, cur:any) => pre + cur.price * cur.quantity, 0);
 
         const order = await Order.create({
