@@ -10,24 +10,28 @@ import CardProduct from "../../../src/components/cards/CardProduct";
 
 export default function product({ itemProduct }) {
     console.log({ itemProduct });
+    const { ProductImages, colors, sizes, productRecommends } = itemProduct;
+    console.log({ sizes });
     const dispatch = useDispatch();
     const { user } = useSelector((state) => state.user);
-    const getUser = async () => {
-        let res = await AuthApi.getMyInfo();
-        dispatch(setUser(res));
-    };
-    useEffect(() => {
-        getUser;
-    }, []);
-    const [activeSize, setActiveSize] = useState(false);
+    // const getUser = async () => {
+    //     let res = await AuthApi.getMyInfo();
+    //     dispatch(setUser(res));
+    // };
+    // useEffect(() => {
+    //     getUser;
+    // }, []);
+    const [activeSize, setActiveSize] = useState(sizes[0].id);
+    console.log({ activeSize });
+    const [activeColor, setActiveColor] = useState(colors[0].id);
     const maxMin = maxMinPrice(itemProduct.variants);
-    const { ProductImages, colors, sizes, productRecommends } = itemProduct;
-    const handleChaneSize = () => {
-        setActiveSize(!activeSize);
+    // chọn size
+    const handleChaneSize = (id) => {
+        setActiveSize(id);
     };
     return (
         <MainLayout>
-            <Breadcrumbs nameCategory={"name"} />
+            <Breadcrumbs nameCategory={itemProduct.name} />
 
             <div className="container mx-auto mt-[20px] px-[15px]">
                 <div className="wrap grid grid-cols-1 lg:grid-cols-2 ">
@@ -61,11 +65,17 @@ export default function product({ itemProduct }) {
                                     return (
                                         <p
                                             key={index}
-                                            className="styleColor w-[30px] h-[30px] rounded-full "
+                                            className={
+                                                activeColor !== item.id
+                                                    ? "w-[40px] h-[40px] flex justify-center  cursor-pointer items-center text-xs font-bold border-[1px] border-[#000] text-[#000]"
+                                                    : "w-[40px] h-[40px] flex justify-center items-center text-xs font-bold border-[1px] border-[#000] text-[#fff] bg-[#000] cursor-pointer"
+                                            }
                                             style={{
                                                 background: item.name,
                                             }}
-                                        ></p>
+                                        >
+                                            {item.name}
+                                        </p>
                                     );
                                 })}
                             </div>
@@ -76,11 +86,11 @@ export default function product({ itemProduct }) {
                                     <p
                                         key={index}
                                         className={
-                                            !activeSize
+                                            activeSize !== item.id
                                                 ? "w-[40px] h-[40px] flex justify-center  cursor-pointer items-center text-xs font-bold border-[1px] border-[#000] text-[#000]"
                                                 : "w-[40px] h-[40px] flex justify-center items-center text-xs font-bold border-[1px] border-[#000] text-[#fff] bg-[#000] cursor-pointer"
                                         }
-                                        onClick={handleChaneSize}
+                                        onClick={() => handleChaneSize(item.id)}
                                     >
                                         {item.name}
                                     </p>
@@ -89,7 +99,7 @@ export default function product({ itemProduct }) {
                         </div>
 
                         <div className="flex  mt-[10px] my-[25px]">
-                            <button className="w-[32px] h-[32px] bg-[#f3f4f4] opacity-80 rounded hover:opacity-100 ">
+                            <button className="w-[32px] h-[32px] bg-[#f3f4f4]  rounded  ">
                                 -
                             </button>
                             <input
@@ -98,7 +108,7 @@ export default function product({ itemProduct }) {
                                 min={1}
                                 defaultValue={1}
                             />
-                            <button className="w-[32px] h-[32px] bg-[#f3f4f4] opacity-80 rounded hover:opacity-100">
+                            <button className="w-[32px] h-[32px] bg-[#f3f4f4] rounded ">
                                 +
                             </button>
                         </div>

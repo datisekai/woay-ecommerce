@@ -31,11 +31,7 @@ export default function Breadcrumbs({ nameCategory }) {
                         <li>
                             <a
                                 onClick={() => {
-                                    router.push({
-                                        query: {
-                                            category: "all",
-                                        },
-                                    });
+                                    router.push("/collections/all");
                                 }}
                             >
                                 Danh mục
