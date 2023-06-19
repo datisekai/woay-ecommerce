@@ -222,7 +222,11 @@ const ProductController = {
         order,
         offset,
         limit,
-        include: [{ model: ProductImage }, { model: Variant },{model:Category}],
+        include: [
+          { model: ProductImage },
+          { model: Variant },
+          { model: Category },
+        ],
         distinct: true,
       });
 
@@ -276,6 +280,8 @@ const ProductController = {
     try {
       const slug = req.params.slug;
 
+      const limit = req.query.limit || 8;
+
       const product = await Product.findOne({
         where: {
           slug,
@@ -288,7 +294,46 @@ const ProductController = {
       });
 
       if (product) {
-        return showSuccess(res, product);
+        // Lấy ra danh sách các màu sắc không trùng lặp
+        const colors = Array.from(
+          new Set(
+            product.dataValues.variants.map((variant: any) => variant.Color.id)
+          )
+        ).map((id) => {
+          const variant = product.dataValues.variants.find(
+            (variant: any) => variant.Color.id === id
+          );
+          return variant.Color;
+        });
+
+        // Lấy ra danh sách các kích thước không trùng lặp
+        const sizes = Array.from(
+          new Set(
+            product.dataValues.variants.map((variant: any) => variant.Size.id)
+          )
+        ).map((id) => {
+          const variant = product.dataValues.variants.find(
+            (variant: any) => variant.Size.id === id
+          );
+          return variant.Size;
+        });
+
+        const productRecommends = await Product.findAll({
+          limit,
+          where: {
+            categoryId: product.categoryId,
+            id: {
+              [Op.ne]: product.id,
+            },
+          },
+          include: [
+            { model: ProductImage },
+            { model: Variant },
+            { model: Category },
+          ],
+        });
+
+        return showSuccess(res, { ...product.dataValues, colors, sizes, productRecommends });
       }
 
       return showError(res, "slug is invalid");
@@ -389,8 +434,8 @@ const ProductController = {
     try {
       const { error, value } = cartSchema.validate(req.body);
 
-      if(error){
-        return showError(res, convertJoiToString(error))
+      if (error) {
+        return showError(res, convertJoiToString(error));
       }
 
       const variants = await Variant.findAll({
