@@ -35,6 +35,10 @@ const productApi = {
         const res = await axiosClient.get(`/product/detail/${query.slug}`);
         return res.data.data;
     },
+    confirmCart:async(variants) => {
+        const result = await axiosClient.post(`/product/cart`,{variants})
+        return result.data.data
+    }
 };
 
 export default productApi;

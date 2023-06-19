@@ -1,7 +1,7 @@
 import React from "react";
 import { AiOutlineDelete } from "react-icons/ai";
 
-const CardCart = () => {
+const CardCart = ({Product, price}) => {
   return (
     <div className="flex md:items-center flex-col md:flex-row">
       <div className="flex gap-2 items-center w-full md:w-[40%]">
@@ -11,7 +11,7 @@ const CardCart = () => {
           className="w-[100px] rounded"
         />
         <div className="">
-          <h4 className="uppercase font-bold text-neutral">MOOD sweater mst</h4>
+          <h4 className="uppercase font-bold text-neutral">{Product.name}</h4>
           <p className="uppercase">S / Blue</p>
         </div>
       </div>
@@ -30,7 +30,7 @@ const CardCart = () => {
             +
           </button>
         </div>
-        <div className="font-bold">{(329000).toLocaleString("en-US")}đ</div>
+        <div className="font-bold">{(price).toLocaleString("en-US")}đ</div>
         <div className="flex flex-col items-center">
           <h5>Thành tiền</h5>
           <p className="text-secondary font-bold">

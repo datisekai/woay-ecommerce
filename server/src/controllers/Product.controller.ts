@@ -440,7 +440,7 @@ const ProductController = {
 
       const variants = await Variant.findAll({
         where: { id: value.variants },
-        include: [{ model: Product }],
+        include: [{ model: Product, include:[{model:ProductImage}] }, {model:Size},{model:Color}],
       });
 
       return showSuccess(res, variants);

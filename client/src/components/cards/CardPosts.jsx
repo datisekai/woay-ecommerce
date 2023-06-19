@@ -7,7 +7,7 @@ export default function CardPosts({ item }) {
     return (
         <div
             onClick={() => {
-                roruter.push(`/post/detail/${item.slug}`);
+                roruter.push(`/post/${item.slug}`);
             }}
         >
             <article className="mb-[25px]  grid grid-cols-1  px-[15px] lg:grid-cols-4 lg:gap-4">

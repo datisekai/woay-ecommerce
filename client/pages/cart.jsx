@@ -1,10 +1,30 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import MainLayout from "../src/components/layouts/MainLayout";
 import { AiOutlineDelete } from "react-icons/ai";
 import CardCart from "../src/components/cards/CardCart";
 import ModalChooseAddress from "../src/components/modals/ModalChooseAddress";
+import { useLocalStorage } from "usehooks-ts";
+import productApi from "../src/services/ProductApi";
 
 const Cart = () => {
+  const [cart, setCart] = useLocalStorage("cart", []);
+
+  const [products, setProducts] = useState([])
+
+  useEffect(() => {
+    
+    const confirmCart = async() => {
+      const result = await productApi.confirmCart(cart.map(item => item.variantId));
+      setProducts(result.map(item => {
+        const quantity = cart.find(item => item.variantId === item.id)?.quantity;
+        return {...item, quantity}
+      }))
+    }
+    if(cart.length > 0){
+      confirmCart()
+    }
+  },[])
+  
   return (
     <MainLayout>
       <div className="min-h-[70vh] max-w-[1200px] mx-auto pb-10">
@@ -26,8 +46,8 @@ const Cart = () => {
                 Bạn đang có 3 sản phẩm trong giỏ hàng
               </h3>
               <div className="mt-4 space-y-2">
-                {[0, 1, 2, 3].map((item) => (
-                  <CardCart key={item} />
+                {products?.map((item) => (
+                  <CardCart key={item} {...item} />
                 ))}
               </div>
             </div>
