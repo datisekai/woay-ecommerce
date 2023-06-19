@@ -19,7 +19,6 @@ function MyApp({ Component, pageProps }) {
                 </Provider>
                 <ReactQueryDevtools initialIsOpen={false} />
             </QueryClientProvider>
-            ;
         </>
     );
 }

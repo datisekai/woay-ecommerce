@@ -8,9 +8,10 @@ import { useRouter } from "next/router";
 
 const Navbar = () => {
     const { arrCategory } = useSelector((state) => state.category);
+    // render quá nhiều lần
     const { arrCollectionBlogs } = useSelector((state) => state.blogs);
     const router = useRouter();
-    console.log({ arrCollectionBlogs });
+    // console.log({ arrCollectionBlogs });
     const dispatch = useDispatch();
     useEffect(() => {
         // call api lấy categotry

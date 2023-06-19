@@ -1,12 +1,14 @@
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
+import { maxMinPrice } from "../../utils/maxMinPrice";
 
 export default function CardProduct({ item }) {
     console.log({ item });
     const [currentImg, setCurrentImg] = useState(item.ProductImages[0].src);
     const router = useRouter();
     const handleMouseEnter = () => {
-        setCurrentImg(item.ProductImages[1].src);
+        if (item.ProductImages.length !== 1)
+            setCurrentImg(item.ProductImages[1].src);
     };
 
     const handleMouseLeave = () => {
@@ -14,7 +16,8 @@ export default function CardProduct({ item }) {
     };
     // trong có item này thì có arr variants
     // sort arr variants
-    item.variants.sort((item) => item.price);
+    const maxMin = maxMinPrice(item.variants);
+    console.log({ maxMin });
     return (
         <div
             className=" mb-[30px] cursor-pointer"
@@ -45,17 +48,10 @@ export default function CardProduct({ item }) {
                 </h3>
                 <div className="giá flex justify-center">
                     <p className="text-[#ff0000] font-bold text-[14px]">
-                        {item.variants[0].price ===
-                        item.variants[item.variants.length - 1].price
-                            ? `${item.variants[0].price.toLocaleString(
-                                  "en-US"
-                              )}đ`
-                            : `${item.variants[0].price.toLocaleString(
-                                  "en-US"
-                              )}đ -
-                              ${item.variants[
-                                  item.variants.length - 1
-                              ]?.price.toLocaleString("en-US")}đ`}
+                        {maxMin[0] === maxMin[1]
+                            ? `${maxMin[0].toLocaleString("en-US")}đ`
+                            : `${maxMin[0].toLocaleString("en-US")}đ -
+                              ${maxMin[1].toLocaleString("en-US")}đ`}
                     </p>
                 </div>
             </div>

@@ -1,9 +1,11 @@
 import React from "react";
+import { useRouter } from "next/router";
 
 export default function Breadcrumbs({ nameCategory }) {
+    const router = useRouter();
     return (
         <div
-            className=" bre
+            className="
             w-full
             relative before:content-['']
             before:absolute
@@ -14,7 +16,7 @@ export default function Breadcrumbs({ nameCategory }) {
             before:bg-[#e5e7eb]
             mb-[20px]"
         >
-            <div className="container mx-auto">
+            <div className="container mx-auto px-[15px]">
                 <div className=" text-sm breadcrumbs">
                     <ul>
                         <li>

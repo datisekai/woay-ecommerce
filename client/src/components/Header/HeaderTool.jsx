@@ -96,6 +96,7 @@ const HeaderTool = () => {
                         <div className="avatar ">
                             <div className="w-12 rounded-full">
                                 <img
+                                    className="w-12 rounded-full"
                                     src={`https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=${
                                         user?.name ? user?.name : user?.email
                                     }`}

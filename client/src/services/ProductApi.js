@@ -15,6 +15,10 @@ const productApi = {
         });
         return res.data.data;
     },
+    getProductByslug: async ({ query }) => {
+        const res = await axiosClient.get(`/product/detail/${query.slug}`);
+        return res.data.data;
+    },
 };
 
 export default productApi;
