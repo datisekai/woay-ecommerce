@@ -1,7 +1,12 @@
 import Link from "next/link";
 import React from "react";
 import Navbar from "./Navbar";
-import HeaderTool from "./HeaderTool";
+
+import dynamic from "next/dynamic";
+const HeaderTool = dynamic(
+  () => import('./HeaderTool'),
+  { ssr: false }
+)
 
 const HeaderNavbar = ({ display = "none" }) => {
   return (

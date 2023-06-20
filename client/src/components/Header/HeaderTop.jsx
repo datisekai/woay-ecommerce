@@ -1,8 +1,11 @@
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import React from "react";
-import { CiSearch, CiShoppingCart } from "react-icons/ci";
-import { HiBars3 } from "react-icons/hi2";
-import HeaderTool from "./HeaderTool";
+
+const HeaderTool = dynamic(
+  () => import('./HeaderTool'),
+  { ssr: false }
+)
 
 const HeaderTop = () => {
   return (
