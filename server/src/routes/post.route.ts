@@ -21,5 +21,6 @@ router.put('/:id', isLogin, isAdmin, PostController.update)
 //delete post
 router.delete('/:id', isLogin, isAdmin, PostController.delete)
 
+router.get('/detail/:slug',PostController.getPostBySlug)
 
 export default router;

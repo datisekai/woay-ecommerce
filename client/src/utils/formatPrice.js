@@ -1,0 +1,1 @@
+export const formatPrice = (price) =>  price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });

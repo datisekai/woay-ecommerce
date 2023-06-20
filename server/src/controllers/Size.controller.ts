@@ -49,12 +49,12 @@ const SizeController = {
     try {
       const id = req.params.id;
 
-      const skuOfSize = await Variant.findAll({ where: { sizeId: id } });
+      const skuOfSize = await Variant.count({ where: { sizeId: id } });
 
       if (skuOfSize.length > 0) {
         return showError(
           res,
-          `There are ${skuOfSize.length} sku containing this size`
+          `There are ${skuOfSize.length} variant containing this size`
         );
       }
 
@@ -64,15 +64,17 @@ const SizeController = {
       return showInternal(res, error);
     }
   },
-  getAll:async(req:Request, res:Response) => {
+  getAll: async (req: Request, res: Response) => {
     try {
-        const sizes = await Size.findAll({where:{isDeleted:false}}); 
+      const sizes = await Size.findAll({
+        order: [["createdAt", "DESC"]],
+      });
 
-        return showSuccess(res, sizes)
+      return showSuccess(res, sizes);
     } catch (error) {
-        return showInternal(res, error)
+      return showInternal(res, error);
     }
-  }
+  },
 };
 
 export default SizeController;

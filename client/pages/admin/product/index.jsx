@@ -5,21 +5,74 @@ import { CiEdit } from "react-icons/ci";
 import Meta from "../../../src/components/Meta";
 import AdminLayout from "../../../src/components/layouts/AdminLayout";
 import Link from "next/link";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import productApi from "../../../src/services/ProductApi";
 import SpinnerCenter from "../../../src/components/loadings/SpinnerCenter";
 import PaginationAdmin from "../../../src/components/paginations/PaginationAdmin";
+import SearchAdmin from "../../../src/components/searchs/SearchAdmin";
+import swal from "sweetalert";
+import { toast } from "react-hot-toast";
+import { VscUnlock,VscLock } from "react-icons/vsc";
 
 const ProductAdmin = () => {
+  const queryClient = useQueryClient();
+
   const router = useRouter();
   const query = router.query;
+  const sort = router.query.sort || "createdAt-desc";
   const limit = 6;
   const { data, isLoading } = useQuery(["product", query], () =>
-    productApi.getAllAdmin({ ...query, limit })
+    productApi.getAllAdmin({ ...query, limit, sort })
   );
 
-  console.log(data);
+  const dataSearch = [
+    {
+      value: "name",
+      name: "Tên, mô tả",
+    },
+  ];
+
+  const { mutate } = useMutation(productApi.update, {
+    onSuccess: (id, variables) => {
+      const newRows = data.rows.map((item) =>
+        item.id === variables.id ? { ...item, ...variables.data } : item
+      );
+      queryClient.setQueryData(["product", query], { ...data, rows: newRows });
+      toast.success(`${variables.isDeleted ? 'Xóa' : 'Mở khóa'} sản phẩm thành công`);
+    },
+    onError: (error) => {
+      console.log(error);
+      error && error.message && toast.error(error.message);
+    },
+  });
+
+  const handleDelete = (id) => {
+    swal({
+      title: "Are you sure?",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then((willDelete) => {
+      if (willDelete) {
+        mutate({ id, data: { isDeleted: true } });
+      }
+    });
+  };
+
+  const handleUnlock = (id) => {
+    swal({
+      title: "Are you sure?",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then((willDelete) => {
+      if (willDelete) {
+        mutate({ id, data: { isDeleted: false } });
+      }
+    });
+  }
+
   return (
     <>
       <Meta title={"Quản lý sản phẩm | MISSOUT"} description="" />
@@ -37,23 +90,7 @@ const ProductAdmin = () => {
           </div>
         </div>
 
-        <div className="join mt-2">
-          <div>
-            <div>
-              <input
-                className="input input-bordered join-item"
-                placeholder="Tìm kiếm người dùng..."
-              />
-            </div>
-          </div>
-          <select className="select select-bordered join-item">
-            <option>Tên</option>
-            <option>Email</option>
-          </select>
-          <div className="indicator">
-            <button className="btn join-item">Tìm kiếm</button>
-          </div>
-        </div>
+        <SearchAdmin data={dataSearch} />
         <div className="mt-4 bg-base-200 p-4 rounded">
           <div className="overflow-x-auto min-h-[100px] relative">
             {!isLoading ? (
@@ -66,6 +103,7 @@ const ProductAdmin = () => {
                     <th>Tên</th>
                     <th>Danh mục</th>
                     <th>Số biến thể</th>
+                    <th>Trạng thái</th>
                     <th>Hành động</th>
                   </tr>
                 </thead>
@@ -77,14 +115,30 @@ const ProductAdmin = () => {
                       <td>{item.name}</td>
                       <td>{item.Category.name}</td>
                       <td>{item.variants.length} biến thể</td>
+                      <td>{item.isDeleted ? "Đã xóa" : "Hoạt động"}</td>
                       <td>
                         <div className="flex gap-2 ">
-                          <button className="btn btn-circle btn-warning">
-                            <CiEdit className="text-2xl" />
-                          </button>
-                          <button className="btn btn-circle btn-error">
-                            <AiOutlineDelete className="text-xl" />
-                          </button>
+                          <Link href={`/admin/product/${item.slug}`}>
+                            {" "}
+                            <button className="btn btn-circle btn-warning">
+                              <CiEdit className="text-2xl" />
+                            </button>
+                          </Link>
+                          {item.isDeleted ? (
+                            <button
+                              onClick={() => handleUnlock(item.id)}
+                              className="btn btn-circle btn-success"
+                            >
+                              <VscUnlock className="text-xl" />
+                            </button>
+                          ) : (
+                            <button
+                              onClick={() => handleDelete(item.id)}
+                              className="btn btn-circle btn-error"
+                            >
+                              <VscLock className="text-xl" />
+                            </button>
+                          )}
                         </div>
                       </td>
                     </tr>

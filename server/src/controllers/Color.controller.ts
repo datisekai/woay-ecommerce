@@ -51,10 +51,10 @@ const ColorController = {
 
       const skuOfColor = await Variant.count({ where: { colorId: id } });
 
-      if (skuOfColor.length > 0) {
+      if (skuOfColor > 0) {
         return showError(
           res,
-          `There are ${skuOfColor} sku containing this color`
+          `There are ${skuOfColor} variant containing this color`
         );
       }
 
@@ -66,7 +66,7 @@ const ColorController = {
   },
   getAll: async (req: Request, res: Response) => {
     try {
-      const colors = await Color.findAll({ where: { isDeleted: false } });
+      const colors = await Color.findAll({ order:[['createdAt','DESC']] });
 
       return showSuccess(res, colors);
     } catch (error) {

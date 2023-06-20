@@ -10,8 +10,11 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { logout, setUser } from "../../redux/slices/UserSlice";
 import AuthApi from "../../services/AuthApi";
+import { useLocalStorage } from "usehooks-ts";
 
 const HeaderTool = () => {
+    const [cart, setCart] = useLocalStorage("cart", []);
+
     const heightLiChild = 28;
     const [showChild, setShowChild] = useState(false);
     const [query, setQuery] = useState("");
@@ -33,6 +36,7 @@ const HeaderTool = () => {
         e.preventDefault();
         router.push(`/search?name=${query}`);
     };
+
     return (
         <div className="flex items-center gap-2 flex-1 justify-end">
             <div className="hover:cursor-pointer">
@@ -85,16 +89,19 @@ const HeaderTool = () => {
                     </div>
                 </div>
             </div>
-            <div className="flex items-center hover:cursor-pointer">
-                <CiShoppingCart className="text-2xl md:text-3xl" />
-                <span className="text-xs font-bold">(2)</span>
-            </div>
+            <Link href={"/cart"}>
+                {" "}
+                <div className="flex items-center hover:cursor-pointer">
+                    <CiShoppingCart className="text-2xl md:text-3xl" />
+                    {/* <span className="text-xs font-bold">{`(${cart.length})`}</span> */}
+                </div>
+            </Link>
 
             {user !== undefined ? (
                 <div className="dropdown dropdown-bottom dropdown-end">
                     <label tabIndex={0} className="cursor-pointer">
                         <div className="avatar ">
-                            <div className="">
+                            <div className="w-12 rounded-full">
                                 <img
                                     className="w-12 rounded-full"
                                     src={`https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=${

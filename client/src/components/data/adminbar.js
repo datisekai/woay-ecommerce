@@ -3,10 +3,11 @@ import {LuUsers} from 'react-icons/lu'
 import {MdOutlineCategory,MdOutlineProductionQuantityLimits} from 'react-icons/md'
 import {BiCategory} from 'react-icons/bi'
 import {BsFillFilePostFill,BsCartCheck} from 'react-icons/bs'
+import {CgUiKit} from 'react-icons/cg'
 
 const adminbars = [
   {
-    url: "",
+    url: "/",
     title: "Dashboard",
     icon:AiOutlineDashboard
   },
@@ -24,6 +25,11 @@ const adminbars = [
     url: "/product",
     title: "Quản lý sản phẩm",
     icon:MdOutlineProductionQuantityLimits
+  },
+  {
+    url: "/attribute",
+    title: "Quản lý thuộc tính",
+    icon:CgUiKit
   },
   {
     url: "/blog",

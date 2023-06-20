@@ -1,6 +1,6 @@
 import React from "react";
-import BlogsApi from "../../../src/services/BlogsApi";
-import MainLayout from "../../../src/components/layouts/MainLayout";
+import BlogsApi from "../../src/services/BlogsApi";
+import MainLayout from "../../src/components/layouts/MainLayout";
 
 export default function detailPost({ itemPost }) {
     return (

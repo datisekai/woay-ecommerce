@@ -4,11 +4,18 @@ import { useSelector } from "react-redux";
 import { FaPlus } from "react-icons/fa";
 import DiaChi from "../src/components/DiaChi/DiaChi";
 import AuthApi from "../src/services/AuthApi";
+import { useQuery } from "@tanstack/react-query";
 
-export default function profile({ arrAddress }) {
-    console.log({ arrAddress });
+export default function profile() {
+    const { data, isLoading } = useQuery(["info"], AuthApi.getAllMyInfo);
+    console.log({ data });
     const { user } = useSelector((state) => state.user);
     const [isHoSo, setIsHoSo] = useState(true);
+    const [currentUpdate, setCurrentUpdate] = useState({
+        isDisplay: false,
+        data: {},
+    });
+
     return (
         <MainLayout>
             <div className="container mx-auto px-[15px] my-[50px]">
@@ -155,9 +162,11 @@ export default function profile({ arrAddress }) {
                                     Địa chỉ
                                 </h3>
                                 <div className="list_DiaChi my-[24px]">
-                                    <DiaChi />
-                                    <DiaChi />
-                                    <DiaChi />
+                                    {data?.map((item, index) => {
+                                        return (
+                                            <DiaChi key={index} item={item} />
+                                        );
+                                    })}
                                 </div>
                             </div>
                         </div>
@@ -169,8 +178,6 @@ export default function profile({ arrAddress }) {
 }
 
 export const getServerSideProps = async () => {
-    const arrAddress = await AuthApi.getAllMyInfo();
-
     // call api lấy về mảng item prroduct
-    return { props: { arrAddress } };
+    return { props: {} };
 };

@@ -52,7 +52,7 @@ const AuthApi = {
 
     getAllMyInfo: async () => {
         let res = await axiosClient.get("/info");
-        return res.data;
+        return res.data.data;
     },
 };
 
