@@ -12,6 +12,10 @@ const OrderApi = {
     add:async(data) => {
         const result = await axiosClient.post('/order',data)
         return result.data.data
+    },
+    getMyOrder:async(query) => {
+        const result = await axiosClient.get('/order/me',{params:query})
+        return result.data.data
     }
 }
 

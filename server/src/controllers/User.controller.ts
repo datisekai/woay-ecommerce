@@ -307,6 +307,7 @@ const UserController = {
       return showInternal(res, error);
     }
   },
+ 
 };
 
 export default UserController;
