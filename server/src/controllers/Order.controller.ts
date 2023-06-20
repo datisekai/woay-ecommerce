@@ -43,8 +43,25 @@ const OrderController = {
 
       const orders = await Order.findAndCountAll({
         where: { userId: req.userId },
-        include: [{ model: OrderDetail, include:[{model:Variant, include:[{model:Product},{model:Color},{model:Size}]}] }, { model: Info }],
+        include: [
+          {
+            model: OrderDetail,
+            include: [
+              {
+                model: Variant,
+                include: [
+                  { model: Product },
+                  { model: Color },
+                  { model: Size },
+                ],
+              },
+            ],
+          },
+          { model: Info },
+        ],
         offset,
+        order: [["createdAt", "DESC"]],
+        distinct:true
       });
 
       return showSuccess(res, { ...orders, offset, limit, page });
@@ -80,7 +97,23 @@ const OrderController = {
         where,
         order: [["createdAt", "DESC"]],
         offset,
-        include: [{ model: OrderDetail, include:[{model:Variant, include:[{model:Product},{model:Color},{model:Size}]}] }, { model: Info }],
+        include: [
+          {
+            model: OrderDetail,
+            include: [
+              {
+                model: Variant,
+                include: [
+                  { model: Product },
+                  { model: Color },
+                  { model: Size },
+                ],
+              },
+            ],
+          },
+          { model: Info },
+        ],
+        distinct:true
       });
 
       return showSuccess(res, { ...orders, limit, page, offset });
@@ -104,8 +137,14 @@ const OrderController = {
       });
 
       if (variants.length > 0) {
-        const listVariants = variants.map((item:any, index:number) => ({...item.dataValues, quantity:value.variants[index].quantity}))
-        const total = listVariants.reduce((pre:any, cur:any) => pre + cur.price * cur.quantity, 0);
+        const listVariants = variants.map((item: any, index: number) => ({
+          ...item.dataValues,
+          quantity: value.variants[index].quantity,
+        }));
+        const total = listVariants.reduce(
+          (pre: any, cur: any) => pre + cur.price * cur.quantity,
+          0
+        );
 
         const order = await Order.create({
           userId,
@@ -114,11 +153,11 @@ const OrderController = {
         });
 
         await OrderDetail.bulkCreate(
-            listVariants.map((variant: any, index: number) => ({
+          listVariants.map((variant: any, index: number) => ({
             orderId: order.id,
             price: variant.price,
             quantity: variant.quantity,
-            variantId:variant.id
+            variantId: variant.id,
           }))
         );
 
@@ -162,7 +201,11 @@ const OrderController = {
           );
         }
         await Order.update(
-          { status: value.status, updatedAt: Date.now(), employeeId:req.userId },
+          {
+            status: value.status,
+            updatedAt: Date.now(),
+            employeeId: req.userId,
+          },
           { where: { id } }
         );
 
