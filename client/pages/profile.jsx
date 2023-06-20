@@ -1,21 +1,58 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import MainLayout from "../src/components/layouts/MainLayout";
 import { useSelector } from "react-redux";
 import { FaPlus } from "react-icons/fa";
 import DiaChi from "../src/components/DiaChi/DiaChi";
 import AuthApi from "../src/services/AuthApi";
 import { useQuery } from "@tanstack/react-query";
+import DatePicker from "react-datepicker";
+import { registerLocale, setDefaultLocale } from "react-datepicker";
+import dayjs from "dayjs";
+import vi from "date-fns/locale/vi";
+import { ErrorMessage, Field, Form, Formik, useFormik } from "formik";
+import * as Yup from "yup";
 
 export default function profile() {
     const { data, isLoading } = useQuery(["info"], AuthApi.getAllMyInfo);
-    console.log({ data });
+
+    const [startDate, setStartDate] = useState(new Date());
     const { user } = useSelector((state) => state.user);
+    const innerRef = useRef(null);
+    useEffect(() => {
+        if (user) {
+            setStartDate(new Date(user.date));
+            innerRef.current.setFieldValue("name", user.name || "");
+            innerRef.current.setFieldValue("phone", user.phone || "");
+        }
+    }, [user]);
+
+    console.log({ user });
+
     const [isHoSo, setIsHoSo] = useState(true);
     const [currentUpdate, setCurrentUpdate] = useState({
         isDisplay: false,
         data: {},
     });
+    registerLocale("vi", vi);
 
+    const initialValues = {
+        name: user?.name,
+        phone: user?.phone,
+    };
+    const validationSchema = Yup.object({
+        name: Yup.string().required(),
+        phone: Yup.string()
+            .matches(/^\\d{10,11}$/, "Phone invalid format")
+            .required(),
+    });
+    const handleSubmit = (values) => {
+        const data = {
+            ...values,
+            date: dayjs(startDate).format("YYYY-MM-DD"),
+        };
+        console.log(data);
+        console.log(AuthApi.putMyInfo(data));
+    };
     return (
         <MainLayout>
             <div className="container mx-auto px-[15px] my-[50px]">
@@ -78,65 +115,93 @@ export default function profile() {
                                 </p>
                             </div>
                             <div className="lg:px-[40px] lg:py-[20px]">
-                                <form action="">
-                                    <div className=" flex lg:gap-4">
-                                        <div className="div flex flex-col gap-2 lg:px-[16px] w-[100px]">
-                                            <p className="h-12 flex items-center justify-end">
+                                <Formik
+                                    initialValues={initialValues}
+                                    validationSchema={validationSchema}
+                                    onSubmit={handleSubmit}
+                                    innerRef={innerRef}
+                                    className="div flex flex-col gap-2
+                                            pl-[8px] lg:px-[16px]"
+                                >
+                                    <Form className="flex flex-col gap-2 lg:px-[16px]">
+                                        <div className="flex gap-4">
+                                            <label
+                                                htmlFor=""
+                                                className="w-[110px] flex items-center justify-end"
+                                            >
                                                 Email
-                                            </p>
-                                            <p className="h-12 flex items-center justify-end">
-                                                Tên
-                                            </p>
-                                            <p className="h-12 flex items-center justify-end w-full">
-                                                Số điện thoại
-                                            </p>
-                                            <p className="h-12 flex items-center justify-end">
-                                                Ngày sinh
-                                            </p>
-                                        </div>
-                                        <div className="div flex flex-col gap-2 pl-[8px] lg:px-[16px]">
-                                            <span className="h-12 flex items-center justify-start">
-                                                {user?.email
-                                                    ? user?.email
-                                                    : "thanhnhsail.com"}
-                                            </span>
+                                            </label>
                                             <input
-                                                className="input input-bordered w-full max-w-xs"
+                                                className="h-12 flex items-center justify-start"
                                                 type="text"
-                                                name="name"
-                                                defaultValue={
-                                                    user?.name
-                                                        ? user?.name
-                                                        : "thanh nha"
-                                                }
+                                                defaultValue={user?.email}
+                                                readOnly
                                             />
-                                            <input
+                                        </div>
+                                        <div className="flex gap-4">
+                                            <label
+                                                htmlFor=""
+                                                className="w-[110px] flex items-center justify-end"
+                                            >
+                                                Tên
+                                            </label>
+                                            <Field
+                                                className="input input-bordered w-full max-w-xs"
+                                                name="name"
+                                                type="text"
+                                            />
+                                            <ErrorMessage
+                                                name="name"
+                                                component="div"
+                                                className="text-error"
+                                            />
+                                        </div>
+                                        <div className="flex gap-4">
+                                            <label
+                                                htmlFor=""
+                                                className="w-[110px] flex items-center justify-end"
+                                            >
+                                                Số điện thoại
+                                            </label>
+                                            <Field
                                                 className="input input-bordered w-full max-w-xs"
                                                 type="text"
                                                 name="phone"
-                                                defaultValue={
-                                                    user?.phone
-                                                        ? user?.phone
-                                                        : "0909093452"
-                                                }
                                             />
-                                            {/* format type date yyyy-mm-dd */}
-                                            <input
-                                                className="input input-bordered w-full max-w-xs"
-                                                type="dates"
-                                                name="ngaySinh"
-                                                defaultValue={
-                                                    user?.ngaySinh
-                                                        ? user?.ngaySinh
-                                                        : "1999-08-16"
-                                                }
+                                            <ErrorMessage
+                                                name="phone"
+                                                component="div"
+                                                className="text-error"
                                             />
-                                            <button className="btn btn-outline btn-primary mt-[16px] ">
-                                                Lưu
-                                            </button>
                                         </div>
-                                    </div>
-                                </form>
+
+                                        <div className="flex gap-4">
+                                            <label
+                                                htmlFor=""
+                                                className="w-[110px] flex items-center justify-end"
+                                            >
+                                                Ngày sinh
+                                            </label>
+                                            <DatePicker
+                                                locale={"vi"}
+                                                className="input input-bordered"
+                                                selected={startDate}
+                                                value={startDate}
+                                                onChange={(date) =>
+                                                    setStartDate(date)
+                                                }
+                                                placeholderText="Ngày sinh"
+                                            />
+                                        </div>
+
+                                        <button
+                                            type="submit"
+                                            className="btn btn-outline btn-primary mt-[16px] w-[50%]"
+                                        >
+                                            Lưu
+                                        </button>
+                                    </Form>
+                                </Formik>
                             </div>
                         </div>
                         <div

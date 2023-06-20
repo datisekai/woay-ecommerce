@@ -1,7 +1,7 @@
 import "../styles/globals.css";
 import NextNProgress from "nextjs-progressbar";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-
+import "react-datepicker/dist/react-datepicker.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Provider } from "react-redux";
 import { store } from "../src/redux/store";

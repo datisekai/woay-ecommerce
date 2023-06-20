@@ -54,6 +54,17 @@ const AuthApi = {
         let res = await axiosClient.get("/info");
         return res.data.data;
     },
+    putMyInfo: async (data) => {
+        console.log({ data });
+
+        try {
+            let res = await axiosClient.put(`/user`, data);
+
+            console.log(res.data);
+        } catch (e) {
+            console.log(e);
+        }
+    },
 };
 
 export default AuthApi;
