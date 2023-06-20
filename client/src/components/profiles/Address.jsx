@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import React, { useState } from "react";
 import { FaPlus } from "react-icons/fa";
 import AuthApi from "../../services/AuthApi";
@@ -8,6 +8,7 @@ import InfoApi from "../../services/InfoApi";
 import ModalUpdateProfile from "../modals/ModalUpdateProfile";
 import { toast } from "react-hot-toast";
 import swal from "sweetalert";
+import SpinnerCenter from "../loadings/SpinnerCenter";
 
 const Address = () => {
   const { data, isLoading } = useQuery(["userInfo"], InfoApi.getAll);
@@ -15,6 +16,8 @@ const Address = () => {
     isDisplay: false,
     data: {},
   });
+
+  const queryClient = useQueryClient();
 
   const { mutate, isLoading: isLoadingDefault } = useMutation(
     InfoApi.setDefault,
@@ -30,12 +33,6 @@ const Address = () => {
         );
 
         toast.success("Thiết lập thành công");
-
-        //Tắt modal
-        handleHidden();
-
-        //Reset form
-        formikRef.current.resetForm();
       },
       onError: (error) => {
         console.log(error);
@@ -58,7 +55,6 @@ const Address = () => {
     });
   };
 
-  console.log(data);
   return (
     <div>
       <div
@@ -79,20 +75,24 @@ const Address = () => {
         className="
                     pt-[24px]"
       >
-        <div className="list_DiaChi my-[24px] space-y-2">
-          {data?.map((item, index) => {
-            return (
-              <DiaChi
-                handleSetDefault={handleSetDefault}
-                isLoadingDefault={isLoadingDefault}
-                handleUpdate={() =>
-                  setCurrentUpdate({ isDisplay: true, data: item })
-                }
-                key={index}
-                item={item}
-              />
-            );
-          })}
+        <div className="list_DiaChi my-[24px] space-y-2 relative">
+          {!isLoading ? (
+            data?.map((item, index) => {
+              return (
+                <DiaChi
+                  handleSetDefault={() => handleSetDefault(item.id)}
+                  isLoadingDefault={isLoadingDefault}
+                  handleUpdate={() =>
+                    setCurrentUpdate({ isDisplay: true, data: item })
+                  }
+                  key={index}
+                  item={item}
+                />
+              );
+            })
+          ) : (
+            <SpinnerCenter />
+          )}
         </div>
       </div>
       <ModalUpdateProfile
