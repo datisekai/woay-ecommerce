@@ -1,7 +1,7 @@
 import React from "react";
 import { useRouter } from "next/router";
 
-export default function Breadcrumbs({ nameCategory }) {
+export default function Breadcrumbs({ nameCategory, danhMuc }) {
     const router = useRouter();
     return (
         <div
@@ -14,9 +14,9 @@ export default function Breadcrumbs({ nameCategory }) {
             before:w-full
             before:h-[1px]
             before:bg-[#e5e7eb]
-            mb-[20px]"
+            "
         >
-            <div className="container mx-auto px-[15px]">
+            <div className="md:max-w-[768px] lg:max-w-[1024px] mx-auto px-[15px] mb-[15px] md:mb-[30px]">
                 <div className=" text-sm breadcrumbs">
                     <ul>
                         <li>
@@ -28,15 +28,17 @@ export default function Breadcrumbs({ nameCategory }) {
                                 Trang chủ
                             </a>
                         </li>
-                        <li>
-                            <a
-                                onClick={() => {
-                                    router.push("/collections/all");
-                                }}
-                            >
-                                Danh mục
-                            </a>
-                        </li>
+                        {danhMuc ? (
+                            <li>
+                                <a
+                                    onClick={() => {
+                                        router.push("/collections/all");
+                                    }}
+                                >
+                                    {danhMuc}
+                                </a>
+                            </li>
+                        ) : null}
                         <li className="uppercase">
                             {nameCategory ? nameCategory : "Tất cả sản phẩm"}
                         </li>
