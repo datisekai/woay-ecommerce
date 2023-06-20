@@ -45,8 +45,7 @@ const UserController = {
     const page = req.query.page || 1;
     const offset = (+page - 1) * +limit;
 
-    const where: any = {
-    };
+    const where: any = {};
 
     if (req.query.name) {
       where.name = {
@@ -280,12 +279,12 @@ const UserController = {
         value.password = hashPassword;
       }
 
-      if(value.date){
-        value.date = new Date(value.date)
+      if (value.date) {
+        value.date = new Date(value.date);
       }
 
       await User.update(value, {
-        where: id,
+        where: { id },
       });
 
       return showSuccess(res);
