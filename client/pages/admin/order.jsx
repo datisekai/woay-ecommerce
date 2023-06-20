@@ -14,7 +14,6 @@ import dayjs from "dayjs";
 import DatePicker from "react-datepicker";
 import { registerLocale, setDefaultLocale } from "react-datepicker";
 import vi from "date-fns/locale/vi";
-import Link from "next/link";
 import { GoEye } from "react-icons/go";
 import ModalUpdateOrder from "../../src/components/modals/ModalUpdateOrder";
 import ModalViewOrder from "../../src/components/modals/ModalViewOrder";

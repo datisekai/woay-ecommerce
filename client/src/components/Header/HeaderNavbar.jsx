@@ -21,7 +21,7 @@ const HeaderNavbar = ({ display = "none" }) => {
           </Link>
         </div>
         <Navbar />
-        <HeaderTool />
+        <HeaderTool/>
       </div>
     </div>
   );

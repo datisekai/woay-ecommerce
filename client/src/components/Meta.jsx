@@ -17,12 +17,12 @@ const Meta = ({
       <meta property="og:type" content="website" />
       <meta property="og:title" content={title} />
       <meta property="og:description" content={description} />
-      {image && <meta property="og:image" content={image} />}
+      <meta property="og:image" content={image || 'logo.jpg'} />
 
       <meta property="twitter:card" content="summary_large_image" />
       <meta property="twitter:title" content={title} />
       <meta property="twitter:description" content={description} />
-      {image && <meta property="twitter:image" content={image} />}
+      <meta property="twitter:image" content={image || 'logo.jpg'} />
     </Head>
   );
 };

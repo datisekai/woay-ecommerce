@@ -9,6 +9,7 @@ import productApi from "../../src/services/ProductApi";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/router";
 import Meta from "../../src/components/Meta";
+import Rate from "../../src/components/rates/Rate";
 
 export default function product({ itemProduct }) {
   const { ProductImages, colors, sizes, productRecommends, variants } =
@@ -179,89 +180,7 @@ export default function product({ itemProduct }) {
             </div>
           </div>
           {/* ĐÁNH GIÁ SẢN PHẨM */}
-          <div className="danhGiaSanPham mt-[50px]">
-            <h2 className="uppercase">ĐÁNH GIÁ SẢN PHẨM</h2>
-            <div>
-              <div>
-                5.0 trên 5
-                <div className="rating">
-                  <input
-                    type="radio"
-                    name="rating-2"
-                    className="mask mask-star-2 bg-orange-400"
-                  />
-                  <input
-                    type="radio"
-                    name="rating-2"
-                    className="mask mask-star-2 bg-orange-400"
-                  />
-                  <input
-                    type="radio"
-                    name="rating-2"
-                    className="mask mask-star-2 bg-orange-400"
-                  />
-                  <input
-                    type="radio"
-                    name="rating-2"
-                    className="mask mask-star-2 bg-orange-400"
-                    defaultChecked
-                  />
-                  <input
-                    type="radio"
-                    name="rating-2"
-                    className="mask mask-star-2 bg-orange-400"
-                  />
-                </div>
-              </div>
-              <div className=" flex gap-4">
-                <div className="w-12 h-12 ">
-                  <img
-                    src={`https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=${
-                      user?.name ? user?.name : user?.email
-                    }`}
-                    className="rounded-full"
-                    alt="avatar"
-                  />
-                </div>
-                <div className="">
-                  <h3>Name user</h3>
-                  <div className="">
-                    <div className="rating">
-                      <input
-                        type="radio"
-                        name="rating-2"
-                        className="mask mask-star-2 bg-orange-400"
-                      />
-                      <input
-                        type="radio"
-                        name="rating-2"
-                        className="mask mask-star-2 bg-orange-400"
-                      />
-                      <input
-                        type="radio"
-                        name="rating-2"
-                        className="mask mask-star-2 bg-orange-400"
-                      />
-                      <input
-                        type="radio"
-                        name="rating-2"
-                        className="mask mask-star-2 bg-orange-400"
-                        defaultChecked
-                      />
-                      <input
-                        type="radio"
-                        name="rating-2"
-                        className="mask mask-star-2 bg-orange-400"
-                      />
-                    </div>
-                  </div>
-                  <p>thời gián | phân loại hàng hóa</p>
-                  <p>discription</p>
-                  <div>arr img nếu có</div>
-                </div>
-              </div>
-            </div>
-          </div>
+          <Rate productId={itemProduct.id}/>
           <div className="sanPhamLienQuan">
             <h1 className="text-center font-bold text-3xl my-[60px] py-[15px] relative before:absolute before:bottom-0 before:left-[50%] before:translate-x-[-50%] before:w-[65px] before:h-[1px] before:bg-[#000]">
               Sản phẩm liên quan
