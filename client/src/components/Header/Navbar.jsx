@@ -81,7 +81,7 @@ const Navbar = () => {
                     </ul>
                 </div>
 
-                <Link href={"/about"}>
+                <Link href={"/lien_he"}>
                     <li className="flex hover:cursor-pointer slip-left-to-right relative pb-2 items-end uppercase font-bold">
                         Liên hệ
                     </li>

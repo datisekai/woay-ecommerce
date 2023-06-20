@@ -1,22 +1,37 @@
-import axios from "axios";
 import CardProduct from "../src/components/cards/CardProduct";
+import CardPosts from "../src/components/cards/CardPosts";
 import CarouselHomePages from "../src/components/Carousel/CarouselHomePages";
 import MainLayout from "../src/components/layouts/MainLayout";
 import productApi from "../src/services/ProductApi";
+import PostApi from "../src/services/PostApi";
 
-export default function Home({ arrProduct }) {
+export default function Home({ arrData }) {
+    const [arrProduct, arrPosts] = arrData;
+    console.log({ arrPosts });
     return (
         <MainLayout>
             <CarouselHomePages />
             {/* render các cardProduct */}
-            <div className="container mx-auto mt-[30px]">
-                <h2 className="uppercase text-center font-bold p-4 text-2xl">
-                    Sản phẩm mới
-                </h2>
-                <div className=" mb-6 px-4 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
-                    {arrProduct.map((item, index) => {
-                        return <CardProduct key={index} item={item} />;
-                    })}
+            <div className="container mx-auto">
+                <div className=" mt-[30px]">
+                    <h2 className="uppercase text-center font-bold p-4 text-2xl">
+                        Sản phẩm mới
+                    </h2>
+                    <div className=" mb-6 px-4 grid grid-cols-2 gap-4 md:grid-cols-3 ">
+                        {arrProduct.map((item, index) => {
+                            return <CardProduct key={index} item={item} />;
+                        })}
+                    </div>
+                </div>
+                <div>
+                    <h2 className="uppercase text-center font-bold p-4 text-2xl mb-[30px]">
+                        BÀI VIẾT MỚI NHẤT
+                    </h2>
+                    <div className=" mb-6 px-4 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 ">
+                        {arrPosts.rows.map((item, index) => {
+                            return <CardPosts key={index} item={item} />;
+                        })}
+                    </div>
                 </div>
             </div>
         </MainLayout>
@@ -24,8 +39,11 @@ export default function Home({ arrProduct }) {
 }
 
 export const getServerSideProps = async () => {
-    const arrProduct = await productApi.allProduct();
+    const arrData = await Promise.all([
+        productApi.allProduct(),
+        PostApi.getSearchPosts({ limit: 3 }),
+    ]);
 
     // call api lấy về mảng item prroduct
-    return { props: { arrProduct } };
+    return { props: { arrData } };
 };

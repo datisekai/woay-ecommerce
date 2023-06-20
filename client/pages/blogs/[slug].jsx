@@ -11,11 +11,11 @@ export default function blogsSlug({ arrBlogs }) {
         <MainLayout>
             <Breadcrumbs nameCategory={blog.title} />
 
-            <div className="container mx-auto px-[15px]">
+            <div className="md:max-w-[768px] lg:max-w-[1024px] mx-auto px-[15px] mb-[30px]">
                 <h1 className="text-2xl font-bold text-center mb-[30px] pb-[15px] relative before:absolute before:bottom-0 before:left-[50%] before:translate-x-[-50%] before:w-[65px] before:h-[1px] before:bg-[#000]">
                     {blog.title}
                 </h1>
-                <div className="">
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                     {rows.map((item, index) => {
                         return <CardPosts key={index} item={item} />;
                     })}
