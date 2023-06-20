@@ -16,7 +16,7 @@ const ModalAddRate = ({ elementClick, productId }) => {
   const [images, setImages] = useState({ files: null, preview: [] });
 
   const formikRef = useRef(null);
-    const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
 
   const { mutate } = useMutation(RateApi.add, {
     onSuccess: (data, variables) => {
@@ -24,7 +24,7 @@ const ModalAddRate = ({ elementClick, productId }) => {
       queryClient.setQueryData(["rate", productId], [data.data, ...oldRates]);
       toast.success("Tạo đánh giá thành công");
 
-      setIsLoading(false)
+      setIsLoading(false);
       //Tắt modal
       checkRef.current.click();
 
@@ -33,7 +33,7 @@ const ModalAddRate = ({ elementClick, productId }) => {
     },
     onError: (error) => {
       console.log(error);
-      setIsLoading(false)
+      setIsLoading(false);
       error && error.message && toast.error(error.message);
     },
   });
@@ -54,10 +54,12 @@ const ModalAddRate = ({ elementClick, productId }) => {
     star: Yup.number().min(1).max(5),
   });
 
-  const handleSubmit = async(values, { setSubmitting }) => {
-    setIsLoading(true)
-    const cloudImages = await Promise.all(Array.from(images.files).map(item => uploadCloudinary(item)))
-    mutate({productId, data:{...values, images:cloudImages}});
+  const handleSubmit = async (values, { setSubmitting }) => {
+    setIsLoading(true);
+    const cloudImages = await Promise.all(
+      Array.from(images.files).map((item) => uploadCloudinary(item))
+    );
+    mutate({ productId, data: { ...values, images: cloudImages } });
   };
   return (
     <>
@@ -65,7 +67,7 @@ const ModalAddRate = ({ elementClick, productId }) => {
 
       <input type="checkbox" id="my_modal_size" className="modal-toggle" />
       <div className="modal">
-        <div className="modal-box relative">
+        <div className="modal-box">
           <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}
@@ -197,7 +199,6 @@ const ModalAddRate = ({ elementClick, productId }) => {
               </div>
             )}
           </Formik>
-                        
         </div>
       </div>
     </>

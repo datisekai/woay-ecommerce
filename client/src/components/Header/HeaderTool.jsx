@@ -22,7 +22,6 @@ const HeaderTool = () => {
     const dispatch = useDispatch();
     const router = useRouter();
 
-    const toolAvatarRef = useRef(null)
 
     const getUser = async () => {
         let res = await AuthApi.getMyInfo();
@@ -102,7 +101,7 @@ const HeaderTool = () => {
 
             {user !== undefined ? (
                 <div className="dropdown dropdown-bottom dropdown-end">
-                    <label onClick={() => toolAvatarRef.current.focus()} tabIndex={0} className="cursor-pointer">
+                    <label tabIndex={0} className="cursor-pointer">
                         <div className="avatar ">
                             <div className="w-12 rounded-full">
                                 <img
@@ -115,7 +114,7 @@ const HeaderTool = () => {
                         </div>
                     </label>
                     <ul
-                    ref={toolAvatarRef} 
+                    tabIndex={0}
                         className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 z-10"
                     >
                         <li className={user?.role === "user" ? "hidden" : null}>
