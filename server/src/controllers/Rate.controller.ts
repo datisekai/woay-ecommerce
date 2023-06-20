@@ -34,6 +34,7 @@ const RateController = {
       const rates = await Rate.findAll({
         where: { productId: productId },
         include: [{ model: RateImage },{model:User, attributes:['id','name','email']}],
+        sort:[['createdAt', 'DESC']]
       });
 
       return showSuccess(res, rates);

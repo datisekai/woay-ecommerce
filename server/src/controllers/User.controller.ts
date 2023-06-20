@@ -280,6 +280,10 @@ const UserController = {
         value.password = hashPassword;
       }
 
+      if(value.date){
+        value.date = new Date(value.date)
+      }
+
       await User.update(value, {
         where: id,
       });
