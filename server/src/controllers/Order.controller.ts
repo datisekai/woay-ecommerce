@@ -121,6 +121,14 @@ const OrderController = {
             variantId:variant.id
           }))
         );
+        await Promise.all(
+          listVariants.map((item: any) =>
+            Variant.decrement("quantity", {
+              by: item.quantity,
+              where: { id: item.id },
+            })
+          )
+        );
 
         return showSuccess(res, order);
       }
@@ -146,7 +154,7 @@ const OrderController = {
       }
 
       if (value.status) {
-        if (value.status == "2" && currentOrder.status == "1") {
+        if (value.status == "0") {
           //giao thành công
           const variants = currentOrder.OrderDetails.map((item: any) => ({
             id: item.variantId,
@@ -154,7 +162,7 @@ const OrderController = {
           }));
           await Promise.all(
             variants.map((item: any) =>
-              Variant.decrement("quantity", {
+              Variant.increment("quantity", {
                 by: item.quantity,
                 where: { id: item.id },
               })
