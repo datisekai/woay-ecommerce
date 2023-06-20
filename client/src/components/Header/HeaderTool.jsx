@@ -83,7 +83,7 @@ const HeaderTool = () => {
         {" "}
         <div className="flex items-center hover:cursor-pointer">
           <CiShoppingCart className="text-2xl md:text-3xl" />
-          <span className="text-xs font-bold">{`${cart.length}`}</span>
+          <span className="text-xs font-bold">{`(${cart.length})`}</span>
         </div>
       </Link>
 

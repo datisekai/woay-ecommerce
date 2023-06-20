@@ -2,6 +2,7 @@ import { useFormik } from "formik";
 import React from "react";
 import * as Yup from "yup";
 import AuthApi from "../src/services/AuthApi";
+import Meta from "../src/components/Meta";
 
 export default function register() {
     const formik = useFormik({
@@ -23,6 +24,8 @@ export default function register() {
     });
 
     return (
+      <>
+      <Meta title={'Đăng ký | MISSOUT'}/>
         <div className="hero min-h-screen bg-[url('https://file.hstatic.net/200000195489/file/banner_web-01_0b869214f97d45c7a17be4c203be93f7.jpg')]">
             <div className="hero-content flex-col lg:flex-row-reverse">
                 <div className="text-center lg:text-left">
@@ -106,6 +109,6 @@ export default function register() {
                     </div>
                 </form>
             </div>
-        </div>
+        </div></>
     );
 }

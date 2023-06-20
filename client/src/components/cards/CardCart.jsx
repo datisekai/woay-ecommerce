@@ -10,6 +10,7 @@ const CardCart = ({
   quantity,
   handleChangeQuantity,
   id,
+  handleDeleteProductCart
 }) => {
   return (
     <div className="flex md:items-center flex-col md:flex-row">
@@ -59,7 +60,7 @@ const CardCart = ({
           <p className="text-secondary font-bold">
             {(quantity * price).toLocaleString("en-US")}đ
           </p>
-          <AiOutlineDelete className="text-xl cursor-pointer" />
+          <AiOutlineDelete onClick={() => handleDeleteProductCart(id)} className="text-xl cursor-pointer" />
         </div>
       </div>
     </div>
