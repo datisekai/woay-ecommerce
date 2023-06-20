@@ -21,7 +21,7 @@ export default function DiaChi({ item, handleUpdate,handleSetDefault,isLoadingDe
 
       <div className="flex flex-col gap-4">
         <button className="btn btn-outline" onClick={handleUpdate}>Cập nhật</button>
-       {!item.isDefault &&  <button disabled={isLoadingDefault} className="btn" onClick={handleSetDefault}>Thiết lập mặc định</button>}
+       <button disabled={item.isDefault} className="btn" onClick={handleSetDefault}>Thiết lập mặc định</button>
       </div>
     </section>
   );
