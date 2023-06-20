@@ -17,4 +17,7 @@ router.put('/:id', isLogin, InfoController.update)
 //delete address info
 router.delete('/:id', isLogin, InfoController.delete)
 
+
+//set default info
+router.put('/default/:id', isLogin, InfoController.setDefault)
 export default router;

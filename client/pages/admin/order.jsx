@@ -38,7 +38,6 @@ const OrderAdmin = () => {
     data: {},
   });
 
-  console.log(currentView, currentUpdate)
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
 

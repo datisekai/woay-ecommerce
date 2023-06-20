@@ -232,8 +232,8 @@ const HeaderTool = () => {
                         }}
                       >
                         {item.children.map((element, index2) => (
-                          <Link href={index == 0 ? `/collections${element.url}` : `/blogs${element.url}`}>
-                            <li className="capitalize text-md" key={index2}>
+                          <Link  key={index2} href={index == 0 ? `/collections${element.url}` : `/blogs${element.url}`}>
+                            <li className="capitalize text-md">
                               {element.title}
                             </li>
                           </Link>
