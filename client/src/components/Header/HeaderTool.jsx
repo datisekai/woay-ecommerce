@@ -94,7 +94,7 @@ const HeaderTool = () => {
                 <div className="dropdown dropdown-bottom dropdown-end">
                     <label tabIndex={0} className="cursor-pointer">
                         <div className="avatar ">
-                            <div className="w-12 rounded-full">
+                            <div className="">
                                 <img
                                     className="w-12 rounded-full"
                                     src={`https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=${

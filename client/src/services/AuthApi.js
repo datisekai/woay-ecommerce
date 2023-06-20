@@ -49,6 +49,11 @@ const AuthApi = {
         deleteCookie("token");
         return user;
     },
+
+    getAllMyInfo: async () => {
+        let res = await axiosClient.get("/info");
+        return res.data;
+    },
 };
 
 export default AuthApi;

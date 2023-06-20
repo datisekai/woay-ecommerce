@@ -1,3 +1,4 @@
+import axios from "axios";
 import CardProduct from "../src/components/cards/CardProduct";
 import CarouselHomePages from "../src/components/Carousel/CarouselHomePages";
 import MainLayout from "../src/components/layouts/MainLayout";
@@ -25,6 +26,7 @@ export default function Home({ arrProduct }) {
 
 export const getServerSideProps = async () => {
     const arrProduct = await productApi.allProduct();
+
     // call api lấy về mảng item prroduct
     return { props: { arrProduct } };
 };
