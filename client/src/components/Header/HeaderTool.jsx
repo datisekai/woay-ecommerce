@@ -11,6 +11,7 @@ import { useRouter } from "next/router";
 import { logout, setUser } from "../../redux/slices/UserSlice";
 import AuthApi from "../../services/AuthApi";
 import { useLocalStorage } from "usehooks-ts";
+import DotCenter from "../loadings/DotCenter";
 
 const HeaderTool = () => {
   const [cart, setCart] = useLocalStorage("cart", []);
@@ -22,13 +23,12 @@ const HeaderTool = () => {
     2: false,
   });
   const [query, setQuery] = useState("");
-  const { user } = useSelector((state) => state.user);
+  const { user, isLoading } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const router = useRouter();
 
   const { arrCategory } = useSelector((state) => state.category);
   const { arrCollectionBlogs } = useSelector((state) => state.blogs);
-
 
   useEffect(() => {
     if (arrCategory) {
@@ -158,14 +158,20 @@ const HeaderTool = () => {
         </div>
       ) : (
         <div className="flex items-center hover:cursor-pointer">
-          <button
-            className="btn btn-primary btn-sm"
-            onClick={() => {
-              router.push("/login");
-            }}
-          >
-            Đăng nhập
-          </button>
+          {isLoading ? (
+            <div>
+              <DotCenter />
+            </div>
+          ) : (
+            <button
+              className="btn btn-primary btn-sm"
+              onClick={() => {
+                router.push("/login");
+              }}
+            >
+              Đăng nhập
+            </button>
+          )}
         </div>
       )}
 
@@ -232,7 +238,14 @@ const HeaderTool = () => {
                         }}
                       >
                         {item.children.map((element, index2) => (
-                          <Link  key={index2} href={index == 0 ? `/collections${element.url}` : `/blogs${element.url}`}>
+                          <Link
+                            key={index2}
+                            href={
+                              index == 0
+                                ? `/collections${element.url}`
+                                : `/blogs${element.url}`
+                            }
+                          >
                             <li className="capitalize text-md">
                               {element.title}
                             </li>

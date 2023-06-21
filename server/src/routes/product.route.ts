@@ -14,7 +14,7 @@ router.post('/', isLogin, isAdmin, ProductController.add)
 router.get('/search',ProductController.getAll)
 
 //get all sju
-router.get('/variant',isLogin, isAdmin, ProductController.getAllSku);
+router.get('/variant',isLogin, isAdmin, ProductController.getAllVariant);
 
 //get product by slug
 router.get('/detail/:slug', ProductController.getProductBySlug)
@@ -22,11 +22,14 @@ router.get('/detail/:slug', ProductController.getProductBySlug)
 //update product
 router.put('/:id',isLogin, isAdmin, ProductController.update)
 
+//add variant
+router.post('/variant', isLogin, isAdmin, ProductController.addVariant)
+
 //update sku
-router.put('/variant/:id', isLogin, isAdmin, ProductController.updateSKU)
+router.put('/variant/:id', isLogin, isAdmin, ProductController.updateVariant)
 
 //delete sku
-router.delete('/variant/:id', isLogin, isAdmin, ProductController.deleteSKU)
+router.delete('/variant/:id', isLogin, isAdmin, ProductController.deleteVariant)
 
 //get all by admin
 router.get('/', isLogin, isAdmin, ProductController.getAllByAdmin)

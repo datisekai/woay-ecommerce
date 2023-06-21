@@ -3,6 +3,7 @@ import { deleteCookie } from "cookies-next";
 
 const initialState = {
   user: undefined,
+  isLoading:false
 };
 
 export const UserSlice = createSlice({
@@ -18,9 +19,12 @@ export const UserSlice = createSlice({
       deleteCookie("token");
       deleteCookie("role");
     },
+    setLoading:(state, action) => {
+      state.isLoading = action.payload
+    }
   },
 });
 
-export const { setUser,logout } = UserSlice.actions;
+export const { setUser,logout,setLoading } = UserSlice.actions;
 
 export default UserSlice.reducer;

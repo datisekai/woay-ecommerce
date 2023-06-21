@@ -71,7 +71,6 @@ const Rate = ({ productId }) => {
     });
   };
 
-  console.log(averageStar)
   return (
     <div className="mt-10 p-4 bg-base-200 rounded space-y-4">
       <div className="flex items-center justify-between">
@@ -89,7 +88,7 @@ const Rate = ({ productId }) => {
             size={36}
             edit={false}
             activeColor="#EE4D2D"
-            value={averageStar}
+            value={+averageStar}
           />}
         </div>
       </div>

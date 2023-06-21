@@ -31,7 +31,7 @@ const BlogController = {
         where: {
           isDeleted: false,
         },
-        order:[['createdAt','DESC']]
+        order: [["createdAt", "DESC"]],
       });
       return showSuccess(res, blogs);
     } catch (error) {
@@ -103,11 +103,11 @@ const BlogController = {
       if (foundPost > 0) {
         return showError(
           res,
-          `There are ${foundPost} sku containing this color`
+          `There are ${foundPost} post containing this color`
         );
       }
 
-      await Blog.update({ isDeleted: true }, { where: { id } });
+      await Blog.destroy({ where: { id } });
       return showSuccess(res);
     } catch (error) {
       return showInternal(res, error);

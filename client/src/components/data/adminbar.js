@@ -7,42 +7,42 @@ import {CgUiKit} from 'react-icons/cg'
 
 const adminbars = [
   {
-    url: "/",
+    url: "/admin",
     title: "Dashboard",
     icon:AiOutlineDashboard
   },
   {
-    url: "/user",
+    url: "/admin/user",
     title: "Quản lý người dùng",
     icon:LuUsers
   },
   {
-    url: "/category",
+    url: "/admin/category",
     title: "Quản lý danh mục",
     icon:MdOutlineCategory
   },
   {
-    url: "/product",
+    url: "/admin/product",
     title: "Quản lý sản phẩm",
     icon:MdOutlineProductionQuantityLimits
   },
   {
-    url: "/attribute",
+    url: "/admin/attribute",
     title: "Quản lý thuộc tính",
     icon:CgUiKit
   },
   {
-    url: "/blog",
+    url: "/admin/blog",
     title: "Quản lý blog",
     icon:BiCategory
   },
   {
-    url: "/post",
+    url: "/admin/post",
     title: "Quản lý post",
     icon:BsFillFilePostFill
   },
   {
-    url: "/order",
+    url: "/admin/order",
     title: "Quản lý đơn hàng",
     icon:BsCartCheck
   },
