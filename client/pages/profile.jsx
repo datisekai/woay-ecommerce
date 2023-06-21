@@ -15,7 +15,7 @@ import Link from "next/link";
 import Address from "../src/components/profiles/Address";
 import Meta from "../src/components/Meta";
 
-export default function profile() {
+export default function Profile() {
   const router = useRouter();
 
   const { page } = router.query || "ho-so";

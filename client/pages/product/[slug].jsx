@@ -12,7 +12,7 @@ import Meta from "../../src/components/Meta";
 import Rate from "../../src/components/rates/Rate";
 import { maxMinPrice } from "../../src/utils/maxMinPrice";
 
-export default function product({ itemProduct }) {
+export default function Product({ itemProduct }) {
   const { ProductImages, colors, sizes, productRecommends, variants } =
     itemProduct;
   const { user } = useSelector((state) => state.user);

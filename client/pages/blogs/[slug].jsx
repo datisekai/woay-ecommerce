@@ -4,7 +4,7 @@ import MainLayout from "../../src/components/layouts/MainLayout";
 import Breadcrumbs from "../../src/components/Breadcrumbs/Breadcrumbs";
 import CardPosts from "../../src/components/cards/CardPosts";
 
-export default function blogsSlug({ arrBlogs }) {
+export default function BlogSlug({ arrBlogs }) {
     console.log({ arrBlogs });
     const { blog, rows } = arrBlogs;
     return (

@@ -5,7 +5,7 @@ import CardProduct from "../src/components/cards/CardProduct";
 import { useRouter } from "next/router";
 import PaginationAdmin from "../src/components/paginations/PaginationAdmin";
 
-export default function search({ arrProduct }) {
+export default function Search({ arrProduct }) {
     const router = useRouter();
 
     return (
@@ -32,7 +32,7 @@ export default function search({ arrProduct }) {
                 </div>
                 <div className="container mx-auto">
                     <p className="text-[14px] font-[600]">
-                        Kết quả tìm kiếm cho "{router.query.name}".
+                        Kết quả tìm kiếm cho {`"${router.query.name}"`}.
                     </p>
                     {/* list item product load ra o day */}
                     <div className="wrap_list mb-6 px-4 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">

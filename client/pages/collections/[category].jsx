@@ -7,7 +7,7 @@ import { useRouter } from "next/router";
 import Breadcrumbs from "../../src/components/Breadcrumbs/Breadcrumbs";
 import Meta from "../../src/components/Meta";
 
-export default function collection({ arrProduct }) {
+export default function Collection({ arrProduct }) {
     const router = useRouter();
     const handleChangeSort = (e) => {
         console.log(e.target.value);
@@ -61,8 +61,8 @@ export default function collection({ arrProduct }) {
 
                         {arrProduct.rows.length === 0 ? (
                             <span className="font-blod text-xl text-yellow-400">
-                                Không có sản phẩm nào. Với từ khóa '
-                                {arrProduct.category.name}'
+                                Không có sản phẩm nào. Với từ khóa 
+                                {`"${arrProduct.category.name}"`}
                             </span>
                         ) : (
                             <div className="wrap_list mb-6 px-4 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">

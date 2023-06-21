@@ -2,7 +2,7 @@ import React from "react";
 import BlogsApi from "../../src/services/BlogsApi";
 import MainLayout from "../../src/components/layouts/MainLayout";
 
-export default function detailPost({ itemPost }) {
+export default function DetailPost({ itemPost }) {
     return (
         <MainLayout>
             <h1></h1>

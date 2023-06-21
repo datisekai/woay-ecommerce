@@ -5,7 +5,7 @@ import AuthApi from "../src/services/AuthApi";
 import Meta from "../src/components/Meta";
 import SpinnerCenter from "../src/components/loadings/SpinnerCenter";
 
-export default function login() {
+export default function Login() {
   
   const formik = useFormik({
     initialValues: {

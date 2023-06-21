@@ -92,7 +92,7 @@ const ModalAddVariant = ({ elementClick, colors, sizes, handleAddVariant, produc
                         Chọn
                       </option>
                       {sizes?.map((item) => (
-                        <option value={item.id}>{item.name}</option>
+                        <option key={item.id} value={item.id}>{item.name}</option>
                       ))}
                     </Field>
                     <ErrorMessage
@@ -118,7 +118,7 @@ const ModalAddVariant = ({ elementClick, colors, sizes, handleAddVariant, produc
                         Chọn
                       </option>
                       {colors?.map((item) => (
-                        <option value={item.id}>{item.name}</option>
+                        <option key={item.id} value={item.id}>{item.name}</option>
                       ))}
                     </Field>
                     <ErrorMessage

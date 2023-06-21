@@ -4,7 +4,7 @@ import * as Yup from "yup";
 import AuthApi from "../src/services/AuthApi";
 import Meta from "../src/components/Meta";
 
-export default function register() {
+export default function Register() {
     const formik = useFormik({
         initialValues: {
             email: "",
