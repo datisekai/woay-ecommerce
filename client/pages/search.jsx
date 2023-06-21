@@ -13,7 +13,7 @@ export default function Search({ arrProduct }) {
         <>
             <Meta title={"Kết quả tìm kiếm | MISSOUT"} />
             <MainLayout>
-                <div className="py-[30px]">
+                <div className="py-[30px] md:max-w-[768px] lg:max-w-[1024px] mx-auto px-[15px]">
                     <div className=" text-center pb-[30px]">
                         <h1 className="text-[30px] mb-[10px] font-bold">
                             Tìm kiếm
@@ -46,7 +46,7 @@ export default function Search({ arrProduct }) {
                         {/* list item product load ra o day */}
                         {/* Pagination */}
                         {arrProduct && (
-                            <div className="mt-2">
+                            <div className="my-10">
                                 <PaginationAdmin
                                     to={
                                         arrProduct.rows.length > 0

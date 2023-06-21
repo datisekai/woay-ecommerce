@@ -9,7 +9,7 @@ export default function About() {
             <Meta title={"About Us | MISSOUT"} />
             <MainLayout>
                 <Breadcrumbs nameCategory={"About"} danhMuc={null} />
-                <div className="md:max-w-[768px] lg:max-w-[1024px] mx-auto px-[15px] pb-[30px]">
+                <div className="md:max-w-[768px] lg:max-w-[1024px] mx-auto px-[15px] mb-[40px]">
                     <div className="heading-page">
                         <h1 className="text-2xl font-bold text-center mb-[30px]">
                             ABOUT US
