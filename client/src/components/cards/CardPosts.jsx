@@ -10,7 +10,7 @@ export default function CardPosts({ item }) {
                 roruter.push(`/post/${item.slug}`);
             }}
         >
-            <article className="mb-[25px]  grid grid-cols-1  px-[15px] cursor-pointer border-none border-[1px] hover:border-solid">
+            <article className="mb-[25px]  grid grid-cols-1  px-[15px] cursor-pointer border-solod border-[1px] border-transparent hover:border-black">
                 <div className=" mb-[20px] lg:col-span-1 overflow-hidden w-full aspect-square flex justify-center items-center">
                     <img
                         className="hover:scale-[120%] ease-in-out duration-500 transition-all
