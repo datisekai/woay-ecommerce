@@ -21,8 +21,9 @@ export default function CardProduct({ item }) {
             className=" mb-[30px] cursor-pointer border-none border-[1px] hover:border-solid"
             onClick={() => router.push(`/product/${item.slug}`)}
         >
-            <div className="overflow-hidden">
+            <div className="overflow-hidden w-full aspect-square ">
                 <img
+                    className="h-full w-full"
                     src={currentImg}
                     alt="áo"
                     onMouseEnter={handleMouseEnter}
