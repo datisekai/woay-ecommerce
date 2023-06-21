@@ -94,8 +94,14 @@ const HeaderAdmin = () => {
             tabIndex={0}
             className="dropdown-content menu p-2 shadow-md z-50 bg-base-100 rounded-box w-52"
           >
+              <li>
+              <Link href="/admin">Dashboard</Link>
+            </li>
             <li>
               <Link href="/profile">Thông tin cá nhân</Link>
+            </li>
+            <li>
+              <Link href="/history-order">Lịch sử đơn hàng</Link>
             </li>
             <li onClick={handleLogout}>
               <a >Đăng xuất</a>

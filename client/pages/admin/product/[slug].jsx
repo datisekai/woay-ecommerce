@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { ErrorMessage, Field, Formik } from "formik";
 import { useRouter } from "next/router";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { FcAddImage } from "react-icons/fc";
 import * as Yup from "yup";
@@ -14,22 +14,32 @@ import productApi from "../../../src/services/ProductApi";
 import { formatPrice } from "../../../src/utils/formatPrice";
 import { generateSlug } from "../../../src/utils/generateSlug";
 import ModalUpdateVariant from "../../../src/components/modals/ModalUpdateVariant";
+import ModalAddVariant from "../../../src/components/modals/ModalAddVariant";
+import ColorApi from "../../../src/services/ColorApi";
+import SizeApi from "../../../src/services/SizeApi";
 
 const UpdateProduct = ({ productDetail }) => {
-  const { data: categories } = useQuery(["categories"], CategoryApi.getAll);
 
-  const [product, setProduct] = useState(productDetail)
+
+  const { data: categories } = useQuery(["categories"], CategoryApi.getAll);
+  const { data: colors } = useQuery(["colors"], ColorApi.getAll);
+  const { data: sizes } = useQuery(["sizes"], SizeApi.getAll);
+
+  const [product, setProduct] = useState(productDetail);
 
   const [previewImage, setPreviewImage] = useState(
     productDetail.ProductImages.map((item) => item.src)
   );
   const [images, setImages] = useState();
 
-  const [currentUpdate, setCurrenUpdate] = useState({isDisplay:false, data:{}})
+  const [currentUpdate, setCurrenUpdate] = useState({
+    isDisplay: false,
+    data: {},
+  });
 
   const router = useRouter();
 
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
 
   const { mutate } = useMutation(productApi.update, {
     onSuccess: (response) => {
@@ -44,6 +54,7 @@ const UpdateProduct = ({ productDetail }) => {
       router.push("/admin/product");
     },
   });
+
 
   const formikRef = useRef(null);
 
@@ -69,7 +80,7 @@ const UpdateProduct = ({ productDetail }) => {
   const handleSubmit = async (values) => {
     let cloudImages;
     if (images) {
-      setIsLoading(true)
+      setIsLoading(true);
       cloudImages = await Promise.all(
         Array.from(images).map((item) => uploadCloudinary(item))
       );
@@ -77,25 +88,34 @@ const UpdateProduct = ({ productDetail }) => {
 
     const payload = {
       ...values,
-      category:values.categoryId,
+      category: values.categoryId,
       images: cloudImages,
-      description:values.description.replace('\n','<br/>')
+      description: values.description.replace("\n", "<br/>"),
     };
 
-    delete payload['categoryId']
-     
-    mutate({id:product.id, data:payload})
+    delete payload["categoryId"];
+
+    mutate({ id: product.id, data: payload });
   };
 
-  const handleUpdateVariant = ({id, data}) => {
-    setProduct({...product, variants:product.variants.map(item => item.id === id ? {...item, ...data} : item)})
+  const handleUpdateVariant = ({ id, data }) => {
+    setProduct({
+      ...product,
+      variants: product.variants.map((item) =>
+        item.id === id ? { ...item, ...data } : item
+      ),
+    });
+  };
+
+  const handleAddVariant = (variant) => {
+    setProduct({...product, variants:[...product.variants, variant]})
   }
 
   return (
     <>
       <Meta title={"Cập nhật sản phẩm | MISSOUT"} description="" />
       <AdminLayout>
-        <div className="relative">
+        <div className="relative pb-10">
           <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}
@@ -230,6 +250,15 @@ const UpdateProduct = ({ productDetail }) => {
                           <h1 className="text-md text-neutral font-bold border-b-2 pb-2">
                             Biến thể
                           </h1>
+                          <ModalAddVariant
+                          handleAddVariant={handleAddVariant}
+                            product={product}
+                            colors={colors}
+                            sizes={sizes}
+                            elementClick={
+                              <div className="btn">Thêm biến thể</div>
+                            }
+                          />
                         </div>
 
                         <div className="mt-4 space-y-2">
@@ -252,7 +281,15 @@ const UpdateProduct = ({ productDetail }) => {
                                   <h4>{`${item.Size.name} / ${item.Color.name}`}</h4>
                                   <h4>{formatPrice(item.price)}</h4>
                                   <h4>{item.quantity}</h4>
-                                  <div onClick={() => setCurrenUpdate({isDisplay:true, data:item})} className="btn btn-sm w-[100px] btn-primary">
+                                  <div
+                                    onClick={() =>
+                                      setCurrenUpdate({
+                                        isDisplay: true,
+                                        data: item,
+                                      })
+                                    }
+                                    className="btn btn-sm w-[100px] btn-primary"
+                                  >
                                     Cập nhật
                                   </div>
                                 </div>
@@ -312,7 +349,11 @@ const UpdateProduct = ({ productDetail }) => {
             </div>
           )}
         </div>
-        <ModalUpdateVariant data={currentUpdate} handleUpdate={handleUpdateVariant} handleHidden={() => setCurrenUpdate({isDisplay:false, data:{}})}/>
+        <ModalUpdateVariant
+          data={currentUpdate}
+          handleUpdate={handleUpdateVariant}
+          handleHidden={() => setCurrenUpdate({ isDisplay: false, data: {} })}
+        />
       </AdminLayout>
     </>
   );
@@ -323,5 +364,5 @@ export default UpdateProduct;
 export const getServerSideProps = async ({ params }) => {
   const slug = params.slug;
   const product = await productApi.getProductBySlug(slug);
-  return { props: { productDetail:product } };
+  return { props: { productDetail: product } };
 };

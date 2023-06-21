@@ -1,6 +1,15 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 
-const ModalChooseAddress = ({ elementClick }) => {
+const ModalChooseAddress = ({
+  elementClick,
+  data,
+  handleChangeShipping,
+  shippingInfo,
+}) => {
+  const [currentShipping, setCurrentShipping] = useState(shippingInfo);
+
+  const labelRef = useRef(null);
+
   return (
     <>
       <label htmlFor="my_modal_6">{elementClick}</label>
@@ -10,56 +19,41 @@ const ModalChooseAddress = ({ elementClick }) => {
         <div className="modal-box">
           <h1 className="pb-2 border-b text-lg font-bold">Địa chỉ của tôi</h1>
           <div className="space-y-2 mt-4 max-h-[350px] overflow-y-auto">
-            <div className="flex justify-between py-2">
-              <div className="flex gap-4">
-                <input
-                  type="radio"
-                  name="radio-3"
-                  className="radio radio-secondary"
-                  checked
-                />
-                <div>
-                  <div className="flex gap-2">
-                    <h5 className="text-neutral">Thành Đạt</h5>
-                    <div className="divider divider-horizontal"></div>
-                    <h5>0886249022</h5>
+            {data?.map((item) => (
+              <div key={item.id} className="flex justify-between py-2">
+                <div className="flex gap-4">
+                  <input
+                    type="radio"
+                    name="radio-3"
+                    className="radio radio-secondary"
+                    onChange={(e) => setCurrentShipping(item)}
+                    checked={item.id === currentShipping.id}
+                  />
+                  <div>
+                    <div className="flex gap-2">
+                      <h5 className="text-neutral">{item.name}</h5>
+                      <div className="divider divider-horizontal"></div>
+                      <h5>{item.phone}</h5>
+                    </div>
+                    <p>{item.address}</p>
                   </div>
-                  <p>
-                    222/7c Võ Thành Trang, Phường 11, Quận Tân Bình, TP. Hồ Chí
-                    Minh
-                  </p>
                 </div>
               </div>
-            </div>
-            <div className="flex justify-between py-2">
-              <div className="flex gap-4">
-                <input
-                  type="radio"
-                  name="radio-3"
-                  className="radio radio-secondary"
-                  checked
-                />
-                <div>
-                  <div className="flex gap-2">
-                    <h5 className="text-neutral">Thành Đạt</h5>
-                    <div className="divider divider-horizontal"></div>
-                    <h5>0886249022</h5>
-                  </div>
-                  <p>
-                    222/7c Võ Thành Trang, Phường 11, Quận Tân Bình, TP. Hồ Chí
-                    Minh
-                  </p>
-                </div>
-              </div>
-            </div>
+            ))}
           </div>
 
           <div className="flex items-center justify-between w-full">
-            <label htmlFor="my_modal_6" className="btn">
+            <label ref={labelRef} htmlFor="my_modal_6" className="btn">
               Đóng
             </label>
 
-            <button  className="btn btn-primary">
+            <button
+              onClick={() => {
+                handleChangeShipping(currentShipping);
+                labelRef.current.click()
+              }}
+              className="btn btn-primary"
+            >
               Lưu
             </button>
           </div>

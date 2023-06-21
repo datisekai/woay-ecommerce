@@ -5,7 +5,7 @@ import AuthApi from "../src/services/AuthApi";
 import SpinnerCenter from "../src/components/loadings/SpinnerCenter";
 import Link from "next/link";
 
-export default function login() {
+export default function Login() {
     const [isLoading, setIsLoading] = useState(false);
     const formik = useFormik({
         initialValues: {

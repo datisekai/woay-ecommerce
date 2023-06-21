@@ -18,7 +18,8 @@ const ModalViewOrder = ({ data, handleHidden }) => {
                 <h4>Người mua: {data.data.Info.name} - {data.data.Info.phone}</h4>
                 <h4>Địa chỉ: {data.data.Info.address}</h4>
               </div>
-              <table className="table table-zebra">
+             <div className="overflow-x-auto">
+             <table className="table table-zebra">
                 {/* head */}
                 <thead>
                   <tr>
@@ -46,6 +47,7 @@ const ModalViewOrder = ({ data, handleHidden }) => {
                 </tbody>
                
               </table>
+             </div>
             </div>
             <div className="modal-action">
               {/* if there is a button in form, it will close the modal */}

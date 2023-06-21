@@ -4,7 +4,7 @@ import * as Yup from "yup";
 import AuthApi from "../src/services/AuthApi";
 import Link from "next/link";
 
-export default function register() {
+export default function Register() {
     const [isLoading, setIsLoading] = useState(false);
 
     const formik = useFormik({

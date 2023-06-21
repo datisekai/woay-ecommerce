@@ -102,6 +102,26 @@ const InfoController = {
       return showInternal(res, error);
     }
   },
+  setDefault: async (req: RequestHasLogin, res: Response) => {
+    try {
+      const id = req.params.id;
+
+      const foundInfo = await Info.findByPk(id);
+
+      if (foundInfo) {
+        await Info.update(
+          { isDefault: false },
+          { where: { userId: req.userId } }
+        );
+        await Info.update({ isDefault: true }, { where: { id } });
+        return showSuccess(res)
+      }
+
+      return showError(res, "id is invalid");
+    } catch (error) {
+      return showInternal(res, error);
+    }
+  },
 };
 
 export default InfoController;

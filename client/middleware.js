@@ -11,12 +11,13 @@ function middleware(request) {
   }
 
 
+
   return NextResponse.next();
 }
 
 // See "Matching Paths" below to learn more
 export const config = {
-  matcher: "/admin/:path*",
+  matcher: ["/admin/:path*"],
 };
 
 export default middleware;

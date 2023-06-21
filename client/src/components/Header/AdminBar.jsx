@@ -17,13 +17,15 @@ const AdminBar = () => {
         {adminbars.map((adminbar, index) => {
           const Icon = adminbar.icon;
           return (
-            <Link key={index}  href={`/admin${adminbar.url}`}>
+            <Link key={index} href={`${adminbar.url}`}>
               <li
-                
                 className={`px-4 py-3 flex items-center gap-4 hover:bg-base-200 font-bold hover:cursor-pointer ${
-                  `/admin${adminbar.url}` === router.route
-                    ? "bg-base-200"
-                    : "bg-base-100"
+                  adminbar.url === "/admin" && router.asPath === "/admin"
+                  ? "bg-base-200"
+                  : adminbar.url !== "/admin" &&
+                    router.asPath.includes(adminbar.url)
+                  ? "bg-base-200"
+                  : "bg-base-100"
                 }`}
               >
                 <Icon className="text-2xl" />

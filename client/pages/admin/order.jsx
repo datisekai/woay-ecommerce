@@ -1,23 +1,19 @@
-import React, { useState } from "react";
-import AdminLayout from "../../src/components/layouts/AdminLayout";
-import { IoMdAdd } from "react-icons/io";
-import { AiOutlineDelete } from "react-icons/ai";
-import { CiEdit } from "react-icons/ci";
-import Meta from "../../src/components/Meta";
 import { useQuery } from "@tanstack/react-query";
-import { useRouter } from "next/router";
-import OrderApi from "../../src/services/OrderApi";
-import SpinnerCenter from "../../src/components/loadings/SpinnerCenter";
-import PaginationAdmin from "../../src/components/paginations/PaginationAdmin";
-import { formatPrice } from "../../src/utils/formatPrice";
-import dayjs from "dayjs";
-import DatePicker from "react-datepicker";
-import { registerLocale, setDefaultLocale } from "react-datepicker";
 import vi from "date-fns/locale/vi";
-import Link from "next/link";
+import dayjs from "dayjs";
+import { useRouter } from "next/router";
+import React, { useState } from "react";
+import DatePicker, { registerLocale } from "react-datepicker";
+import { CiEdit } from "react-icons/ci";
 import { GoEye } from "react-icons/go";
+import Meta from "../../src/components/Meta";
+import AdminLayout from "../../src/components/layouts/AdminLayout";
+import SpinnerCenter from "../../src/components/loadings/SpinnerCenter";
 import ModalUpdateOrder from "../../src/components/modals/ModalUpdateOrder";
 import ModalViewOrder from "../../src/components/modals/ModalViewOrder";
+import PaginationAdmin from "../../src/components/paginations/PaginationAdmin";
+import OrderApi from "../../src/services/OrderApi";
+import { formatPrice } from "../../src/utils/formatPrice";
 
 const OrderAdmin = () => {
   const router = useRouter();
@@ -39,7 +35,6 @@ const OrderAdmin = () => {
     data: {},
   });
 
-  console.log(currentView, currentUpdate)
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
 

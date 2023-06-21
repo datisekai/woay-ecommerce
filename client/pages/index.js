@@ -2,12 +2,12 @@ import CardProduct from "../src/components/cards/CardProduct";
 import CardPosts from "../src/components/cards/CardPosts";
 import CarouselHomePages from "../src/components/Carousel/CarouselHomePages";
 import MainLayout from "../src/components/layouts/MainLayout";
+import Meta from "../src/components/Meta";
 import productApi from "../src/services/ProductApi";
 import PostApi from "../src/services/PostApi";
 
 export default function Home({ arrData }) {
     const [arrProduct, arrPosts] = arrData;
-    console.log({ arrPosts });
     return (
         <MainLayout>
             <CarouselHomePages />

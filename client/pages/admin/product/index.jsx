@@ -1,19 +1,19 @@
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import Link from "next/link";
+import { useRouter } from "next/router";
 import React from "react";
-import { IoMdAdd } from "react-icons/io";
-import { AiOutlineDelete } from "react-icons/ai";
+import { toast } from "react-hot-toast";
 import { CiEdit } from "react-icons/ci";
+import { GoEye } from "react-icons/go";
+import { IoMdAdd } from "react-icons/io";
+import { VscLock, VscUnlock } from "react-icons/vsc";
+import swal from "sweetalert";
 import Meta from "../../../src/components/Meta";
 import AdminLayout from "../../../src/components/layouts/AdminLayout";
-import Link from "next/link";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useRouter } from "next/router";
-import productApi from "../../../src/services/ProductApi";
 import SpinnerCenter from "../../../src/components/loadings/SpinnerCenter";
 import PaginationAdmin from "../../../src/components/paginations/PaginationAdmin";
 import SearchAdmin from "../../../src/components/searchs/SearchAdmin";
-import swal from "sweetalert";
-import { toast } from "react-hot-toast";
-import { VscUnlock,VscLock } from "react-icons/vsc";
+import productApi from "../../../src/services/ProductApi";
 
 const ProductAdmin = () => {
   const queryClient = useQueryClient();
@@ -39,7 +39,9 @@ const ProductAdmin = () => {
         item.id === variables.id ? { ...item, ...variables.data } : item
       );
       queryClient.setQueryData(["product", query], { ...data, rows: newRows });
-      toast.success(`${variables.isDeleted ? 'Xóa' : 'Mở khóa'} sản phẩm thành công`);
+      toast.success(
+        `${variables.isDeleted ? "Xóa" : "Mở khóa"} sản phẩm thành công`
+      );
     },
     onError: (error) => {
       console.log(error);
@@ -71,7 +73,7 @@ const ProductAdmin = () => {
         mutate({ id, data: { isDeleted: false } });
       }
     });
-  }
+  };
 
   return (
     <>
@@ -139,6 +141,11 @@ const ProductAdmin = () => {
                               <VscLock className="text-xl" />
                             </button>
                           )}
+                          <Link href={`/product/${item.slug}`}>
+                            <button className="btn btn-circle btn-primary">
+                              <GoEye className="text-xl" />
+                            </button>
+                          </Link>
                         </div>
                       </td>
                     </tr>

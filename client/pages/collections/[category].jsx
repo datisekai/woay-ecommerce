@@ -5,15 +5,17 @@ import CardProduct from "../../src/components/cards/CardProduct";
 import PaginationAdmin from "../../src/components/paginations/PaginationAdmin";
 import { useRouter } from "next/router";
 import Breadcrumbs from "../../src/components/Breadcrumbs/Breadcrumbs";
+import Meta from "../../src/components/Meta";
 
-export default function collection({ arrProduct }) {
+export default function Collection({ arrProduct }) {
     const router = useRouter();
-    console.log({ arrProduct });
     const handleChangeSort = (e) => {
         console.log(e.target.value);
         router.push({ query: { ...router.query, sort: e.target.value } });
     };
     return (
+      <>
+      <Meta title={`${arrProduct.category?.name} | MISSOUT`} description=""/>
         <MainLayout>
             <Breadcrumbs
                 nameCategory={arrProduct.category?.name}
@@ -63,8 +65,8 @@ export default function collection({ arrProduct }) {
 
                         {arrProduct.rows.length === 0 ? (
                             <span className="font-blod text-xl text-yellow-400">
-                                Không có sản phẩm nào. Với từ khóa '
-                                {arrProduct.category.name}'
+                                Không có sản phẩm nào. Với từ khóa 
+                                {`"${arrProduct.category.name}"`}
                             </span>
                         ) : (
                             <div className="wrap_list mb-6 px-4 grid grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-4">
@@ -103,7 +105,7 @@ export default function collection({ arrProduct }) {
                     </div>
                 </div>
             </div>
-        </MainLayout>
+        </MainLayout></>
     );
 }
 
