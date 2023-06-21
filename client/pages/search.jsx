@@ -46,7 +46,7 @@ export default function Search({ arrProduct }) {
                         {/* list item product load ra o day */}
                         {/* Pagination */}
                         {arrProduct && (
-                            <div className="my-10">
+                            <div className="mt-2 pb-5">
                                 <PaginationAdmin
                                     to={
                                         arrProduct.rows.length > 0

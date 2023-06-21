@@ -41,7 +41,7 @@ export default function Login() {
                             className="card-body"
                             onSubmit={formik.handleSubmit}
                         >
-                            <h1 className="text-5xl font-bold">Login now!</h1>
+                            <h1 className="text-4xl font-bold">Login now!</h1>
                             <div className="form-control">
                                 <label className="label">
                                     <span className="label-text">Email</span>

@@ -42,7 +42,7 @@ export default function Register() {
                         className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100"
                     >
                         <div className="card-body">
-                            <h1 className="text-5xl font-bold">
+                            <h1 className="text-4xl font-bold">
                                 Register now!
                             </h1>
                             <div className="form-control">
