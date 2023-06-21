@@ -11,20 +11,23 @@ import ModalAddCategory from "../../src/components/modals/ModalAddCategory";
 import ModalUpdateCategory from "../../src/components/modals/ModalUpdateCategory";
 import swal from "sweetalert";
 import { toast } from "react-hot-toast";
+import useWindowSize from "../../src/hooks/useWindowSize";
 
 const CategoryAdmin = () => {
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
   const { data, isLoading } = useQuery(["categories"], CategoryApi.getAll);
 
   const [currentUpdate, setCurrentUpdate] = useState({
     isDisplay: false,
     data: {},
   });
-
+  const windowSize = useWindowSize();
   const { mutate } = useMutation(CategoryApi.delete, {
     onSuccess: (res, variables) => {
-     
-      queryClient.setQueryData(['categories'], data.filter(item => item.id !== variables));
+      queryClient.setQueryData(
+        ["categories"],
+        data.filter((item) => item.id !== variables)
+      );
       toast.success("Xóa danh mục thành công");
     },
     onError: (error) => {
@@ -44,7 +47,7 @@ const CategoryAdmin = () => {
         mutate(id);
       }
     });
-  }
+  };
 
   return (
     <>
@@ -63,7 +66,14 @@ const CategoryAdmin = () => {
         </div>
 
         <div className="mt-4 bg-base-200 p-4 rounded">
-          <div className="overflow-x-auto min-h-[100px] max-h-[500px] relative">
+          <div
+            className="overflow-x-auto min-h-[100px] max-h-[500px] relative"
+            style={{
+              maxWidth: `${
+                windowSize?.width > 1024 ? windowSize.width : windowSize.width
+              }px`,
+            }}
+          >
             {!isLoading ? (
               <table className="table table-zebra">
                 {/* head */}
@@ -83,10 +93,18 @@ const CategoryAdmin = () => {
                       <td>{item.name}</td>
                       <td>
                         <div className="flex gap-2 ">
-                          <button onClick={() => setCurrentUpdate({isDisplay:true, data:item})} className="btn btn-circle btn-warning">
+                          <button
+                            onClick={() =>
+                              setCurrentUpdate({ isDisplay: true, data: item })
+                            }
+                            className="btn btn-circle btn-warning"
+                          >
                             <CiEdit className="text-2xl" />
                           </button>
-                          <button onClick={() => handleDelete(item.id)} className="btn btn-circle btn-error">
+                          <button
+                            onClick={() => handleDelete(item.id)}
+                            className="btn btn-circle btn-error"
+                          >
                             <AiOutlineDelete className="text-xl" />
                           </button>
                         </div>

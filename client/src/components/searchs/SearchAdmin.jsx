@@ -10,7 +10,6 @@ const SearchAdmin = ({data, defaultValue = 'name'}) => {
 
 
     const handleSearch = () => {
-      console.log(typeSearch)
         router.push({ query: { [typeSearch]: search } });
       };
   return (
@@ -18,7 +17,7 @@ const SearchAdmin = ({data, defaultValue = 'name'}) => {
     <div>
       <div>
         <input
-          className="input input-bordered join-item"
+          className="input input-bordered join-item max-w-[120px] md:max-w-xs"
           placeholder="Tìm kiếm người dùng..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}

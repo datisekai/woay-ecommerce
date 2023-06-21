@@ -14,6 +14,7 @@ import ModalViewOrder from "../../src/components/modals/ModalViewOrder";
 import PaginationAdmin from "../../src/components/paginations/PaginationAdmin";
 import OrderApi from "../../src/services/OrderApi";
 import { formatPrice } from "../../src/utils/formatPrice";
+import useWindowSize from "../../src/hooks/useWindowSize";
 
 const OrderAdmin = () => {
   const router = useRouter();
@@ -21,6 +22,8 @@ const OrderAdmin = () => {
 
   const query = router.query;
   const limit = 6;
+
+  const windowSize = useWindowSize();
 
   const { data, isLoading } = useQuery(["orders", query], () =>
     OrderApi.getAll({ ...query, limit })
@@ -103,7 +106,14 @@ const OrderAdmin = () => {
           </div>
         </div>
         <div className="mt-4 bg-base-200 p-4 rounded">
-          <div className="overflow-x-auto min-h-[100px] max-h-[550px] relative">
+          <div
+            className="overflow-x-auto min-h-[100px] max-h-[550px] relative"
+            style={{
+              maxWidth: `${
+                windowSize?.width > 1024 ? windowSize.width : windowSize.width
+              }px`,
+            }}
+          >
             {!isLoading ? (
               <table className="table table-zebra">
                 {/* head */}

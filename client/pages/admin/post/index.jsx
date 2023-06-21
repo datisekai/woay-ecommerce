@@ -14,13 +14,15 @@ import Meta from "../../../src/components/Meta";
 import AdminLayout from "../../../src/components/layouts/AdminLayout";
 import swal from "sweetalert";
 import { toast } from "react-hot-toast";
+import useWindowSize from "../../../src/hooks/useWindowSize";
 
 const PostAdmin = () => {
   const router = useRouter();
   const query = router.query;
   const limit = 6;
 
-  const queryClient = useQueryClient()
+  const windowSize = useWindowSize();
+  const queryClient = useQueryClient();
 
   const { data, isLoading } = useQuery(["posts", query], () =>
     PostApi.getAll({ ...query, limit })
@@ -33,17 +35,19 @@ const PostAdmin = () => {
     },
   ];
 
-  const {mutate} = useMutation(PostApi.delete, {
+  const { mutate } = useMutation(PostApi.delete, {
     onSuccess: (res, variables) => {
-     
-      queryClient.setQueryData(['post',query], {...data, rows:data.rows.filter(item => item.id !== variables)});
+      queryClient.setQueryData(["post", query], {
+        ...data,
+        rows: data.rows.filter((item) => item.id !== variables),
+      });
       toast.success("Xóa bài viết thành công");
     },
     onError: (error) => {
       console.log(error);
       error && error.message && toast.error(error.message);
     },
-  })
+  });
 
   const handleDelete = (id) => {
     swal({
@@ -56,7 +60,7 @@ const PostAdmin = () => {
         mutate(id);
       }
     });
-  }
+  };
 
   return (
     <>
@@ -74,7 +78,14 @@ const PostAdmin = () => {
 
         <SearchAdmin data={dataSearch} defaultValue="title" />
         <div className="mt-4 bg-base-200 p-4 rounded">
-          <div className="overflow-x-auto min-h-[100px] max-h-[550px]">
+          <div
+            className="overflow-x-auto min-h-[100px] max-h-[550px]"
+            style={{
+              maxWidth: `${
+                windowSize?.width > 1024 ? windowSize.width : windowSize.width
+              }px`,
+            }}
+          >
             {!isLoading ? (
               <table className="table table-zebra">
                 {/* head */}
@@ -105,10 +116,14 @@ const PostAdmin = () => {
                       <td>
                         <div className="flex gap-2 ">
                           <Link href={`/admin/post/${item.slug}`}>
-                          <button className="btn btn-circle btn-warning">
-                            <CiEdit className="text-2xl" />
-                          </button></Link>
-                          <button onClick={() => handleDelete(item.id)} className="btn btn-circle btn-error">
+                            <button className="btn btn-circle btn-warning">
+                              <CiEdit className="text-2xl" />
+                            </button>
+                          </Link>
+                          <button
+                            onClick={() => handleDelete(item.id)}
+                            className="btn btn-circle btn-error"
+                          >
                             <AiOutlineDelete className="text-xl" />
                           </button>
                           <Link href={`/post/${item.slug}`}>

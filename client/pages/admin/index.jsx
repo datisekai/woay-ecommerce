@@ -10,6 +10,7 @@ import SpinnerCenter from "../../src/components/loadings/SpinnerCenter";
 import PostApi from "../../src/services/PostApi";
 import { calculateCreatedTime } from "../../src/utils/formatTime";
 import Link from "next/link";
+import useWindowSize from "../../src/hooks/useWindowSize";
 
 const AdminDashBoard = () => {
   const { data: countStatistic } = useQuery(["statistic"], StatisticApi.getAll);
@@ -22,7 +23,7 @@ const AdminDashBoard = () => {
     PostApi.getAll({ limit: 5 })
   );
 
-
+  const windowSize = useWindowSize();
   return (
     <>
       <Meta title={"Dashboard | MISSOUT"} description="" />
@@ -62,9 +63,9 @@ const AdminDashBoard = () => {
           </div>
         </div>
 
-        <div className="flex flex-col md:flex-row gap-2">
+        <div className="flex flex-col md:flex-row gap-2 pb-5">
           <div className="bg-base-200 rounded  p-4 mt-4 w-full ">
-            <div className="overflow-x-auto min-h-[100px] max-h-[550px] relative">
+            <div className="overflow-x-auto min-h-[100px]  relative"  style={{ maxWidth: `${windowSize?.width > 1024 ? windowSize.width : windowSize.width}px` }}>
               {products ? (
                 <table className="table">
                   {/* head */}
@@ -103,7 +104,7 @@ const AdminDashBoard = () => {
 
           <div className="bg-base-200 rounded mt-4 p-4 w-full md:w-[400px]">
             <h3 className="font-bold">Bài viết gần đây</h3>
-            <ul className="overflow-auto relative min-h-[100px]">
+            <ul className="overflow-auto relative min-h-[100px]"  style={{ maxWidth: `${windowSize?.width > 1024 ? windowSize.width : windowSize.width}px` }}>
               {posts ? (
                 posts.rows.map((item) => (
                   <li key={item.id} className="py-2 ">
