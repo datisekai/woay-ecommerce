@@ -36,7 +36,15 @@ const productSchema = Joi.object({
   ),
 });
 
-const updateSkuSchema = Joi.object({
+const addVariantSchema = Joi.object({
+  productId: Joi.number().integer().required(),
+  colorId: Joi.number().integer().required(),
+  sizeId: Joi.number().integer().required(),
+  price: Joi.number().min(0).required(),
+  quantity: Joi.number().integer().required(),
+});
+
+const updateVariantSchema = Joi.object({
   colorId: Joi.number().integer(),
   sizeId: Joi.number().integer(),
   price: Joi.number().min(0),
@@ -235,7 +243,7 @@ const ProductController = {
       return showInternal(res, error);
     }
   },
-  getAllSku: async (req: Request, res: Response) => {
+  getAllVariant: async (req: Request, res: Response) => {
     try {
       const limit = req.query.limit || 8;
       const page = req.query.page || 1;
@@ -243,7 +251,7 @@ const ProductController = {
 
       const order: any = [];
 
-      const skus = await Variant.findAndCountAll({
+      const variants = await Variant.findAndCountAll({
         include: [
           { model: Product, where: { isDeleted: false } },
           { model: Size },
@@ -271,7 +279,7 @@ const ProductController = {
         }
       }
 
-      return showSuccess(res, skus);
+      return showSuccess(res, variants);
     } catch (error) {
       return showInternal(res, error);
     }
@@ -333,7 +341,12 @@ const ProductController = {
           ],
         });
 
-        return showSuccess(res, { ...product.dataValues, colors, sizes, productRecommends });
+        return showSuccess(res, {
+          ...product.dataValues,
+          colors,
+          sizes,
+          productRecommends,
+        });
       }
 
       return showError(res, "slug is invalid");
@@ -352,22 +365,23 @@ const ProductController = {
       }
 
       if (value.name || value.description) {
-        if (value.name && value.description) {
-          value.searchInfo = removeAccents(
-            `${value.name} ${value.description}`
-          ).toLowerCase();
-        }
+        value.searchInfo = removeAccents(
+          `${value.name || ""} ${value.description || ""}`
+        ).toLowerCase();
+      }
 
-        if (value.name && !value.description) {
-          const currentProduct = await Product.findOne({ where: { id } });
-          value.searchInfo = removeAccents(
-            `${value.name} ${currentProduct.description}`
-          ).toLowerCase();
-        } else if (!value.name && value.description) {
-          const currentProduct = await Product.findOne({ where: { id } });
-          value.searchInfo = removeAccents(
-            `${currentProduct.name} ${value.description}`
-          ).toLowerCase();
+      if (value.slug) {
+        const foundSlug = await Product.findOne({
+          where: {
+            slug: value.slug,
+            id: {
+              [Op.ne]: id,
+            },
+          },
+        });
+
+        if(foundSlug){
+          return showError(res, 'slug already exist')
         }
       }
 
@@ -391,11 +405,11 @@ const ProductController = {
       return showInternal(res, error);
     }
   },
-  updateSKU: async (req: Request, res: Response) => {
+  updateVariant: async (req: Request, res: Response) => {
     try {
       const id = req.params.id;
 
-      const { error, value } = updateSkuSchema.validate(req.body);
+      const { error, value } = updateVariantSchema.validate(req.body);
       if (error) {
         return showError(res, convertJoiToString(error));
       }
@@ -407,13 +421,13 @@ const ProductController = {
       return showInternal(res, error);
     }
   },
-  deleteSKU: async (req: Request, res: Response) => {
+  deleteVariant: async (req: Request, res: Response) => {
     try {
       const id = req.params.id;
 
       const foundOrder = await OrderDetail.count({
         where: {
-          skuId: id,
+          variantId: id,
         },
       });
 
@@ -424,7 +438,7 @@ const ProductController = {
 
       return showError(
         res,
-        `There are ${foundOrder} sku containing this color`
+        `There are ${foundOrder} variant containing this color`
       );
     } catch (error) {
       return showInternal(res, error);
@@ -440,10 +454,28 @@ const ProductController = {
 
       const variants = await Variant.findAll({
         where: { id: value.variants },
-        include: [{ model: Product, include:[{model:ProductImage}] }, {model:Size},{model:Color}],
+        include: [
+          { model: Product, include: [{ model: ProductImage }] },
+          { model: Size },
+          { model: Color },
+        ],
       });
 
       return showSuccess(res, variants);
+    } catch (error) {
+      return showInternal(res, error);
+    }
+  },
+  addVariant: async (req: Request, res: Response) => {
+    try {
+      const { error, value } = addVariantSchema.validate(req.body);
+
+      if (error) {
+        return showError(res, convertJoiToString(error));
+      }
+
+      const newVariant = await Variant.create(value);
+      return showSuccess(res, newVariant);
     } catch (error) {
       return showInternal(res, error);
     }

@@ -3,8 +3,10 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import AuthApi from "../src/services/AuthApi";
 import Meta from "../src/components/Meta";
+import SpinnerCenter from "../src/components/loadings/SpinnerCenter";
 
 export default function login() {
+  
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -97,6 +99,7 @@ export default function login() {
             </form>
           </div>
         </div>
+      
       </div>
     </Suspense>
     
