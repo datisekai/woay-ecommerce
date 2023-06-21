@@ -20,7 +20,7 @@ export default function Home({ arrData }) {
                             Sản phẩm mới
                         </h2>
                         <div className=" mb-6 px-4 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
-                            {arrProduct.map((item, index) => {
+                            {arrProduct?.map((item, index) => {
                                 return <CardProduct key={index} item={item} />;
                             })}
                         </div>

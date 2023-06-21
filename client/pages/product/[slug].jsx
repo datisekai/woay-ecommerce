@@ -242,7 +242,7 @@ export default function Product({ itemProduct }) {
                                 />
                                 <button
                                     onClick={() =>
-                                        quantity < variant.quantity &&
+                                        quantity < variant?.quantity &&
                                         setQuantity(quantity + 1)
                                     }
                                     className="w-[32px] h-[32px] bg-[#f3f4f4] rounded "
