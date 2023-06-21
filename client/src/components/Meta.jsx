@@ -4,7 +4,7 @@ import React, { FC } from "react";
 
 
 const Meta = ({
-  description = "This is datisekai profile",
+  description = "",
   title,
   image,
 }) => {
