@@ -5,7 +5,7 @@ import { FaShare } from "react-icons/fa";
 export default function Footer() {
     return (
         <footer>
-            <div className="container  md:w-[750px]  lg:w-[970px] 2xl:w-[1300px] mx-auto">
+            <div className="md:max-w-[768px] lg:max-w-[1024px] mx-auto px-[15px]">
                 <div
                     className="hidden
                             md:flex md:flex-wrap md:justify-start md:block

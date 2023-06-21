@@ -11,14 +11,12 @@ const AuthApi = {
         email,
         password,
       });
-      console.log(reuslt.data);
+
       setCookie("token", reuslt.data.data.token);
       Router.push("/");
       //trả về cái token
     } catch (e) {
-      console.log(e);
-      alert("Đăng nhập thấp bại!!!");
-      Router.push("/register");
+      toast.error(e.message);
     }
   },
   register: async ({ email, password }) => {

@@ -17,10 +17,13 @@ export default function Collection({ arrProduct }) {
       <>
       <Meta title={`${arrProduct.category?.name} | MISSOUT`} description=""/>
         <MainLayout>
-            <Breadcrumbs nameCategory={arrProduct.category?.name} />
-            <div className="container mx-auto mb-[60px]">
-                <div className="wrap grid grid-cols-3">
-                    <div className="wrap-left">
+            <Breadcrumbs
+                nameCategory={arrProduct.category?.name}
+                danhMuc={"Danh Mục"}
+            />
+            <div className="md:max-w-[768px] lg:max-w-[1024px] mx-auto px-[15px] mb-[60px]">
+                <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4">
+                    <div className="wrap-left hidden lg:block lg:grid-cols-1 ">
                         <ul className="menu  w-56 p-0 [&_li>*]:rounded-none text-[#5c5c5c] font-[500] text-[14px] mt-[30px]">
                             <li className="cursor-pointer">
                                 <a>Sản phẩm nổi bật</a>
@@ -40,16 +43,17 @@ export default function Collection({ arrProduct }) {
                             </li>
                         </ul>
                     </div>
-                    <div className="wrap-right col-span-2">
-                        <div className=" flex justify-between items-center mt-[20px] mb-[30px]">
-                            <h1 className="uppercase font-bold text-2xl">
+                    <div className="wrap-right col-span-1 md:col-span-3">
+                        <div className=" flex flex-col-reverse lg:flex-row gap-4   md:justify-center lg:justify-between lg:items-center mb-[30px]">
+                            <h1 className="uppercase font-bold text-2xl text-center">
                                 {arrProduct.category?.name
                                     ? arrProduct.category.name
                                     : "Tất cả sản phẩm"}
                             </h1>
+
                             <select
                                 onChange={handleChangeSort}
-                                className="select select-bordered select-sm "
+                                className="select select-bordered max-w-xs"
                             >
                                 <option>Sản phẩm nổi bật</option>
                                 <option value="name-asc">Tên:A-Z</option>
@@ -65,7 +69,7 @@ export default function Collection({ arrProduct }) {
                                 {`"${arrProduct.category.name}"`}
                             </span>
                         ) : (
-                            <div className="wrap_list mb-6 px-4 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
+                            <div className="wrap_list mb-6 px-4 grid grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-4">
                                 {arrProduct.rows?.map((item, index) => {
                                     return (
                                         <CardProduct key={index} item={item} />
