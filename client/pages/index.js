@@ -14,7 +14,7 @@ export default function Home({ arrData }) {
             <MainLayout>
                 <CarouselHomePages />
                 {/* render các cardProduct */}
-                <div className="md:max-w-[768px] lg:max-w-[1024px] mx-auto px-[15px]">
+                <div className="md:max-w-[768px] lg:max-w-[1024px] mx-auto px-[15px] mb-10">
                     <div className=" mt-[30px]">
                         <h2 className="uppercase text-center font-bold p-4 text-2xl mb-[30px]">
                             Sản phẩm mới
@@ -25,7 +25,7 @@ export default function Home({ arrData }) {
                             })}
                         </div>
                     </div>
-                    <div>
+                    <div className="pb-5">
                         <h2 className="uppercase text-center font-bold p-4 text-2xl mb-[30px]">
                             BÀI VIẾT MỚI NHẤT
                         </h2>

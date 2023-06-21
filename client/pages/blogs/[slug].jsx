@@ -27,7 +27,7 @@ export default function BlogSlug({ arrBlogs }) {
                 </div>
                 {/* Pagination */}
                 {arrBlogs && (
-                    <div className="mt-2">
+                    <div className="mt-2 pb-5">
                         <PaginationAdmin
                             to={
                                 arrBlogs.rows.length > 0

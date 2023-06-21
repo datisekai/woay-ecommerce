@@ -18,7 +18,7 @@ export default function CardProduct({ item }) {
     const maxMin = maxMinPrice(item.variants);
     return (
         <div
-            className=" mb-[30px] cursor-pointer border-none border-[1px] hover:border-solid"
+            className=" mb-[30px] cursor-pointer border-solod border-[1px] border-transparent hover:border-black"
             onClick={() => router.push(`/product/${item.slug}`)}
         >
             <div className="overflow-hidden w-full aspect-square ">
