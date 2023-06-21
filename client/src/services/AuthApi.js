@@ -2,6 +2,7 @@ import axios from "axios";
 import { deleteCookie, setCookie } from "cookies-next";
 import Router from "next/router";
 import axiosClient from "../config";
+import { toast } from "react-hot-toast";
 
 const AuthApi = {
     login: async ({ email, password }) => {
@@ -10,14 +11,12 @@ const AuthApi = {
                 email,
                 password,
             });
-            console.log(reuslt.data);
+
             setCookie("token", reuslt.data.data.token);
             Router.push("/");
             //trả về cái token
         } catch (e) {
-            console.log(e);
-            alert("Đăng nhập thấp bại!!!");
-            Router.push("/register");
+            toast.error(e.message);
         }
     },
     register: async ({ email, password }) => {
