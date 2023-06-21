@@ -16,6 +16,7 @@ const Rate = ({ productId }) => {
     RateApi.getAllByProductId(productId)
   );
 
+
   const limitComment = 2;
 
   const queryClient = useQueryClient();

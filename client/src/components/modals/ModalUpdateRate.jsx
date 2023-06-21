@@ -18,12 +18,24 @@ const ModalUpdateRate = ({ data, handleHidden, productId }) => {
   const { mutate } = useMutation(RateApi.update, {
     onSuccess: (response, variables) => {
       const oldRates = queryClient.getQueryData(["rate", productId]);
-
       queryClient.setQueryData(
         ["rate", productId],
-        oldRates.map((item) =>
-          item.id === variables.id ? { ...item, ...variables.data } : item
-        )
+        oldRates.map((item) => {
+          if (item.id === variables.id) {
+            if (variables.data.images) {
+              return {
+                ...item,
+                RateImages: variables.data.images.map((image, index) => ({
+                  id: index,
+                  src: image,
+                })),
+              };
+            }
+
+            return { ...item, ...variables.data };
+          }
+          return item;
+        })
       );
 
       setIsLoading(false);
@@ -152,7 +164,7 @@ const ModalUpdateRate = ({ data, handleHidden, productId }) => {
                         type="file"
                         className="file-input file-input-bordered w-full mt-1"
                         multiple
-                        accept="images/*"
+                        accept="image/*"
                         onChange={(e) => {
                           const files = e.target.files;
                           const preview = Array.from(files).map((item) =>

@@ -80,6 +80,11 @@ export default function Product({ itemProduct }) {
       return;
     }
 
+    if(variant.quantity === 0){
+      toast.error("Sản phẩm đã hết hàng");
+      return;
+    }
+
     const isFound = cart.some((item) => item.variantId === variant.id);
     if (isFound) {
       setCart(
@@ -101,6 +106,12 @@ export default function Product({ itemProduct }) {
       toast.error("Vui lòng chọn thuộc tính");
       return;
     }
+
+    if(variant.quantity === 0){
+      toast.error("Sản phẩm đã hết hàng");
+      return;
+    }
+
     const isFound = cart.some((item) => item.variantId === variant.id);
     if (isFound) {
       setCart(
@@ -203,7 +214,7 @@ export default function Product({ itemProduct }) {
                 Xóa bộ lọc
               </button>
 
-              <div className="flex  mt-[10px] my-[25px]">
+              <div className="flex  mt-[10px] my-[25px] items-center">
                 <button
                   onClick={() => quantity > 1 && setQuantity(quantity - 1)}
                   className="w-[32px] h-[32px] bg-[#f3f4f4]  rounded  "
@@ -227,6 +238,7 @@ export default function Product({ itemProduct }) {
                 >
                   +
                 </button>
+                <span className="ml-2">{variant?.quantity || 0} sản phẩm có sẵn</span>
               </div>
 
               <div className="flex gap-4">

@@ -81,7 +81,7 @@ const HeaderTool = () => {
                             <CiSearch className="text-2xl md:text-3xl cursor-pointer" />
                         </label>
                     </div>
-                    <div className="drawer-side z-50">
+                    <div className="drawer-side z-[100]">
                         <label
                             htmlFor="my-drawer-5"
                             className="drawer-overlay"
