@@ -51,7 +51,7 @@ const SizeController = {
 
       const skuOfSize = await Variant.count({ where: { sizeId: id } });
 
-      if (skuOfSize.length > 0) {
+      if (skuOfSize > 0) {
         return showError(
           res,
           `There are ${skuOfSize.length} variant containing this size`
