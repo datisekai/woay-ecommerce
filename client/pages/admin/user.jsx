@@ -1,27 +1,29 @@
-import React, { useState } from "react";
-import AdminLayout from "../../src/components/layouts/AdminLayout";
-import { IoMdAdd } from "react-icons/io";
-import { AiOutlineDelete } from "react-icons/ai";
-import { CiEdit } from "react-icons/ci";
-import ModalAddUser from "../../src/components/modals/ModalAddUser";
-import Meta from "../../src/components/Meta";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import UserApi from "../../src/services/UserApi";
-import PaginationAdmin from "../../src/components/paginations/PaginationAdmin";
-import { useRouter } from "next/router";
-import SpinnerCenter from "../../src/components/loadings/SpinnerCenter";
-import ModalUpdateUser from "../../src/components/modals/ModalUpdateUser";
-import { BiLockAlt } from "react-icons/bi";
-import swal from "sweetalert";
-import { toast } from "react-hot-toast";
-import { formatDate } from "../../src/utils/formatDate";
 import dayjs from "dayjs";
+import { useRouter } from "next/router";
+import React, { useState } from "react";
+import { toast } from "react-hot-toast";
+import { BiLockAlt } from "react-icons/bi";
+import { CiEdit } from "react-icons/ci";
+import { IoMdAdd } from "react-icons/io";
+import swal from "sweetalert";
+import { useScreen } from "usehooks-ts";
+import Meta from "../../src/components/Meta";
+import AdminLayout from "../../src/components/layouts/AdminLayout";
+import SpinnerCenter from "../../src/components/loadings/SpinnerCenter";
+import ModalAddUser from "../../src/components/modals/ModalAddUser";
+import ModalUpdateUser from "../../src/components/modals/ModalUpdateUser";
+import PaginationAdmin from "../../src/components/paginations/PaginationAdmin";
 import SearchAdmin from "../../src/components/searchs/SearchAdmin";
+import UserApi from "../../src/services/UserApi";
+import useWindowSize from "../../src/hooks/useWindowSize";
 
 const UserAdmin = () => {
   const queryClient = useQueryClient();
   const router = useRouter();
   const query = router.query;
+
+  const windowSize = useWindowSize();
 
   const [currentUpdate, setCurrentUpdate] = useState({
     isDisplay: false,
@@ -39,7 +41,6 @@ const UserAdmin = () => {
       const newRows = data.rows.map((item) =>
         item.id === variables ? { ...item, isActive: false } : item
       );
-      console.log("newrows", newRows);
       queryClient.setQueryData(["users", query], { ...data, rows: newRows });
       toast.success("Khóa tài khoản thành công");
     },
@@ -63,7 +64,12 @@ const UserAdmin = () => {
     });
   };
 
-  const dataSearch = [{ value: "name", name: "Tên" },{ value: "email", name: "Email" },{ value: "phone", name: "SDT" }];
+  const dataSearch = [
+    { value: "name", name: "Tên" },
+    { value: "email", name: "Email" },
+    { value: "phone", name: "SDT" },
+  ];
+
 
   return (
     <>
@@ -88,7 +94,10 @@ const UserAdmin = () => {
 
         <SearchAdmin data={dataSearch} />
         <div className="mt-4 bg-base-200 p-4 rounded">
-          <div className="overflow-x-auto relative min-h-[100px]">
+          <div
+            className="overflow-x-auto relative min-h-[100px] w-full"
+            style={{ maxWidth: `${windowSize?.width > 1024 ? windowSize.width : windowSize.width}px` }}
+          >
             {!isLoading ? (
               <table className="table table-zebra w-full ">
                 {/* head */}

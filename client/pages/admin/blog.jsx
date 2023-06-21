@@ -12,9 +12,10 @@ import ModalAddBlog from "../../src/components/modals/ModalAddBlog";
 import ModalUpdateBlog from "../../src/components/modals/ModalUpdateBlog";
 import BlogApi from "../../src/services/BlogApi";
 import CategoryApi from "../../src/services/CategoryApi";
+import useWindowSize from "../../src/hooks/useWindowSize";
 
 const BlogAdmin = () => {
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
   const { data, isLoading } = useQuery(["blogs"], BlogApi.getAll);
 
   const [currentUpdate, setCurrentUpdate] = useState({
@@ -22,10 +23,14 @@ const BlogAdmin = () => {
     data: {},
   });
 
+  const windowSize = useWindowSize();
+
   const { mutate } = useMutation(BlogApi.delete, {
     onSuccess: (res, variables) => {
-     
-      queryClient.setQueryData(['blogs'], data.filter(item => item.id !== variables));
+      queryClient.setQueryData(
+        ["blogs"],
+        data.filter((item) => item.id !== variables)
+      );
       toast.success("Xóa danh mục thành công");
     },
     onError: (error) => {
@@ -45,14 +50,16 @@ const BlogAdmin = () => {
         mutate(id);
       }
     });
-  }
+  };
 
   return (
     <>
       <Meta title={"Quản lý danh mục | MISSOUT"} description="" />
       <AdminLayout>
         <div className="flex items-center justify-between">
-          <h1 className="text-lg text-neutral font-bold">Quản lý danh mục blog</h1>
+          <h1 className="text-lg text-neutral font-bold">
+            Quản lý danh mục blog
+          </h1>
           <ModalAddBlog
             elementClick={
               <div className="btn btn-success text-base-100">
@@ -64,7 +71,14 @@ const BlogAdmin = () => {
         </div>
 
         <div className="mt-4 bg-base-200 p-4 rounded">
-          <div className="overflow-x-auto min-h-[100px] max-h-[500px] relative">
+          <div
+            className="overflow-x-auto min-h-[100px] max-h-[500px] relative"
+            style={{
+              maxWidth: `${
+                windowSize?.width > 1024 ? windowSize.width : windowSize.width
+              }px`,
+            }}
+          >
             {!isLoading ? (
               <table className="table table-zebra">
                 {/* head */}
@@ -84,10 +98,18 @@ const BlogAdmin = () => {
                       <td>{item.title}</td>
                       <td>
                         <div className="flex gap-2 ">
-                          <button onClick={() => setCurrentUpdate({isDisplay:true, data:item})} className="btn btn-circle btn-warning">
+                          <button
+                            onClick={() =>
+                              setCurrentUpdate({ isDisplay: true, data: item })
+                            }
+                            className="btn btn-circle btn-warning"
+                          >
                             <CiEdit className="text-2xl" />
                           </button>
-                          <button onClick={() => handleDelete(item.id)} className="btn btn-circle btn-error">
+                          <button
+                            onClick={() => handleDelete(item.id)}
+                            className="btn btn-circle btn-error"
+                          >
                             <AiOutlineDelete className="text-xl" />
                           </button>
                         </div>

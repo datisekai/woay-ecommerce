@@ -4,7 +4,7 @@ export default function DiaChi({ item, handleUpdate,handleSetDefault,isLoadingDe
 
 
   return (
-    <section className="py-6 bg-base-100 rounded px-8 flex justify-between items-center relative  ">
+    <section className="py-6 bg-base-100 flex-col md:flex-row rounded px-8 flex justify-between items-center relative  ">
       <div className="flex flex-col gap-4">
         <div>
           <div className="flex gap-2">
@@ -19,9 +19,9 @@ export default function DiaChi({ item, handleUpdate,handleSetDefault,isLoadingDe
         ) : null}
       </div>
 
-      <div className="flex flex-col gap-4">
-        <button className="btn btn-outline" onClick={handleUpdate}>Cập nhật</button>
-       <button disabled={item.isDefault} className="btn" onClick={handleSetDefault}>Thiết lập mặc định</button>
+      <div className="flex flex-row md:flex-col gap-4 mt-2 md:mt-0">
+        <button className="btn btn-sm md:btn-md btn-outline" onClick={handleUpdate}>Cập nhật</button>
+       <button disabled={item.isDefault} className="btn btn-sm md:btn-md" onClick={handleSetDefault}>Thiết lập mặc định</button>
       </div>
     </section>
   );

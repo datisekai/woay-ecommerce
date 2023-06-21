@@ -35,7 +35,7 @@ export default function Search({ arrProduct }) {
                         Kết quả tìm kiếm cho {`"${router.query.name}"`}.
                     </p>
                     {/* list item product load ra o day */}
-                    <div className="wrap_list mb-6 px-4 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
+                    <div className="wrap_list mb-6 mt-4 px-4 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
                         {arrProduct.rows?.map((item, index) => {
                             return <CardProduct key={index} item={item} />;
                         })}

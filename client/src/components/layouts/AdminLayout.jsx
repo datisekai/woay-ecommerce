@@ -15,7 +15,7 @@ const AdminLayout = ({ children }) => {
         </div>
         <div className="flex-1 px-2">
           <HeaderAdmin />
-          <div className="mt-2">{children}</div>
+          <div className="mt-2 pb-5 overflow-hidden">{children}</div>
         </div>
       </div>
     </UserLayout>

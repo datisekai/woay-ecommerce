@@ -73,7 +73,7 @@ const Rate = ({ productId }) => {
 
   return (
     <div className="mt-10 p-4 bg-base-200 rounded space-y-4">
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between flex-col md:flex-row">
         <h2 className="uppercase text-lg md:text-xl font-bold">
           Đánh giá sản phẩm
         </h2>
@@ -81,7 +81,7 @@ const Rate = ({ productId }) => {
           {averageStar !== 0 ? (
             <h2 className="text-3xl text-[#EE4D2D]">{averageStar}/5</h2>
           ) : (
-            <p className="text-xl text-[#EE4D2D]">Chưa có đánh giá</p>
+            <p className="text-lg md:text-xl text-[#EE4D2D]">Chưa có đánh giá</p>
           )}
         {data &&   <ReactStars
             count={5}
