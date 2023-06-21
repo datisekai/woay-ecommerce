@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { maxMinPrice } from "../../utils/maxMinPrice";
 
 export default function CardProduct({ item }) {
@@ -23,7 +23,7 @@ export default function CardProduct({ item }) {
         >
             <div className="overflow-hidden w-full aspect-square ">
                 <img
-                    className="h-full w-full"
+                    className="h-full w-full object-contain"
                     src={currentImg}
                     alt="áo"
                     onMouseEnter={handleMouseEnter}

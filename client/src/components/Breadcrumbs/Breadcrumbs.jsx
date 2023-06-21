@@ -39,7 +39,7 @@ export default function Breadcrumbs({ nameCategory, danhMuc }) {
                                 </a>
                             </li>
                         ) : null}
-                        <li className="uppercase">
+                        <li className="uppercase line-clamp-1">
                             {nameCategory ? nameCategory : "Tất cả sản phẩm"}
                         </li>
                     </ul>

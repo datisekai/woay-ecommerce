@@ -6,7 +6,7 @@ let navbars = [
         children: [],
     },
     {
-        url: "/about-us",
+        url: "/about",
         title: "About us",
     },
     {
@@ -14,8 +14,13 @@ let navbars = [
         title: "Blog",
     },
     {
-        url: "/about-us",
+        url: "/lien_he",
         title: "Liên hệ",
+    },
+    {
+        url: "/login",
+        title: "Đăng nhập",
+        isHidden: true,
     },
 ];
 

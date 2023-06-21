@@ -28,7 +28,7 @@ export default function Login() {
         <>
             <Link
                 href={"/"}
-                className="cursor-pointer  absolute top-[20px] left-[20px]"
+                className="cursor-pointer  absolute top-[20px] left-[20px] z-10"
             >
                 <h1 className="text-neutral font-bold text-2xl md:text-4xl inline-block">
                     MISSOUT
