@@ -29,7 +29,7 @@ export default function Home({ arrData }) {
                         <h2 className="uppercase text-center font-bold p-4 text-2xl mb-[30px]">
                             BÀI VIẾT MỚI NHẤT
                         </h2>
-                        <div className=" mb-6 px-4 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 ">
+                        <div className="mb-6 px-4 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 ">
                             {arrPosts.rows.map((item, index) => {
                                 return <CardPosts key={index} item={item} />;
                             })}

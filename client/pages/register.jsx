@@ -36,7 +36,7 @@ export default function Register() {
                 </h1>
             </Link>
             <div className="hero min-h-screen bg-[url('https://file.hstatic.net/200000195489/file/banner_web_15ad38e33b3e4fefac8f8051a2c8edfd.jpg')]">
-                <div className="hero-content flex-col lg:flex-row-reverse">
+                <div className="hero-content  w-full md:w-[800px]">
                     <form
                         onSubmit={formik.handleSubmit}
                         className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100"
