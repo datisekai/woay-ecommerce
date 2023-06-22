@@ -7,6 +7,7 @@ import * as Yup from "yup";
 import ModalForgotPassword from "../src/components/modals/ModalForgotPassword";
 import AuthApi from "../src/services/AuthApi";
 import { toast } from "react-hot-toast";
+import useLoginGoogle from "../src/hooks/useLoginGoogle";
 
 export default function Register() {
   const { mutate, isLoading } = useMutation(AuthApi.register, {
@@ -38,6 +39,8 @@ export default function Register() {
       mutate(values);
     },
   });
+
+  const {handleSignIn, loading} = useLoginGoogle()
 
   return (
     <>
@@ -120,15 +123,24 @@ export default function Register() {
                 <button type="submit" className="btn btn-primary">
                   Register
                 </button>
-                <Link href={"/login"} className="link text-center mt-[16px]">
-                  Login now!
-                </Link>
+                <div className="flex justify-between items-center mt-4">
+                  <Link
+                    href={"/login"}
+                    className="link text-center block"
+                  >
+                    Login now!
+                  </Link>
+                  <div onClick={handleSignIn} className="btn btn-sm btn-ghost">
+                    <FcGoogle />
+                    Login Google
+                  </div>
+                </div>
               </div>
             </div>
           </form>
         </div>
       </div>
-      {isLoading ? (
+      {isLoading || loading ? (
         <div className="fixed top-0 left-0 h-full bg-[rgba(0,0,0,0.4)] w-full">
           <span className="loading loading-spinner loading-xs md:loading-lg absolute top-[50%] left-[50%] translate-y-[-50%] translate-x-[-50%]"></span>
         </div>
