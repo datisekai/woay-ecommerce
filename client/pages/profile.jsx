@@ -1,19 +1,17 @@
-import { useQuery } from "@tanstack/react-query";
+import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
-import { FaPlus, FaRegAddressCard } from "react-icons/fa";
-import DiaChi from "../src/components/DiaChi/DiaChi";
+import React from "react";
+import { BiUserCircle } from "react-icons/bi";
+import { FaRegAddressCard } from "react-icons/fa";
+import { MdPassword } from 'react-icons/md';
+import { useSelector } from "react-redux";
+import Meta from "../src/components/Meta";
 import MainLayout from "../src/components/layouts/MainLayout";
+import DotCenter from "../src/components/loadings/DotCenter";
+import Address from "../src/components/profiles/Address";
+import ChangePassword from "../src/components/profiles/ChangePassword";
 import HoSo from "../src/components/profiles/HoSo";
 import { requiredLogin } from "../src/config/requiredLogin";
-import AuthApi from "../src/services/AuthApi";
-import { useSelector } from "react-redux";
-import { CiUser } from "react-icons/ci";
-import DotCenter from "../src/components/loadings/DotCenter";
-import { BiUserCircle } from "react-icons/bi";
-import Link from "next/link";
-import Address from "../src/components/profiles/Address";
-import Meta from "../src/components/Meta";
 
 export default function Profile() {
   const router = useRouter();
@@ -53,7 +51,7 @@ export default function Profile() {
                   <li>
                     <Link
                       href={"/profile"}
-                      className={`${page !== "address" ? "bg-base-200" : ""}`}
+                      className={`${page == "" ? "bg-base-200" : ""}`}
                     >
                       <BiUserCircle className="text-xl" />
                       Hồ sơ
@@ -68,11 +66,20 @@ export default function Profile() {
                       Địa chỉ
                     </Link>
                   </li>
+                  <li>
+                    <Link
+                      href={`/profile?page=change-password`}
+                      className={`${page === "change-password" ? "bg-base-200" : ""}`}
+                    >
+                      <MdPassword className="text-lg" />
+                      Đổi mật khẩu
+                    </Link>
+                  </li>
                 </ul>
               </div>
             </div>
             <div className=" col-span-3  bg-base-200 rounded p-4">
-              {page == "address" ? <Address /> : <HoSo user={user} />}
+              {page == "address" ?  <Address />  : page == 'change-password' ? <ChangePassword user={user}/> : <HoSo user={user} />}
             </div>
           </div>
         </div>

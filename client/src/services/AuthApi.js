@@ -5,62 +5,69 @@ import axiosClient from "../config";
 import { toast } from "react-hot-toast";
 
 const AuthApi = {
-    login: async ({ email, password }) => {
-        try {
-            let reuslt = await axiosClient.post("/user/login", {
-                email,
-                password,
-            });
+  login: async ({ email, password }) => {
+    try {
+      let reuslt = await axiosClient.post("/user/login", {
+        email,
+        password,
+      });
 
-            setCookie("token", reuslt.data.data.token);
-            Router.push("/");
-            //trả về cái token
-        } catch (e) {
-            e && e.message && toast.error(e.message);
-        }
-    },
-    register: async ({ email, password }) => {
-        try {
-            let reuslt = await axiosClient.post("/user/register", {
-                email,
-                password,
-            });
-            console.log(reuslt);
-            setCookie("token", reuslt.data.data.token);
-            Router.push("/");
-        } catch (e) {
-            e && e.message && toast.error(e.message);
-        }
-    },
-    getMyInfo: async () => {
-        try {
-            let result = await axiosClient.get("/user/me");
-            return result.data.data;
-        } catch (e) {
-            console.log(e);
-        }
-    },
+      setCookie("token", reuslt.data.data.token);
+      Router.push("/");
+      //trả về cái token
+    } catch (e) {
+      e && e.message && toast.error(e.message);
+    }
+  },
+  register: async ({ email, password }) => {
+    let result = await axiosClient.post("/user/register", {
+      email,
+      password,
+    });
 
-    clearUser: async () => {
-        const user = undefined;
-        deleteCookie("token");
-        return user;
-    },
+    return result.data;
+  },
+  getMyInfo: async () => {
+    try {
+      let result = await axiosClient.get("/user/me");
+      return result.data.data;
+    } catch (e) {
+      console.log(e);
+    }
+  },
 
-    getAllMyInfo: async () => {
-        let res = await axiosClient.get("/info");
-        return res.data.data;
-    },
-    putMyInfo: async (data) => {
-        console.log({ data });
+  clearUser: async () => {
+    const user = undefined;
+    deleteCookie("token");
+    return user;
+  },
 
-        try {
-            let res = await axiosClient.put(`/user`, data);
-            return res.data;
-        } catch (e) {
-            e && e.message && toast.error(e.message);
-        }
-    },
+  getAllMyInfo: async () => {
+    let res = await axiosClient.get("/info");
+    return res.data.data;
+  },
+  putMyInfo: async (data) => {
+    try {
+      let res = await axiosClient.put(`/user`, data);
+      return res.data;
+    } catch (e) {
+      e && e.message && toast.error(e.message);
+    }
+  },
+  forgotPassword: async (email) => {
+    const result = await axiosClient.post("/user/forgot-password", { email });
+    return result.data;
+  },
+  resetPassword: async ({ token, password }) => {
+    const result = await axiosClient.put(`/user/reset-password/${token}`, {
+      password,
+    });
+    return result.data;
+  },
+  verifyEmail: async (token) => {
+    const result = await axiosClient.get(`/user/verify-email?token=${token}`);
+    return result.data.data;
+  },
 };
 
 export default AuthApi;

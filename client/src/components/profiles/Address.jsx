@@ -93,6 +93,7 @@ const Address = () => {
           ) : (
             <SpinnerCenter />
           )}
+          {data && data.length == 0 && <p className="text-center">Chưa có địa chỉ</p>}
         </div>
       </div>
       <ModalUpdateProfile

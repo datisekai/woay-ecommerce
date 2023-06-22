@@ -8,6 +8,9 @@ const config = {
   dbUsername: process.env.DB_USERNAME || "",
   dbPassword: process.env.DB_PASSWORD || "",
   dbHost: process.env.DB_HOST,
+  emailUser:process.env.EMAIL_USER,
+  emailPassword:process.env.EMAIL_PASSWORD,
+  feUrl: process.env.FE_URL
 };
 
 export default config;

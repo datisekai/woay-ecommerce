@@ -14,6 +14,7 @@ import jwt from "jsonwebtoken";
 import config from "../config";
 import { RequestHasLogin } from "../types/Request.type";
 import { Op } from "sequelize";
+import { transporter } from "../config/mail";
 
 const userSchema = Joi.object({
   role: Joi.string().valid("user", "admin").required(),
@@ -37,6 +38,14 @@ const updateSchema = Joi.object({
   date: Joi.date(),
   phone: Joi.string().regex(/^\d{10,11}$/),
   isActive: Joi.boolean(),
+});
+
+const forgotPasswordSchema = Joi.object({
+  email: Joi.string().email().required(),
+});
+
+const resetPasswordSchema = Joi.object({
+  password: Joi.string().required(),
 });
 
 const UserController = {
@@ -123,7 +132,10 @@ const UserController = {
 
       if (isFoundUser) {
         if (!isFoundUser.isActive) {
-          return showError(res, "User blocked");
+          return showError(
+            res,
+            "The account has not been activated or has been locked"
+          );
         }
 
         const verify = await argon2.verify(
@@ -164,19 +176,31 @@ const UserController = {
 
       if (!isFoundUser) {
         const hashPassword = await argon2.hash(value.password);
-        const newUser = await User.create({
+        const currentUser = await User.create({
           ...value,
           password: hashPassword,
           role: "user",
+          isActive: false,
         });
 
         const token = jwt.sign(
-          { id: newUser.id, email: newUser.email },
+          { id: currentUser.id, email: currentUser.email },
           config.jwt,
           { expiresIn: "1d" }
         );
 
-        return showSuccess(res, { token });
+        const url = `${config.feUrl}/verify-email?token=${token}`;
+
+        const options = {
+          from: "Woay-Ecommerce Authentication",
+          to: currentUser.email,
+          subject: "Woay-Ecommerce - Xác thực email",
+          html: `<p>Để xác thực email, bạn vui lòng <a href="${url}" style="color:blue;">click vào đây</a> hoặc sử dụng đường dẫn ${url} </p>`,
+        };
+
+        await transporter.sendMail(options);
+
+        return showSuccess(res);
       }
 
       return showError(res, "Email already exist");
@@ -307,7 +331,96 @@ const UserController = {
       return showInternal(res, error);
     }
   },
- 
+  forgotPassword: async (req: Request, res: Response) => {
+    try {
+      const { error, value } = forgotPasswordSchema.validate(req.body);
+      if (error) {
+        return showError(res, convertJoiToString(error));
+      }
+
+      const currentUser = await User.findOne({ where: { email: value.email } });
+
+      if (currentUser) {
+        const token = jwt.sign(
+          { id: currentUser.id, email: currentUser.email },
+          config.jwt,
+          { expiresIn: "1d" }
+        );
+
+        const url = `${config.feUrl}/reset-password?token=${token}`;
+
+        const options = {
+          from: "Woay-Ecommerce Authentication",
+          to: currentUser.email,
+          subject: "Woay-Ecommerce - Quên mật khẩu",
+          html: `<p>Để cập nhật mật khẩu mới, bạn vui lòng <a href="${url}" style="color:blue;">click vào đây</a> hoặc sử dụng đường dẫn ${url} </p>`,
+        };
+
+        await transporter.sendMail(options);
+
+        return showSuccess(res);
+      }
+
+      return showError(res, "Email is invalid");
+    } catch (error) {
+      return showInternal(res, error);
+    }
+  },
+  resetPassword: async (req: Request, res: Response) => {
+    try {
+      const token = req.params.token;
+      const { error, value } = resetPasswordSchema.validate(req.body);
+
+      if (error) {
+        return showError(res, convertJoiToString(error));
+      }
+
+      const decodedToken: any = jwt.verify(token, config.jwt);
+      const userId = decodedToken.id;
+
+      const foundUser = await User.findByPk(userId);
+      if (foundUser) {
+        const hashPassword = await argon2.hash(value.password);
+        foundUser.password = hashPassword;
+        await foundUser.save();
+        return showSuccess(res);
+      }
+
+      return showNotAuthorized(res);
+    } catch (error) {
+      return showError(res, "Incorrect or expired token");
+    }
+  },
+  verifyEmail: async (req: Request, res: Response) => {
+    try {
+      const token = req.query.token as string;
+
+      if (!token) {
+        return showError(res, "Token is required");
+      }
+
+      const decode: any = jwt.verify(token, config.jwt);
+      const id = decode.id;
+
+      const currentUser: any = await User.findByPk(id);
+      if (!currentUser) {
+        return showError(res, "User is invalid");
+      }
+
+      currentUser.isActive = true;
+      await currentUser.save();
+
+      const tokenLogin = jwt.sign(
+        { id: currentUser.id, email: currentUser.email },
+        config.jwt,
+        { expiresIn: "1d" }
+      );
+
+      return showSuccess(res, { token: tokenLogin });
+    } catch (error) {
+      return showInternal(res, error);
+    }
+  },
 };
 
 export default UserController;

@@ -10,12 +10,11 @@ import Meta from "../../src/components/Meta";
 export default function Collection({ arrProduct }) {
     const router = useRouter();
     const handleChangeSort = (e) => {
-        console.log(e.target.value);
         router.push({ query: { ...router.query, sort: e.target.value } });
     };
     return (
       <>
-      <Meta title={`${arrProduct.category?.name} | MISSOUT`} description=""/>
+      <Meta title={`${arrProduct.category?.name || 'Tất cả sản phẩm'} | MISSOUT`} description=""/>
         <MainLayout>
             <Breadcrumbs
                 nameCategory={arrProduct.category?.name}

@@ -36,5 +36,13 @@ router.put('/', isLogin, UserController.updateMyInfo)
 //delete user
 router.delete('/:id', isLogin, isAdmin, UserController.delete)
 
+//forgot password
+router.post('/forgot-password', UserController.forgotPassword)
+
+//reset password
+router.put('/reset-password/:token', UserController.resetPassword)
+
+//verify email
+router.get('/verify-email', UserController.verifyEmail)
 
 export default router;
