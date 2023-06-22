@@ -9,6 +9,7 @@ const BlogsApi = {
             return reuslt.data.data;
             //trả về cái token
         } catch (e) {
+            console.log(e)
             return e;
         }
     },

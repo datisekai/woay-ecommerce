@@ -8,6 +8,7 @@ import { store } from "../src/redux/store";
 import { Toaster } from "react-hot-toast";
 import "suneditor/dist/css/suneditor.min.css";
 import "swiper/css";
+import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "react-datepicker/dist/react-datepicker.css";
 

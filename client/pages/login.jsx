@@ -38,7 +38,7 @@ export default function Login() {
           MISSOUT
         </h1>
       </Link>
-      <div className="relative hero min-h-screen bg-base-200 bg-[url('https://file.hstatic.net/200000195489/file/banner_web-01_0b869214f97d45c7a17be4c203be93f7.jpg')] bg-cover bg-center bg-no-repeat">
+      <div className="relative hero min-h-screen bg-base-200 bg-[url('/img/slide1.jpg')] bg-cover bg-center bg-no-repeat">
         <div className="hero-content w-full md:w-[800px]">
           <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
             <form className="card-body" onSubmit={formik.handleSubmit}>

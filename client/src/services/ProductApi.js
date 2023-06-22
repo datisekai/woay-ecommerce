@@ -6,6 +6,7 @@ const productApi = {
             const response = await axiosClient.get("/product/search?sort=createdAt-desc");
             return response.data.data.rows;
         } catch (e) {
+            console.log(e)
             return e;
         }
     },
