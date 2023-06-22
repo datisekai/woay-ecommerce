@@ -139,7 +139,7 @@ const ModalAddRate = ({ elementClick, productId }) => {
                       type="file"
                       className="file-input file-input-bordered w-full mt-1"
                       multiple
-                      accept="images/*"
+                      accept="image/*"
                       onChange={(e) => {
                         const files = e.target.files;
                         const preview = Array.from(files).map((item) =>

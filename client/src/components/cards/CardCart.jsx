@@ -10,7 +10,7 @@ const CardCart = ({
   quantity,
   handleChangeQuantity,
   id,
-  handleDeleteProductCart
+  handleDeleteProductCart,
 }) => {
   return (
     <div className="flex md:items-center flex-col md:flex-row">
@@ -41,9 +41,12 @@ const CardCart = ({
             className="w-[50px] outline-none text-center border-y-[1px]"
             type="number"
             value={quantity}
-            onChange={() =>
-              +e.target.value > 0 && handleChangeQuantity(id, +e.target.value)
-            }
+            onChange={(e) => {
+              const newQuantity = +e.target.value;
+              if (newQuantity > 0 && newQuantity <= quantityStore) {
+                handleChangeQuantity(id, newQuantity);
+              }
+            }}
           />
           <button
             onClick={() =>
@@ -60,7 +63,10 @@ const CardCart = ({
           <p className="text-secondary font-bold">
             {(quantity * price).toLocaleString("en-US")}đ
           </p>
-          <AiOutlineDelete onClick={() => handleDeleteProductCart(id)} className="text-xl cursor-pointer" />
+          <AiOutlineDelete
+            onClick={() => handleDeleteProductCart(id)}
+            className="text-xl cursor-pointer"
+          />
         </div>
       </div>
     </div>

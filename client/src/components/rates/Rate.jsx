@@ -131,7 +131,7 @@ const Rate = ({ productId }) => {
             <BiChevronDown />
           </div>
         )}
-        {data && data.length >0 && data.length < endComment && (
+        {data && data.length >0 && commentsRender.length < limitComment && (
           <div onClick={() => setEndComment(limitComment)} className="btn mt-4">
             Thu gọn
             <BiChevronUp />
