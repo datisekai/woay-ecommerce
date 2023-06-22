@@ -27,6 +27,7 @@ export default function Register() {
 
     return (
         <>
+            <Meta title={"Đăng ký | MISSOUT"} />
             <Link
                 href={"/"}
                 className="cursor-pointer  absolute top-[20px] left-[20px]"

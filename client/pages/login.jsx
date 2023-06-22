@@ -4,6 +4,7 @@ import * as Yup from "yup";
 import AuthApi from "../src/services/AuthApi";
 import SpinnerCenter from "../src/components/loadings/SpinnerCenter";
 import Link from "next/link";
+import Meta from "../src/components/Meta";
 
 export default function Login() {
     const [isLoading, setIsLoading] = useState(false);
@@ -26,6 +27,7 @@ export default function Login() {
 
     return (
         <>
+            <Meta title={"Đăng nhập | MISSOUT"} />
             <Link
                 href={"/"}
                 className="cursor-pointer  absolute top-[20px] left-[20px] z-10"
