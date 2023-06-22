@@ -1,10 +1,11 @@
-import React, { Suspense, useState } from "react";
 import { useFormik } from "formik";
-import * as Yup from "yup";
-import AuthApi from "../src/services/AuthApi";
-import SpinnerCenter from "../src/components/loadings/SpinnerCenter";
 import Link from "next/link";
+import React, { useState } from "react";
+import { FcGoogle } from "react-icons/fc";
+import * as Yup from "yup";
 import ModalForgotPassword from "../src/components/modals/ModalForgotPassword";
+import AuthApi from "../src/services/AuthApi";
+import useLoginGoogle from "../src/hooks/useLoginGoogle";
 
 export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
@@ -24,6 +25,8 @@ export default function Login() {
       setIsLoading(false);
     },
   });
+
+  const {handleSignIn, loading} = useLoginGoogle()
 
   return (
     <>
@@ -89,15 +92,24 @@ export default function Login() {
                 <button type="submit" className="btn btn-primary">
                   Login
                 </button>
-                <Link href={"/register"} className="link text-center mt-[16px]">
-                  Register now!
-                </Link>
+                <div className="flex justify-between items-center mt-4">
+                  <Link
+                    href={"/register"}
+                    className="link text-center block"
+                  >
+                    Register now!
+                  </Link>
+                  <div onClick={handleSignIn} className="btn btn-sm btn-ghost">
+                    <FcGoogle />
+                    Login Google
+                  </div>
+                </div>
               </div>
             </form>
           </div>
         </div>
       </div>
-      {isLoading ? (
+      {isLoading || loading ? (
         <div className="fixed top-0 left-0 h-full bg-[rgba(0,0,0,0.4)] w-full">
           <span className="loading loading-spinner loading-xs md:loading-lg absolute top-[50%] left-[50%] translate-y-[-50%] translate-x-[-50%]"></span>
         </div>

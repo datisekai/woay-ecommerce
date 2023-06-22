@@ -68,6 +68,10 @@ const AuthApi = {
     const result = await axiosClient.get(`/user/verify-email?token=${token}`);
     return result.data.data;
   },
+  loginGoogle:async(token) => {
+    const result = await axiosClient.post(`/user/login-google`,{token})
+    return result.data.data
+  }
 };
 
 export default AuthApi;

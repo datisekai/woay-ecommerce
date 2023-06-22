@@ -45,4 +45,7 @@ router.put('/reset-password/:token', UserController.resetPassword)
 //verify email
 router.get('/verify-email', UserController.verifyEmail)
 
+//login google
+router.post('/login-google', UserController.loginGoogle)
+
 export default router;

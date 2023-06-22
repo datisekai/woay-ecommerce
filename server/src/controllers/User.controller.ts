@@ -15,6 +15,7 @@ import config from "../config";
 import { RequestHasLogin } from "../types/Request.type";
 import { Op } from "sequelize";
 import { transporter } from "../config/mail";
+import { auth } from "../config/firebase";
 
 const userSchema = Joi.object({
   role: Joi.string().valid("user", "admin").required(),
@@ -417,6 +418,56 @@ const UserController = {
       );
 
       return showSuccess(res, { token: tokenLogin });
+    } catch (error) {
+      return showInternal(res, error);
+    }
+  },
+  loginGoogle: async (req: Request, res: Response) => {
+    try {
+      const { token } = req.body;
+
+      if (!token) {
+        return showNotAuthorized(res);
+      }
+
+      const verify = await auth.verifyIdToken(token);
+
+      const currentUser: any = await User.findOne({
+        where: {
+          email: verify.email,
+        },
+      });
+
+      if (currentUser) {
+        if (!currentUser.isActive) {
+          return showError(res, "User blocked, please contact admin");
+        }
+        const accessToken = await jwt.sign(
+          { id: currentUser.id, email: currentUser.email },
+          config.jwt,
+          {
+            expiresIn: "1d",
+          }
+        );
+
+        return showSuccess(res, { token: accessToken });
+      }
+
+      const newUser = await User.create({
+        email: verify.email,
+        isActive: true,
+        name: verify.name,
+        role:'user'
+      });
+      const accessToken = await jwt.sign(
+        { id: newUser.id, email: newUser.email },
+        config.jwt,
+        {
+          expiresIn: "1d",
+        }
+      );
+
+      return showSuccess(res, { token: accessToken });
     } catch (error) {
       return showInternal(res, error);
     }
