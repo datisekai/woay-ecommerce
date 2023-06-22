@@ -9,6 +9,7 @@ import AuthApi from "../src/services/AuthApi";
 import { toast } from "react-hot-toast";
 import useLoginGoogle from "../src/hooks/useLoginGoogle";
 import { FcGoogle } from "react-icons/fc";
+import Meta from "../src/components/Meta";
 
 export default function Register() {
     const { mutate, isLoading } = useMutation(AuthApi.register, {
