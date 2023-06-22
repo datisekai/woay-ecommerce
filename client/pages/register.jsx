@@ -8,6 +8,7 @@ import ModalForgotPassword from "../src/components/modals/ModalForgotPassword";
 import AuthApi from "../src/services/AuthApi";
 import { toast } from "react-hot-toast";
 import useLoginGoogle from "../src/hooks/useLoginGoogle";
+import { FcGoogle } from "react-icons/fc";
 
 export default function Register() {
   const { mutate, isLoading } = useMutation(AuthApi.register, {
