@@ -15,6 +15,14 @@ import Info from "../models/Info.model";
 import Product from "../models/Product.model";
 import Color from "../models/Color.model";
 import Size from "../models/Size.model";
+import User from "../models/User.model";
+import { transporter } from "../config/mail";
+
+const statusOrder: any = {
+  0: "Đã hủy",
+  1: "Đang xử lý",
+  2: "Đã giao",
+};
 
 const orderSchema = Joi.object({
   variants: Joi.array()
@@ -61,7 +69,7 @@ const OrderController = {
         ],
         offset,
         order: [["createdAt", "DESC"]],
-        distinct:true
+        distinct: true,
       });
 
       return showSuccess(res, { ...orders, offset, limit, page });
@@ -113,7 +121,7 @@ const OrderController = {
           },
           { model: Info },
         ],
-        distinct:true
+        distinct: true,
       });
 
       return showSuccess(res, { ...orders, limit, page, offset });
@@ -169,6 +177,81 @@ const OrderController = {
           )
         );
 
+        const currentOrder = await Order.findByPk(order.id, {
+          include: [
+            {
+              model: OrderDetail,
+              include: [
+                {
+                  model: Variant,
+                  include: [
+                    { model: Product },
+                    { model: Color },
+                    { model: Size },
+                  ],
+                },
+              ],
+            },
+            { model: Info },
+          ],
+        });
+        //send mail for user
+
+        const itemsList = currentOrder.OrderDetails.map(
+          (item: any) =>
+            `<li>${`${item.variant.Product.name} - ${item.variant.Size.name} / ${item.variant.Color.name}`}: ${
+              item.quantity
+            } x ${item.price.toLocaleString("vi-VN", {
+              style: "currency",
+              currency: "VND",
+            })}</li>`
+        );
+
+        const emailBody = `
+        <h2>Thông tin đơn hàng</h2>
+        <p><strong>Mã đơn hàng:</strong> ${order.id}</p>
+        <p><strong>Ngày đặt hàng:</strong> ${order.createdAt.toLocaleString()}</p>
+        <p><strong>Tình trạng:</strong> ${statusOrder[+order.status]}</p>
+        <h3>Sản phẩm:</h3>
+        <ul>
+          ${itemsList}
+        </ul>
+        <p><strong>Tổng tiền:</strong> ${currentOrder.total.toLocaleString(
+          "vi-VN",
+          {
+            style: "currency",
+            currency: "VND",
+          }
+        )}</p>
+      `;
+
+        const optionsForUser = {
+          from: "Woay-Ecommerce - Order",
+          to: req.email,
+          subject: "Woay-Ecommerce - Thông tin đơn hàng",
+          html: emailBody + `<p>Cảm ơn bạn đã mua hàng!</p>`,
+        };
+
+        // await transporter.sendMail(optionsForUser)
+
+        //Send mail for admin
+        const admins = await User.findAll({
+          where: {
+            role: "admin",
+          },
+        });
+
+        const optionsForAdmin = {
+          from: "Woay-Ecommerce - Order",
+          to: admins.map((item: any) => item.email).join(","),
+          subject: "Woay-Ecommerce - Đơn hàng",
+          html: emailBody + `<p>Vui lòng xem chi tiết và xử lý đơn hàng.</p>`,
+        };
+        await Promise.all([
+          transporter.sendMail(optionsForUser),
+          transporter.sendMail(optionsForAdmin),
+        ]);
+
         return showSuccess(res, order);
       }
 
@@ -187,7 +270,24 @@ const OrderController = {
         return showError(res, convertJoiToString(error));
       }
 
-      const currentOrder = await Order.findByPk(id, { include: [OrderDetail] });
+      const currentOrder = await Order.findByPk(id, {
+        include: [
+          {
+            model: OrderDetail,
+            include: [
+              {
+                model: Variant,
+                include: [
+                  { model: Product },
+                  { model: Color },
+                  { model: Size },
+                ],
+              },
+            ],
+          },
+          { model: Info, include: [{ model: User }] },
+        ],
+      });
       if (!currentOrder) {
         return showError(res, "id is invalid");
       }
@@ -217,6 +317,45 @@ const OrderController = {
           { where: { id } }
         );
 
+        //Send email for user
+        const itemsList = currentOrder.OrderDetails.map(
+          (item: any) =>
+            `<li>${`${item.variant.Product.name} - ${item.variant.Size.name} / ${item.variant.Color.name}`}: ${
+              item.quantity
+            } x ${item.price.toLocaleString("vi-VN", {
+              style: "currency",
+              currency: "VND",
+            })}</li>`
+        );
+        const emailBody = `
+        <h2>Cập nhật trạng thái đơn hàng</h2>
+        <p>Đơn hàng của bạn có thông tin như sau:</p>
+        <p><strong>Mã đơn hàng:</strong> ${currentOrder.id}</p>
+        <p><strong>Ngày đặt hàng:</strong> ${currentOrder.createdAt.toLocaleString()}</p>
+        <h3>Sản phẩm:</h3>
+        <ul>
+          ${itemsList}
+        </ul>
+        <p><strong>Tổng tiền:</strong> ${currentOrder.total.toLocaleString(
+          "vi-VN",
+          {
+            style: "currency",
+            currency: "VND",
+          }
+        )} </p>
+        <p>Trạng thái đơn hàng đã được cập nhật thành: <strong>${
+          statusOrder[+value.status]
+        }</strong></p>
+        <p>Cảm ơn bạn đã mua hàng!</p>`;
+
+        const optionsForUser = {
+          from: "Woay-Ecommerce - Order",
+          to: currentOrder.Info.User.email,
+          subject: "Woay-Ecommerce - Cập nhật trạng thái đơn hàng",
+          html: emailBody,
+        };
+
+        await transporter.sendMail(optionsForUser);
         const result = await Order.findByPk(id, {
           include: [{ model: OrderDetail }, { model: Info }],
         });

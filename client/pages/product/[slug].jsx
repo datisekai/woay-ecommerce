@@ -48,6 +48,8 @@ export default function Product({ itemProduct }) {
       colors: itemProduct.variants.map((item) => item.colorId),
       sizes: itemProduct.variants.map((item) => item.sizeId),
     });
+
+    setQuantity(1);
   }, [slug]);
 
   const price = useMemo(() => {
@@ -69,6 +71,7 @@ export default function Product({ itemProduct }) {
   const [quantity, setQuantity] = useState(1);
 
   const variant = useMemo(() => {
+    setQuantity(1)
     return variants.find(
       (item) => item.colorId === active.colorId && item.sizeId === active.sizeId
     );

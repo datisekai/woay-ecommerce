@@ -161,3 +161,20 @@ export default function Register() {
         </>
     );
 }
+
+export const getServerSideProps = ({ req }) => {
+    const token = req.cookies["token"];
+    if (token) {
+      return {
+        redirect: {
+          destination: "/",
+          permanent: false,
+        },
+      };
+    }
+  
+    return {
+      props: {},
+    };
+  };
+  

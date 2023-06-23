@@ -139,6 +139,10 @@ const UserController = {
           );
         }
 
+        if (!isFoundUser.password) {
+          return showError(res, "Email or password is invalid");
+        }
+
         const verify = await argon2.verify(
           isFoundUser.password,
           value.password
@@ -192,11 +196,21 @@ const UserController = {
 
         const url = `${config.feUrl}/verify-email?token=${token}`;
 
+        const emailBody = `
+        <h2>Xác minh địa chỉ email</h2>
+        <p>Xin chào ${currentUser.email},</p>
+        <p>Cảm ơn bạn đã đăng ký tài khoản. Vui lòng nhấp vào liên kết bên dưới để xác minh địa chỉ email của bạn:</p>
+        <p><a href="${url}">Verify Link</a></p>
+        <p>Nếu bạn không yêu cầu xác minh địa chỉ email, xin vui lòng bỏ qua email này.</p>
+        <p>Trân trọng,</p>
+        <p>Đội ngũ quản trị</p>
+      `;
+
         const options = {
           from: "Woay-Ecommerce Authentication",
           to: currentUser.email,
           subject: "Woay-Ecommerce - Xác thực email",
-          html: `<p>Để xác thực email, bạn vui lòng <a href="${url}" style="color:blue;">click vào đây</a> hoặc sử dụng đường dẫn ${url} </p>`,
+          html: emailBody,
         };
 
         await transporter.sendMail(options);
@@ -349,12 +363,21 @@ const UserController = {
         );
 
         const url = `${config.feUrl}/reset-password?token=${token}`;
+        const emailBody = `
+    <h2>Yêu cầu đặt lại mật khẩu</h2>
+    <p>Xin chào ${currentUser.email},</p>
+    <p>Bạn đã yêu cầu đặt lại mật khẩu cho tài khoản của mình. Vui lòng nhấp vào liên kết bên dưới để tiến hành đặt lại mật khẩu:</p>
+    <p><a href="${url}">Reset Link</a></p>
+    <p>Nếu bạn không yêu cầu đặt lại mật khẩu, xin vui lòng bỏ qua email này.</p>
+    <p>Trân trọng,</p>
+    <p>Đội ngũ quản trị</p>
+  `;
 
         const options = {
           from: "Woay-Ecommerce Authentication",
           to: currentUser.email,
           subject: "Woay-Ecommerce - Quên mật khẩu",
-          html: `<p>Để cập nhật mật khẩu mới, bạn vui lòng <a href="${url}" style="color:blue;">click vào đây</a> hoặc sử dụng đường dẫn ${url} </p>`,
+          html: emailBody,
         };
 
         await transporter.sendMail(options);
@@ -457,7 +480,7 @@ const UserController = {
         email: verify.email,
         isActive: true,
         name: verify.name,
-        role:'user'
+        role: "user",
       });
       const accessToken = await jwt.sign(
         { id: newUser.id, email: newUser.email },

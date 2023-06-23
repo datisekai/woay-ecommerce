@@ -30,6 +30,7 @@ const isLogin = async (
       if (isFoundUser) {
         req.userId = isFoundUser.id;
         req.role = isFoundUser.role;
+        req.email = isFoundUser.email
         next();
         return;
       }

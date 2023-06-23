@@ -232,7 +232,7 @@ const Cart = () => {
                         </div>
                     </div>
                     {isLoadingPayment && (
-                        <div className="fixed inset-0 bg-[rgba(0,0,0,0.6)]">
+                        <div className="fixed inset-0 z-[100] bg-[rgba(0,0,0,0.6)]">
                             <SpinnerCenter />
                         </div>
                     )}
