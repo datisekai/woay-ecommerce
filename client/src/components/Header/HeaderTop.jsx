@@ -13,7 +13,7 @@ const HeaderTop = () => {
       <div className="hidden md:block flex-1"></div>
       <div className="flex-1 flex justify-start md:justify-center">
         <Link href={"/"}>
-          <h1 className="text-neutral font-bold text-2xl md:text-4xl">MISSOUT</h1>
+          <h1 className=" font-bold text-2xl md:text-4xl">MISSOUT</h1>
         </Link>
       </div>
       <HeaderTool />

@@ -114,7 +114,7 @@ const AdminDashBoard = () => {
                     >
                       <h3 className="flex-1 ">{item.title}</h3>
                     </Link>
-                    <span className="text-sm border-l">
+                    <span className="text-sm ">
                       {calculateCreatedTime(item.createdAt)}
                     </span>
                   </li>

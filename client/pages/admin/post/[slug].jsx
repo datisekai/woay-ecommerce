@@ -87,7 +87,7 @@ const UpdatePost = ({ post }) => {
               <>
                 <>
                   <div className="flex items-center justify-between">
-                    <h1 className="font-bold text-xl text-neutral">
+                    <h1 className="font-bold text-xl ">
                       Cập nhật bài viết
                     </h1>
                     <button
@@ -102,7 +102,7 @@ const UpdatePost = ({ post }) => {
                     <div className="flex gap-4 mt-4 flex-col md:flex-row">
                       <div className="flex-1 space-y-4">
                         <div className="rounded bg-base-200 py-4 px-6 md:px-8">
-                          <h2 className="text-md text-neutral font-bold border-b-2 pb-2">
+                          <h2 className="text-md  font-bold border-b-2 pb-2">
                             Thông tin chung
                           </h2>
                           <div className="mt-4 space-y-4">

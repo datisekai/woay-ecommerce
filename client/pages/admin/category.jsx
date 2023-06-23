@@ -54,7 +54,7 @@ const CategoryAdmin = () => {
       <Meta title={"Quản lý danh mục | MISSOUT"} description="" />
       <AdminLayout>
         <div className="flex items-center justify-between">
-          <h1 className="text-lg text-neutral font-bold">Quản lý danh mục</h1>
+          <h1 className="text-lg font-bold">Quản lý danh mục</h1>
           <ModalAddCategory
             elementClick={
               <div className="btn btn-success text-base-100">

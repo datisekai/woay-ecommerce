@@ -50,7 +50,7 @@ const ColorPage = () => {
   return (
     <>
       <div className="flex items-center justify-between mt-2">
-        <h1 className="text-lg text-neutral font-bold">Quản lý Color</h1>
+        <h1 className="text-lg font-bold">Quản lý Color</h1>
         <ModalAddColor
           elementClick={
             <div className="btn btn-success text-base-100">

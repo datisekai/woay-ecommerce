@@ -34,7 +34,7 @@ export default function Collection({ arrProduct }) {
                 <div className="md:max-w-[768px] lg:max-w-[1024px] mx-auto px-[15px] mb-[60px]">
                     <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4">
                         <div className="wrap-left hidden lg:block lg:grid-cols-1 ">
-                            <ul className="text-[#5c5c5c] font-[500] text-[14px] mt-[30px]">
+                            <ul className=" font-[500] text-[14px] mt-[30px]">
                                 <div className="menu-navbar">
                                     <li className=" flex py-5">
                                         <span className="w-fill">Sản phẩm</span>
@@ -53,7 +53,7 @@ export default function Collection({ arrProduct }) {
                                                 }
                                                 key={index}
                                             >
-                                                <li className="first:pt-3 hover:text-black border-b last:border-none hover:cursor-pointer pt-1 px-2 pb-2">
+                                                <li className="first:pt-3 hover:text-primary border-b last:border-none hover:cursor-pointer pt-1 px-2 pb-2">
                                                     {item.name}
                                                 </li>
                                             </div>

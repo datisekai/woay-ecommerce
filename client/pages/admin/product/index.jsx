@@ -83,7 +83,7 @@ const ProductAdmin = () => {
       <Meta title={"Quản lý sản phẩm | MISSOUT"} description="" />
       <AdminLayout>
         <div className="flex items-center justify-between">
-          <h1 className="text-lg text-neutral font-bold">Quản lý sản phẩm</h1>
+          <h1 className="text-lg font-bold">Quản lý sản phẩm</h1>
           <div>
             {/* Open the modal using ID.showModal() method */}
             <Link href={`/admin/product/add`}>

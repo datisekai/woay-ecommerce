@@ -20,8 +20,8 @@ const SliderDetailProduct = ({ data }) => {
         }}
       >
         {data.map((item) => (
-          <SwiperSlide key={item.id}>
-              <img src={item.src} alt="" className="w-full object-contain" />
+          <SwiperSlide key={item.id} className="rounded">
+              <img src={item.src} alt="" className="w-full rounded object-contain" />
           </SwiperSlide>
         ))}
       </Swiper>

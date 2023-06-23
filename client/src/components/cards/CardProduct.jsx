@@ -34,8 +34,8 @@ export default function CardProduct({ item }) {
                 {/* Có api rồi cập lại href của tab a nhé nameProduct nữa nhé , giá luôn */}
                 <h3 className="mb-[5px]">
                     <a
-                        className="text-[#5c5c5c] font-medium text-[14px] ease-in-out duration-200 transition-all
-                        hover:ease-in-out hover:duration-200 hover:transition-all hover:text-[#000000]"
+                        className="font-medium text-[14px] ease-in-out duration-200 transition-all
+                        hover:ease-in-out hover:duration-200 hover:transition-all hover:text-primary"
                     >
                         {item.name}
                     </a>

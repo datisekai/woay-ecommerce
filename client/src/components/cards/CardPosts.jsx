@@ -16,8 +16,8 @@ export default function CardPosts({ item }) {
                 </div>
                 <div className="post_title lg:col-span-3">
                     <h3
-                        className="text-[#5c5c5c] text-[16px] uppercase font-medium ease-in-out duration-200 transition-all
-                            hover:ease-in-out hover:duration-200 hover:transition-all hover:text-[#000000] line-clamp-2"
+                        className="text-[16px] uppercase font-medium ease-in-out duration-200 transition-all
+                            hover:ease-in-out hover:duration-200 hover:transition-all hover:text-primary line-clamp-2"
                     >
                         {item.title}
                     </h3>

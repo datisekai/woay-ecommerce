@@ -72,7 +72,7 @@ const HeaderAdmin = () => {
       <div className="navbar-center">
         <Link
           href={"/"}
-          className="btn btn-ghost normal-case text-xl text-neutral"
+          className="btn btn-ghost normal-case text-xl "
         >
           MISSOUT
         </Link>

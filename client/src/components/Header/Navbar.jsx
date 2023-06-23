@@ -40,7 +40,7 @@ const Navbar = () => {
                                 }
                                 key={index}
                             >
-                                <li className="first:pt-3 hover:text-black border-b last:border-none hover:cursor-pointer pt-1 px-2 pb-2">
+                                <li className="first:pt-3 hover:text-primary border-b last:border-none hover:cursor-pointer pt-1 px-2 pb-2">
                                     {item.name}
                                 </li>
                             </div>
@@ -70,7 +70,7 @@ const Navbar = () => {
                                     }
                                     key={index}
                                 >
-                                    <li className="first:pt-3 hover:text-black border-b last:border-none hover:cursor-pointer pt-1 px-2 pb-2">
+                                    <li className="first:pt-3 hover:text-primary border-b last:border-none hover:cursor-pointer pt-1 px-2 pb-2">
                                         {item.title}
                                     </li>
                                 </div>

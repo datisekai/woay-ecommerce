@@ -57,7 +57,7 @@ const BlogAdmin = () => {
       <Meta title={"Quản lý danh mục | MISSOUT"} description="" />
       <AdminLayout>
         <div className="flex items-center justify-between">
-          <h1 className="text-lg text-neutral font-bold">
+          <h1 className="text-lg font-bold">
             Quản lý danh mục blog
           </h1>
           <ModalAddBlog

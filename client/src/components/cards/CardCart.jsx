@@ -21,7 +21,7 @@ const CardCart = ({
           className="w-[100px] rounded"
         />
         <div className="">
-          <h4 className="uppercase font-bold text-neutral">{Product.name}</h4>
+          <h4 className="uppercase font-bold ">{Product.name}</h4>
           <p className="uppercase">
             {Size.name} / {Color.name}
           </p>
@@ -33,7 +33,7 @@ const CardCart = ({
             onClick={() =>
               quantity > 1 && handleChangeQuantity(id, quantity - 1)
             }
-            className="w-[32px] h-[32px] bg-gray-400 opacity-80 rounded-l hover:opacity-100 "
+            className="w-[32px] h-[32px] bg-gray-400 text-white opacity-80 rounded-l hover:opacity-100 "
           >
             -
           </button>
@@ -52,7 +52,7 @@ const CardCart = ({
             onClick={() =>
               quantity < quantityStore && handleChangeQuantity(id, quantity + 1)
             }
-            className="w-[32px] h-[32px] bg-gray-400 opacity-80 rounded-r hover:opacity-100"
+            className="w-[32px] h-[32px] bg-gray-400 text-white opacity-80 rounded-r hover:opacity-100"
           >
             +
           </button>

@@ -61,7 +61,7 @@ const OrderAdmin = () => {
       <Meta title={"Quản lý đơn hàng | MISSOUT"} description="" />
       <AdminLayout>
         <div className="flex items-center justify-between">
-          <h1 className="text-lg text-neutral font-bold">Quản lý đơn hàng</h1>
+          <h1 className="text-lg font-bold">Quản lý đơn hàng</h1>
         </div>
 
         <div className="join mt-2">

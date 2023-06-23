@@ -9,7 +9,7 @@ const AdminBar = () => {
 
   return (
     <div className="py-4 border-r w-[250px] h-full">
-      <h1 className="text-center font-bold text-2xl md:text-3xl text-neutral">
+      <h1 className="text-center font-bold text-2xl md:text-3xl">
         ADMIN
       </h1>
       <div className="divider"></div>

@@ -141,13 +141,13 @@ export default function Product({ itemProduct }) {
         <Breadcrumbs nameCategory={itemProduct.name} danhMuc={"Danh mục"} />
 
         <div className="md:max-w-[768px] lg:max-w-[1024px] mx-auto px-[15px]">
-          <div className="wrap grid grid-cols-1 lg:grid-cols-2 ">
+          <div className="wrap grid grid-cols-1 lg:grid-cols-2 gap-4">
             <div className="left">
               <SliderDetailProduct data={ProductImages} />
             </div>
             <div className="right">
               <div className="pb-[10px] border-b-[1px] border-[#dfe0e1] border-dotted">
-                <h1 className="text-xl font-bold text-[#5c5c5c] mb-[5px]md:text-3xl mt-2">
+                <h1 className="text-xl font-bold mb-[5px]md:text-3xl mt-2">
                   {itemProduct.name}
                 </h1>
               </div>
@@ -220,12 +220,12 @@ export default function Product({ itemProduct }) {
               <div className="flex  mt-[10px] my-[25px] items-center">
                 <button
                   onClick={() => quantity > 1 && setQuantity(quantity - 1)}
-                  className="w-[32px] h-[32px] bg-[#f3f4f4]  rounded  "
+                  className="w-[32px] h-[32px] bg-base-200  rounded  "
                 >
                   -
                 </button>
                 <input
-                  className="w-[70px] outline-none text-center border-y-[1px]"
+                  className="w-[70px] outline-none text-center"
                   type="number"
                   min={1}
                   value={quantity}
@@ -240,7 +240,7 @@ export default function Product({ itemProduct }) {
                   onClick={() =>
                     quantity < variant?.quantity && setQuantity(quantity + 1)
                   }
-                  className="w-[32px] h-[32px] bg-[#f3f4f4] rounded "
+                  className="w-[32px] h-[32px] bg-base-200 rounded "
                 >
                   +
                 </button>

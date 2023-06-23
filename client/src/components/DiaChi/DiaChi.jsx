@@ -8,7 +8,7 @@ export default function DiaChi({ item, handleUpdate,handleSetDefault,isLoadingDe
       <div className="flex flex-col gap-4">
         <div>
           <div className="flex gap-2">
-            <h5 className="text-neutral">{item.name}</h5>
+            <h5 className="">{item.name}</h5>
             <div className="divider divider-horizontal"></div>
             <h5>{item.phone}</h5>
           </div>

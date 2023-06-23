@@ -16,7 +16,7 @@ const HeaderNavbar = ({ display = "none" }) => {
     >
       <div className="max-w-[1200px] flex items-center justify-between mx-auto px-2">
         <div className="flex-1">
-          <Link href={"/"} className="text-3xl font-bold text-neutral ">
+          <Link href={"/"} className="text-3xl font-bold  ">
             MISSOUT
           </Link>
         </div>
