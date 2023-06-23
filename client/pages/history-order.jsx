@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { requiredLogin } from "../src/config/requiredLogin";
 import Meta from "../src/components/Meta";
 import MainLayout from "../src/components/layouts/MainLayout";
@@ -70,12 +70,17 @@ const HistoryOrder = () => {
                         break;
                     }
 
+                    let result = item.OrderDetails.reduce(
+                      (pre, cur) => pre + cur.quantity,
+                      0
+                    );
+
                     return (
                       <tr key={item.id}>
                         <th>{item.id}</th>
                         <td>{item.Info.name}</td>
                         <td>{formatPrice(item.total)}</td>
-                        <td>{item.OrderDetails.length || 0} sản phẩm</td>
+                        <td>{result} sản phẩm</td>
                         <td>{text}</td>
                         <td>{dayjs(item.createdAt).format("DD/MM/YYYY")}</td>
                         <td>
