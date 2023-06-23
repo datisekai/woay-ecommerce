@@ -114,6 +114,12 @@ const Cart = () => {
     };
 
     const handlePayment = () => {
+
+        if(!shippingInfo){
+            toast.error("Vui lòng chọn địa chỉ")
+            return;
+        }
+
         swal({
             title: "Are you sure?",
             icon: "warning",
