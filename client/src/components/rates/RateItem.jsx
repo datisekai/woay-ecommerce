@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useCallback, useState } from "react";
 import ReactStars from "react-rating-stars-component";
 import dayjs from "dayjs";
 import { CiEdit } from "react-icons/ci";
 import { AiOutlineDelete } from "react-icons/ai";
 import { useSelector } from "react-redux";
+import ImageViewer from "react-simple-image-viewer";
+import RateStar from "./RateStar";
 
 const RateItem = ({
   User,
@@ -15,10 +17,22 @@ const RateItem = ({
   star,
   handleUpdate,
   handleDelete,
-  userId
+  userId,
 }) => {
+  const { user } = useSelector((state) => state.user);
+  const [currentImage, setCurrentImage] = useState(0);
+  const [isViewerOpen, setIsViewerOpen] = useState(false);
+  const images = RateImages.map((item) => item.src);
 
-    const {user} = useSelector(state => state.user)
+  const openImageViewer = useCallback((index) => {
+    setCurrentImage(index);
+    setIsViewerOpen(true);
+  }, []);
+
+  const closeImageViewer = () => {
+    setCurrentImage(0);
+    setIsViewerOpen(false);
+  };
 
   return (
     <div className="flex justify-between bg-base-100 p-4 rounded">
@@ -34,39 +48,45 @@ const RateItem = ({
         </div>
         <div className="space-y-1">
           <p>{User.email}</p>
-          <ReactStars
-            count={5}
-            size={20}
-            edit={false}
-            activeColor="#EE4D2D"
-            value={star}
-          />
+          <RateStar star={Math.floor(star)} size='text-sm' />
           <p>{dayjs(createdAt).format("DD/MM/YYYY HH:mm")}</p>
           <h4 className="font-bold">{title}</h4>
           <p>{description}</p>
           <div className="flex flex-wrap gap-2">
-            {RateImages.map((item) => (
+            {RateImages.map((item, index) => (
               <div className="w-[70px]" key={item.id}>
-                <img src={item.src} alt={title} className="rounded" />
+                <img
+                  src={item.src}
+                  alt={title}
+                  onClick={() => openImageViewer(index)}
+                  className="rounded"
+                />
               </div>
             ))}
           </div>
         </div>
       </div>
-      {user && user.id === userId &&  <div className="flex gap-2 ">
-        <button
-          onClick={handleUpdate}
-          className="btn btn-circle btn-warning"
-        >
-          <CiEdit className="text-2xl" />
-        </button>
-        <button
-          onClick={handleDelete}
-          className="btn btn-circle btn-error"
-        >
-          <AiOutlineDelete className="text-xl" />
-        </button>
-      </div>}
+      {user && user.id === userId && (
+        <div className="flex gap-2 ">
+          <button onClick={handleUpdate} className="btn btn-circle btn-warning">
+            <CiEdit className="text-2xl" />
+          </button>
+          <button onClick={handleDelete} className="btn btn-circle btn-error">
+            <AiOutlineDelete className="text-xl" />
+          </button>
+        </div>
+      )}
+      {isViewerOpen && (
+        <div className="z-[10000]">
+          <ImageViewer
+            src={images}
+            currentIndex={currentImage}
+            disableScroll={false}
+            closeOnClickOutside={true}
+            onClose={closeImageViewer}
+          />
+        </div>
+      )}
     </div>
   );
 };

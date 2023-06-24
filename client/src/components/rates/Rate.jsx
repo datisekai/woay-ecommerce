@@ -10,12 +10,12 @@ import { BiChevronDown, BiChevronUp } from "react-icons/bi";
 import ModalUpdateRate from "../modals/ModalUpdateRate";
 import swal from "sweetalert";
 import { toast } from "react-hot-toast";
+import RateStar from "./RateStar";
 
 const Rate = ({ productId }) => {
   const { data } = useQuery(["rate", productId], () =>
     RateApi.getAllByProductId(productId)
   );
-
 
   const limitComment = 2;
 
@@ -51,7 +51,6 @@ const Rate = ({ productId }) => {
     return result;
   }, [data]);
 
-
   const commentsRender = useMemo(() => {
     if (data && data.length > 2) {
       return data.slice(0, endComment);
@@ -82,15 +81,11 @@ const Rate = ({ productId }) => {
           {averageStar !== 0 ? (
             <h2 className="text-3xl text-[#EE4D2D]">{averageStar}/5</h2>
           ) : (
-            <p className="text-lg md:text-xl text-[#EE4D2D]">Chưa có đánh giá</p>
+            <p className="text-lg md:text-xl text-[#EE4D2D]">
+              Chưa có đánh giá
+            </p>
           )}
-        {data &&   <ReactStars
-            count={5}
-            size={36}
-            edit={false}
-            activeColor="#EE4D2D"
-            value={+averageStar}
-          />}
+          {data && <RateStar star={Math.floor(averageStar)} />}
         </div>
       </div>
       <div className="">
@@ -131,7 +126,7 @@ const Rate = ({ productId }) => {
             <BiChevronDown />
           </div>
         )}
-        {data && data.length >0 && commentsRender.length < limitComment && (
+        {data && data.length > 0 && commentsRender.length < limitComment && (
           <div onClick={() => setEndComment(limitComment)} className="btn mt-4">
             Thu gọn
             <BiChevronUp />
