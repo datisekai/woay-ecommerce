@@ -2,11 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
-.slip-left-to-right:hover::after{
+.slip-left-to-right:hover::after {
     width: 100%;
 }
 
-.slip-left-to-right::after{
+.slip-left-to-right::after {
     content: "";
     display: block;
     position: absolute;
@@ -18,35 +18,36 @@
     transition: width .5s;
 }
 
-.slip-top-to-bottom{
+.slip-top-to-bottom {
     animation: slipTopToBottom 0.25s ease;
-    
+
 }
 
-@keyframes slipTopToBottom{
-    from{
+@keyframes slipTopToBottom {
+    from {
         transform: translateY(-100%);
         opacity: 0;
     }
-    to{
+
+    to {
         transform: translateY(0);
         opacity: 1;
     }
 }
 
-.menu-navbar:hover .menu-child-navbar{
+.menu-navbar:hover .menu-child-navbar {
     /* max-height: 200px; */
     display: block;
 }
 
-.menu-child-navbar{
+.menu-child-navbar {
     /* max-height: 0; */
     overflow: hidden;
     display: none;
     /* transition: max-height .5s ease; */
 }
 
-.menu-navbar::after{
+.menu-navbar::after {
     content: "";
     display: block;
     position: absolute;
@@ -59,34 +60,35 @@
 .swiper {
     width: 100%;
     height: 100%;
-  }
-  
-  .swiper-slide {
+}
+
+.swiper-slide {
     text-align: center;
     font-size: 18px;
     background: #fff;
-  
+
     /* Center slide text vertically */
     display: flex;
     justify-content: center;
     align-items: center;
-  }
-  
-  .swiper-slide img {
+}
+
+.swiper-slide img {
     display: block;
     width: 100%;
     height: 100%;
     object-fit: cover;
-  }
-  
+}
 
-  .swiper-pagination-vertical.swiper-pagination-bullets, .swiper-vertical>.swiper-pagination-bullets{
-    right:auto !important;
-    left:auto !important;
-  }
 
-  input[type='number']::-webkit-inner-spin-button, 
-input[type='number']::-webkit-outer-spin-button { 
+.swiper-pagination-vertical.swiper-pagination-bullets,
+.swiper-vertical>.swiper-pagination-bullets {
+    right: auto !important;
+    left: auto !important;
+}
+
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
