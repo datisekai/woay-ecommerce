@@ -276,10 +276,11 @@ export default function Product({ itemProduct }) {
           </div>
           {/* ĐÁNH GIÁ SẢN PHẨM */}
           <Rate productId={itemProduct.id} />
-          <div className="">
+          <div className="pb-10">
             <h1 className="text-center font-bold text-3xl my-[60px] py-[15px] relative before:absolute before:bottom-0 before:left-[50%] before:translate-x-[-50%] before:w-[65px] before:h-[1px] before:bg-[#000]">
               Sản phẩm liên quan
             </h1>
+              {productRecommends && productRecommends.length == 0 && <p className="text-center">Không có sản phẩm liên quan</p>}
             <div className=" mb-6 px-4 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-3">
               {productRecommends.map((item, index) => {
                 return <CardProduct key={index} item={item} />;

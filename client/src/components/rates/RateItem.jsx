@@ -6,6 +6,7 @@ import { AiOutlineDelete } from "react-icons/ai";
 import { useSelector } from "react-redux";
 import ImageViewer from "react-simple-image-viewer";
 import RateStar from "./RateStar";
+import { BiDotsVerticalRounded } from "react-icons/bi";
 
 const RateItem = ({
   User,
@@ -48,7 +49,7 @@ const RateItem = ({
         </div>
         <div className="space-y-1">
           <p>{User.email}</p>
-          <RateStar star={Math.floor(star)} size='text-sm' />
+          <RateStar star={Math.floor(star)} size="text-sm" />
           <p>{dayjs(createdAt).format("DD/MM/YYYY HH:mm")}</p>
           <h4 className="font-bold">{title}</h4>
           <p>{description}</p>
@@ -67,13 +68,19 @@ const RateItem = ({
         </div>
       </div>
       {user && user.id === userId && (
-        <div className="flex gap-2 ">
-          <button onClick={handleUpdate} className="btn btn-circle btn-warning">
-            <CiEdit className="text-2xl" />
-          </button>
-          <button onClick={handleDelete} className="btn btn-circle btn-error">
-            <AiOutlineDelete className="text-xl" />
-          </button>
+        <div className="dropdown dropdown-end">
+          <label tabIndex={0} className="">
+           <BiDotsVerticalRounded className="text-xl md:text-2xl"/>
+          </label>
+          <ul
+            tabIndex={0}
+            className="dropdown-content  menu p-2 shadow bg-base-100 rounded-box "
+          >
+        
+              <li onClick={handleUpdate}><a>Chỉnh sửa</a></li>
+              <li onClick={handleDelete}><a>Xóa</a></li>
+           
+          </ul>
         </div>
       )}
       {isViewerOpen && (
