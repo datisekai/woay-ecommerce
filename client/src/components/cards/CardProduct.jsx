@@ -21,11 +21,10 @@ export default function CardProduct({ item }) {
             className=" mb-[30px] cursor-pointer border-solod border-[1px] border-transparent hover:border-black"
             onClick={() => router.push(`/product/${item.slug}`)}
         >
-            <div className="overflow-hidden w-full aspect-square ">
-                <img
-                    className="h-full w-full object-contain"
-                    src={currentImg}
-                    alt="áo"
+            <div className="w-full aspect-square ">
+                <div
+                    className="w-full h-full bg-cover bg-center"
+                    style={{ backgroundImage: `url('${currentImg}')` }}
                     onMouseEnter={handleMouseEnter}
                     onMouseLeave={handleMouseLeave}
                 />
