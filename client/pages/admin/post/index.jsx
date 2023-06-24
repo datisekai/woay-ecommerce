@@ -19,7 +19,8 @@ import useWindowSize from "../../../src/hooks/useWindowSize";
 const PostAdmin = () => {
   const router = useRouter();
   const query = router.query;
-  const limit = 6;
+  const page = router.query.page || 1
+  const limit = 5;
 
   const windowSize = useWindowSize();
   const queryClient = useQueryClient();
@@ -62,6 +63,7 @@ const PostAdmin = () => {
     });
   };
 
+  console.log(data)
   return (
     <>
       <Meta title={"Quản lý post | MISSOUT"} description="" />
@@ -156,8 +158,8 @@ const PostAdmin = () => {
                 to={data.rows.length > 0 ? data.offset + 1 : 0}
                 from={data.offset + data.rows.length}
                 count={data.count}
-                pre={data.page > 1 && data.page - 1}
-                next={data.page * data.limit < data.count && +data.page + 1}
+                pre={page > 1 && page - 1}
+                next={page * data.limit < data.count && +page + 1}
               />
             </div>
           )}
