@@ -10,9 +10,12 @@ export default function CardPosts({ item }) {
                 roruter.push(`/post/${item.slug}`);
             }}
         >
-            <article className="mb-[25px]  grid grid-cols-1  px-[15px] cursor-pointer border-solod border-[1px] border-transparent hover:border-black">
-                <div className=" mb-[20px] lg:col-span-1 overflow-hidden w-full aspect-square flex justify-center items-center">
-                    <img src={item.image} alt="img_post" />
+            <article className="mb-[25px] bg-yellow  grid grid-cols-1  px-[15px] cursor-pointer border-solod border-[1px] border-transparent hover:border-black">
+                <div className=" mb-[20px] lg:col-span-1 overflow-hidden w-full aspect-square ">
+                    <div
+                        className="w-full h-full bg-cover bg-center"
+                        style={{ backgroundImage: `url('${item.image}')` }}
+                    ></div>
                 </div>
                 <div className="post_title lg:col-span-3">
                     <h3
