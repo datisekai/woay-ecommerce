@@ -31,7 +31,7 @@ export default function Collection({ arrProduct }) {
                     nameCategory={arrProduct.category?.name}
                     danhMuc={"Danh Mục"}
                 />
-                <div className="md:max-w-[768px] lg:max-w-[1024px] mx-auto px-[15px] mb-[60px]">
+                <div className="md:max-w-[768px] lg:max-w-[1024px] w-full mx-auto px-[15px] mb-[60px]">
                     <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4">
                         <div className="wrap-left hidden lg:block lg:grid-cols-1 ">
                             <ul className=" font-[500] text-[14px] mt-[30px]">

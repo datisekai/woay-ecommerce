@@ -50,9 +50,9 @@ const ModalAddUserInfo = ({ elementClick }) => {
   };
   return (
     <>
-      <label htmlFor="my_modal_6">{elementClick}</label>
+      <label htmlFor="my_modal_addaddress">{elementClick}</label>
 
-      <input type="checkbox" id="my_modal_6" className="modal-toggle" />
+      <input type="checkbox" id="my_modal_addaddress" className="modal-toggle" />
       <div className="modal">
         <div className="modal-box">
           <Formik
@@ -119,7 +119,7 @@ const ModalAddUserInfo = ({ elementClick }) => {
                   {/* if there is a button in form, it will close the modal */}
 
                   <div className="flex items-center justify-between w-full">
-                    <label htmlFor="my_modal_6" ref={checkRef} className="btn">
+                    <label htmlFor="my_modal_addaddress" ref={checkRef} className="btn">
                       Đóng
                     </label>
                     {isLoading ? (

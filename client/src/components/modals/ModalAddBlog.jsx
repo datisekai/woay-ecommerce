@@ -4,6 +4,7 @@ import React, { useRef } from "react";
 import { toast } from "react-hot-toast";
 import * as Yup from "yup";
 import BlogApi from "../../services/BlogApi";
+import { generateSlug } from "../../utils/generateSlug";
 
 const ModalAddBlog = ({ elementClick }) => {
   const checkRef = useRef(null);
@@ -56,27 +57,11 @@ const ModalAddBlog = ({ elementClick }) => {
             onSubmit={handleSubmit}
             innerRef={formikRef}
           >
-            {({ handleSubmit }) => (
+            {({ handleSubmit, setFieldValue, values }) => (
               <form onSubmit={handleSubmit}>
                 <h3 className="font-bold text-lg">Tạo danh mục</h3>
                 <div className="mt-4 space-y-2">
-                  <div>
-                    <label htmlFor="" className="block">
-                      Slug
-                    </label>
-                    <Field
-                      name="slug"
-                      type="text"
-                      placeholder="Nhập slug..."
-                      className="input input-bordered w-full mt-1"
-                    />
-                    <ErrorMessage
-                      name="slug"
-                      component="div"
-                      className="text-error"
-                    />
-                  </div>
-
+                 
                   <div>
                     <label htmlFor="" className="block">
                       Tên danh mục
@@ -93,6 +78,27 @@ const ModalAddBlog = ({ elementClick }) => {
                       className="text-error"
                     />
                   </div>
+
+                  <div>
+                    <label htmlFor="" className="block">
+                      Slug
+                    </label>
+                    <div className="flex items-center gap-1">
+                    <Field
+                      name="slug"
+                      type="text"
+                      placeholder="Nhập slug..."
+                      className="input input-bordered w-full mt-1"
+                    />
+                    <div className="btn btn-primary" onClick={() => setFieldValue('slug', generateSlug(values.title))}>AUTO</div>
+                    </div>
+                    <ErrorMessage
+                      name="slug"
+                      component="div"
+                      className="text-error"
+                    />
+                  </div>
+
 
                 </div>
                 <div className="modal-action">

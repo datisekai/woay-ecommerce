@@ -13,7 +13,7 @@ const PaginationAdmin = ({ to, from, count, pre, next }) => {
   };
 
   return (
-    <div className="flex flex-col items-center">
+    <div className={` flex-col items-center ${!pre && !next ? 'hidden' : 'flex'}`}>
       {/* Help text */}
       <span className="text-sm text-gray-700 dark:text-gray-400">
         Showing{" "}

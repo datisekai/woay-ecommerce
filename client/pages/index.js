@@ -10,7 +10,7 @@ export default function Home({ arrData }) {
     const [arrProduct, arrPosts] = arrData;
     return (
         <>
-            <Meta title={"Trang chủ | MISSOUT"} />
+            <Meta title={"Trang chủ | MISSOUT"} description="Cửa hàng trực tuyến"/>
             <MainLayout>
                 <CarouselHomePages />
                 {/* render các cardProduct */}

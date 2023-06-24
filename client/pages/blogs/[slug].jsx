@@ -15,7 +15,7 @@ export default function BlogSlug({ arrBlogs }) {
             <MainLayout>
                 <Breadcrumbs nameCategory={blog.title} />
 
-                <div className="md:max-w-[768px] lg:max-w-[1024px] mx-auto px-[15px] mb-[30px]">
+                <div className="md:max-w-[768px] min-h-[70vh] lg:max-w-[1024px] mx-auto px-[15px] mb-[30px]">
                     <h1 className="text-2xl font-bold text-center mb-[30px] pb-[15px] relative before:absolute before:bottom-0 before:left-[50%] before:translate-x-[-50%] before:w-[65px] before:h-[1px] before:bg-[#000]">
                         {blog.title}
                     </h1>
@@ -24,6 +24,7 @@ export default function BlogSlug({ arrBlogs }) {
                             return <CardPosts key={index} item={item} />;
                         })}
                     </div>
+                    {rows && rows.length == 0 && <p className="text-center">Chưa có bài viết</p>}
                 </div>
                 {/* Pagination */}
                 {arrBlogs && (

@@ -5,6 +5,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/router";
 import CategoryApi from "../../services/CategoryApi";
+import { generateSlug } from "../../utils/generateSlug";
 
 const ModalAddCategory = ({ elementClick }) => {
   const checkRef = useRef(null);
@@ -33,12 +34,14 @@ const ModalAddCategory = ({ elementClick }) => {
 
   const initialValues = {
     slug: "",
-    name:""
+    name: "",
   };
 
   const validationSchema = Yup.object({
-    slug:Yup.string().matches(/^[a-zA-Z0-9-]+$/,"Invalid format slug").required(),
-    name:Yup.string().required()
+    slug: Yup.string()
+      .matches(/^[a-zA-Z0-9-]+$/, "Invalid format slug")
+      .required(),
+    name: Yup.string().required(),
   });
 
   const handleSubmit = (values, { setSubmitting }) => {
@@ -57,27 +60,10 @@ const ModalAddCategory = ({ elementClick }) => {
             onSubmit={handleSubmit}
             innerRef={formikRef}
           >
-            {({ handleSubmit }) => (
+            {({ handleSubmit, setFieldValue, values }) => (
               <form onSubmit={handleSubmit}>
                 <h3 className="font-bold text-lg">Tạo danh mục</h3>
                 <div className="mt-4 space-y-2">
-                  <div>
-                    <label htmlFor="" className="block">
-                      Slug
-                    </label>
-                    <Field
-                      name="slug"
-                      type="text"
-                      placeholder="Nhập slug..."
-                      className="input input-bordered w-full mt-1"
-                    />
-                    <ErrorMessage
-                      name="slug"
-                      component="div"
-                      className="text-error"
-                    />
-                  </div>
-
                   <div>
                     <label htmlFor="" className="block">
                       Tên danh mục
@@ -94,7 +80,34 @@ const ModalAddCategory = ({ elementClick }) => {
                       className="text-error"
                     />
                   </div>
-
+                  <div className="">
+                    <label htmlFor="" className="block">
+                      Slug
+                    </label>
+                    <div className="">
+                      <div className="flex items-center gap-1">
+                        <Field
+                          name="slug"
+                          type="text"
+                          placeholder="Nhập slug..."
+                          className="input input-bordered w-full mt-1"
+                        />
+                        <div
+                          className="btn btn-primary"
+                          onClick={() =>
+                            setFieldValue("slug", generateSlug(values.name))
+                          }
+                        >
+                          AUTO
+                        </div>
+                      </div>
+                      <ErrorMessage
+                        name="slug"
+                        component="div"
+                        className="text-error"
+                      />
+                    </div>
+                  </div>
                 </div>
                 <div className="modal-action">
                   {/* if there is a button in form, it will close the modal */}
