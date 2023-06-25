@@ -29,8 +29,8 @@ const ModalUpdateVariant = ({ data, handleHidden, handleUpdate }) => {
   });
 
   const validationSchema = Yup.object({
-    quantity: Yup.number().required("Quantity is required"),
-    price: Yup.number().required("Price is required"),
+    quantity: Yup.number().required("Quantity is required").min(0),
+    price: Yup.number().required("Price is required").min(0),
   });
 
   const handleSubmit = (values, { setSubmitting }) => {

@@ -116,7 +116,7 @@ const AddProduct = () => {
     );
     const payload = {
       ...values,
-      description:values.description.replace('\n','<br/>'),
+      description: values.description.replace("\n", "<br/>"),
       images: cloudImages,
       variants: values.variants.map((item) => ({
         colorId: item.colorId,
@@ -143,9 +143,7 @@ const AddProduct = () => {
             {({ handleSubmit, setFieldValue, values }) => (
               <>
                 <div className="flex items-center justify-between">
-                  <h1 className="font-bold text-xl ">
-                    Tạo sản phẩm
-                  </h1>
+                  <h1 className="font-bold text-xl ">Tạo sản phẩm</h1>
                   <button
                     className="btn btn-primary"
                     type="submit"
@@ -441,6 +439,7 @@ const AddProduct = () => {
                                         name={`variants[${index}].price`}
                                         type="number"
                                         onChange={(e) =>
+                                          e.target.value > 0 &&
                                           setFieldValue(
                                             `variants[${index}].price`,
                                             e.target.value || 0
@@ -458,7 +457,7 @@ const AddProduct = () => {
                                     <div>
                                       <Field
                                         name={`variants[${index}].quantity`}
-                                        onChange={(e) =>
+                                        onChange={(e) => e.target.value > 0 &&
                                           setFieldValue(
                                             `variants[${index}].quantity`,
                                             e.target.value || 0
