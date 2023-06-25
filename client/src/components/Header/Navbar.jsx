@@ -31,7 +31,7 @@ const Navbar = () => {
                     </li>
                     <ul
                         tabIndex={0}
-                        className="menu-child-navbar z-10 fixed  shadow bg-base-100 rounded-sm uppercase font-bold w-28 gap-y-2 transition-all"
+                        className="menu-child-navbar z-10 fixed shadow bg-base-100 rounded-sm uppercase font-bold w-28 gap-y-2 transition-all"
                     >
                         {arrCategory?.map((item, index) => (
                             <div

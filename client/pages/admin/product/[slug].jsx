@@ -88,12 +88,11 @@ const UpdateProduct = ({ productDetail }) => {
 
     const payload = {
       ...values,
-      category: values.categoryId,
+      categoryId: values.categoryId,
       images: cloudImages,
       description: values.description.replace("\n", "<br/>"),
     };
 
-    delete payload["categoryId"];
 
     mutate({ id: product.id, data: payload });
   };

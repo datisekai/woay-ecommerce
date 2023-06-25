@@ -56,7 +56,7 @@ const updateProductSchema = Joi.object({
   slug: Joi.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
   name: Joi.string(),
   description: Joi.string(),
-  category: Joi.number(),
+  categoryId: Joi.number(),
   isDeleted: Joi.boolean(),
   images: Joi.array().items(Joi.string()),
 });
