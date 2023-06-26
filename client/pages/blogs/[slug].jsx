@@ -5,10 +5,14 @@ import Breadcrumbs from "../../src/components/Breadcrumbs/Breadcrumbs";
 import CardPosts from "../../src/components/cards/CardPosts";
 import PaginationAdmin from "../../src/components/paginations/PaginationAdmin";
 import Meta from "../../src/components/Meta";
+import { useRouter } from "next/router";
 
 export default function BlogSlug({ arrBlogs }) {
-    console.log({ arrBlogs });
     const { blog, rows } = arrBlogs;
+
+    const router = useRouter()
+    const {page = 1} = router.query
+
     return (
         <>
             <Meta title={`${arrBlogs.blog.title} | MISSOUT`} />
@@ -37,10 +41,10 @@ export default function BlogSlug({ arrBlogs }) {
                             }
                             from={arrBlogs.offset + arrBlogs.rows.length}
                             count={arrBlogs.count}
-                            pre={arrBlogs.page > 1 && arrBlogs.page - 1}
+                            pre={page > 1 && page - 1}
                             next={
-                                arrBlogs.page * arrBlogs.limit <
-                                    arrBlogs.count && +arrBlogs.page + 1
+                                page * arrBlogs.limit <
+                                    arrBlogs.count && +page + 1
                             }
                         />
                     </div>
@@ -52,6 +56,6 @@ export default function BlogSlug({ arrBlogs }) {
 }
 
 export const getServerSideProps = async ({ query }) => {
-    const arrBlogs = await BlogsApi.getArrBlogs(query.slug);
+    const arrBlogs = await BlogsApi.getArrBlogs({blog:query.slug,page:query.page || 1});
     return { props: { arrBlogs } };
 };

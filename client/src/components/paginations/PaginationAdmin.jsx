@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import React from "react";
 
 const PaginationAdmin = ({ to, from, count, pre, next }) => {
+  console.log(pre,next)
   const router = useRouter();
 
   const handlePre = () => {

@@ -1,10 +1,10 @@
 import axiosClient from "../config";
 
 const BlogsApi = {
-    getArrBlogs: async (name) => {
+    getArrBlogs: async (query) => {
         try {
             let reuslt = await axiosClient.get(
-                `/post/search?page=1&limit=8&blog=${name}`
+                `/post/search`,{params:query}
             );
             return reuslt.data.data;
             //trả về cái token
