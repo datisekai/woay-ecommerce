@@ -78,7 +78,7 @@ const PostAdmin = () => {
           </Link>
         </div>
 
-        <SearchAdmin data={dataSearch} defaultValue="title" />
+        <SearchAdmin data={dataSearch} defaultValue="title"  placeholder="Tìm kiếm bài viết...."/>
         <div className="mt-4 bg-base-200 p-4 rounded">
           <div
             className="overflow-x-auto min-h-[100px] max-h-[550px]"

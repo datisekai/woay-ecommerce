@@ -13,11 +13,11 @@ export const calculateCreatedTime = (timeCreated) => {
     for (const key in periods) {
       if (diff >= periods[key]) {
         let result = Math.floor(diff / periods[key]);
-        return `${result} ${result === 1 ? key : key + "s"} ago`;
+        return `${result} ${result === 1 ? key : key + ""} trước`;
       }
     }
   
-    return "Just now";
+    return "vừa xong";
   };
   
   export const calculateCreatedTime2 = (timeCreated) => {

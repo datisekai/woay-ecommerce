@@ -95,7 +95,7 @@ const ProductAdmin = () => {
           </div>
         </div>
 
-        <SearchAdmin data={dataSearch} />
+        <SearchAdmin data={dataSearch} placeholder="Tìm kiếm sản phẩm...."/>
         <div className="mt-4 bg-base-200 p-4 rounded">
           <div className="overflow-x-auto min-h-[100px] relative"  style={{ maxWidth: `${windowSize?.width > 1024 ? windowSize.width : windowSize.width}px` }}>
             {!isLoading ? (

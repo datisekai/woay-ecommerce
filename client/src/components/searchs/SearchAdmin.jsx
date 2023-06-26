@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import React, { useState } from 'react'
 
-const SearchAdmin = ({data, defaultValue = 'name'}) => {
+const SearchAdmin = ({data, defaultValue = 'name', placeholder='Tìm kiếm người dùng....'}) => {
     const [typeSearch, setTypeSearch] = useState(defaultValue);
     const [search, setSearch] = useState("");
 
@@ -18,7 +18,7 @@ const SearchAdmin = ({data, defaultValue = 'name'}) => {
       <div>
         <input
           className="input input-bordered join-item max-w-[120px] md:max-w-xs"
-          placeholder="Tìm kiếm người dùng..."
+          placeholder={placeholder}
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />

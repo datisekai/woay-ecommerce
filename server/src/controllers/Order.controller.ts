@@ -68,6 +68,7 @@ const OrderController = {
           { model: Info },
         ],
         offset,
+        limit,
         order: [["createdAt", "DESC"]],
         distinct: true,
       });
@@ -105,6 +106,7 @@ const OrderController = {
         where,
         order: [["createdAt", "DESC"]],
         offset,
+        limit,
         include: [
           {
             model: OrderDetail,

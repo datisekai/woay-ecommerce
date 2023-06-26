@@ -78,6 +78,10 @@ export default function Product({ itemProduct }) {
   }, [active]);
 
   const handleAddToCart = () => {
+    if(!user){
+      router.push('/login')
+      return 
+    }
     if (active.sizeId == 0 || active.colorId == 0) {
       toast.error("Vui lòng chọn thuộc tính");
       return;
@@ -105,6 +109,10 @@ export default function Product({ itemProduct }) {
   };
 
   const handleBuyNow = () => {
+    if(!user){
+      router.push('/login')
+      return 
+    }
     if (active.sizeId == 0 || active.colorId == 0) {
       toast.error("Vui lòng chọn thuộc tính");
       return;
